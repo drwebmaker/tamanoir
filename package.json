@@ -1,0 +1,27 @@
+{
+  "name": "tamanoir-ui",
+  "version": "0.0.1",
+  "description": "tamanoir ui",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amalieiev/tamanoir-ui.git"
+  },
+  "keywords": [
+    "tamanoir",
+    "tamanoir-ui"
+  ],
+  "author": "artem.malieiev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amalieiev/tamanoir-ui/issues"
+  },
+  "homepage": "https://github.com/amalieiev/tamanoir-ui",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "load-grunt-tasks": "^3.2.0"
+  }
+}

@@ -1,0 +1,14 @@
+#layout {
+    height: 100%;
+    background: #f4f4f4;
+}
+
+#layout #header {
+    height: 30px;
+    background: linear-gradient(to top, #2a84bf, #3db1f2);
+}
+
+#layout #footer {
+    height: 15px;
+    background: #2a84bf;
+}
