@@ -3,7 +3,6 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        ErrorView = require('view/ErrorView'),
         LayoutView = require('view/LayoutView');
 
     return Backbone.Router.extend({
@@ -13,12 +12,23 @@ define(function (require) {
         },
         routes: {
             '(/)': 'navigateToHome',
+            'designer': 'navigateToDesigner',
+            'library': 'navigateToLibrary',
             '*invalid': 'navigateToError'
         },
         navigateToHome: function () {
-
+            this.navigate('library', {trigger: true});
+        },
+        navigateToDesigner: function () {
+            var DesignerView = require('view/designer/DesignerView');
+            new DesignerView({el: '#content'}).render();
+        },
+        navigateToLibrary: function () {
+            var LibraryView = require('view/library/LibraryView');
+            new LibraryView({el: '#content'}).render();
         },
         navigateToError: function () {
+            var ErrorView = require('view/ErrorView');
             new ErrorView({el: '#content'}).render();
         }
     });

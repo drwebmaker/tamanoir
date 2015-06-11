@@ -1,4 +1,6 @@
 .not-found span {
     font-size: 3em;
     color: #255a8d;
+    padding: 50px;
+    border: 1px solid rgba(0, 0, 0, .2);
 }
