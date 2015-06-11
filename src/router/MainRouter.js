@@ -13,6 +13,7 @@ define(function (require) {
         routes: {
             '(/)': 'navigateToHome',
             'designer': 'navigateToDesigner',
+            'preview': 'navigateToPreview',
             'library': 'navigateToLibrary',
             '*invalid': 'navigateToError'
         },
@@ -22,6 +23,10 @@ define(function (require) {
         navigateToDesigner: function () {
             var DesignerView = require('view/designer/DesignerView');
             new DesignerView({el: '#content'}).render();
+        },
+        navigateToPreview: function () {
+            var PreviewView = require('view/designer/PreviewView');
+            new PreviewView({el: '#content'}).render();
         },
         navigateToLibrary: function () {
             var LibraryView = require('view/library/LibraryView');

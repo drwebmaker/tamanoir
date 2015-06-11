@@ -1,0 +1,8 @@
+#database .schema,
+#database .table {
+    cursor: pointer;
+}
+#database .schema:hover,
+#database .table:hover {
+    background: rgba(0, 0, 0, .2);
+}

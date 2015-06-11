@@ -4,6 +4,8 @@
 define(function (require) {
     var MainRouter = require('router/MainRouter');
 
+    require('config/underscore.config');
+
     window.Tamanoir = {};
     Tamanoir.application = {};
     Tamanoir.application.view = {};
