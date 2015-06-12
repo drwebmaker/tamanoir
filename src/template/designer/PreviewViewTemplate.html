@@ -1,3 +1,19 @@
 <div id="preview" class="flex1 vbox">
     <div id="toolbar"></div>
+    <div>
+        <table>
+            <tr>
+                {{ _.each(result[0], function (value, key) { }}
+                <th>{{- key }}</th>
+                {{ }) }}
+            </tr>
+            {{ _.each(result, function (row) { }}
+            <tr>
+                {{ _.each(row, function (value, key) { }}
+                <td>{{- value }}</td>
+                {{ }) }}
+            </tr>
+            {{ }) }}
+        </table>
+    </div>
 </div>

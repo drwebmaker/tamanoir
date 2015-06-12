@@ -2,8 +2,6 @@
  * Created by Artem.Malieiev on 6/11/2015.
  */
 define(function (require) {
-    var QueryBuilder = require('util/QueryBuilder');
-
     var DatabaseExplorer = function () {
         this.url = 'http://localhost:8085/rest/connections';
     };
