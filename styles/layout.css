@@ -25,6 +25,10 @@
     font-size: 1.5em;
 }
 
+#content {
+    overflow-y: auto;
+}
+
 #footer {
     background: #2a84bf;
     color: rgba(255, 255, 255, .5);

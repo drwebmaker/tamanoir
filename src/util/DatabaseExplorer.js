@@ -27,12 +27,8 @@ define(function (require) {
         return this._request(this.url);
     };
 
-    DatabaseExplorer.prototype.expandSchema = function (schemaName) {
-        return this._request(this.url + '?expand={schemaName}'.replace('{schemaName}', schemaName));
-    };
-
-    DatabaseExplorer.prototype.expandTable = function (schemaName, tableName) {
-        return this._request(this.url + '?expand={schemaName}.{tableName}'.replace('{schemaName}', schemaName).replace('{tableName}', tableName));
+    DatabaseExplorer.prototype.expand = function (path) {
+        return this._request(this.url + '?expand={path}'.replace('{path}', path));
     };
 
     return new DatabaseExplorer();

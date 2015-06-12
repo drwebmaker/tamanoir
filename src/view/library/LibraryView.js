@@ -14,7 +14,7 @@ define(function (require) {
         },
         render: function () {
             this.$el.html(LibraryViewTemplate);
-            this.$el.append(this.database.render().$el);
+            this.$el.find('#library').append(this.database.render().$el);
             return this;
         }
     });

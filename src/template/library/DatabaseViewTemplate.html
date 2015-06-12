@@ -1,11 +1,14 @@
-<div id="database" class="vbox">
-    <div class="root vbox">
+<div id="database" class="vbox flex1">
+    <div class="title">
+        <h3>Database Explorer</h3>
+    </div>
+    <div class="root vbox flex1">
         {{ _.each(items, function (item) { }}
         <div class="vbox">
             <span class="schema" data-schema-name="{{- item.name }}">{{- item.name }}</span>
             <div class="vbox">
                 {{ _.each(item.items, function (item) { }}
-                <span class="table">{{- item.name}}</span>
+                <span class="table" data-table-name="{{- item.name }}">{{- item.name}}</span>
                 {{ }) }}
             </div>
         </div>

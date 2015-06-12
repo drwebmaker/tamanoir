@@ -14,8 +14,8 @@ define(function (require) {
                 this.set('items', data.items);
             }, this));
         },
-        expandSchema: function (schemaName) {
-            DatabaseExplorer.expandSchema(schemaName).then(_.bind(function (data) {
+        expand: function (path) {
+            DatabaseExplorer.expand(path).then(_.bind(function (data) {
                 this.set('items', data.items);
             }, this));
         }

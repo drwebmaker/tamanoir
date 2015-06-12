@@ -1,8 +1,32 @@
+#database {
+    border: 2px solid #2a84bf;
+    width: 300px;
+}
+#database .title {
+    background: rgba(0, 0, 0, .5);
+    text-align: center;
+    line-height: 30px;
+    color: white;
+}
 #database .schema,
 #database .table {
     cursor: pointer;
+    line-height: 30px;
+    transition: background-color .3s;
 }
 #database .schema:hover,
 #database .table:hover {
-    background: rgba(0, 0, 0, .2);
+    background-color: rgba(0, 0, 100, 0.1);
+}
+#database .schema {
+    padding-left: 30px;
+    background-image: url(/images/lists_sprite.png);
+    background-repeat: no-repeat;
+    background-position: 5px -825px;
+}
+#database .table {
+    padding-left: 60px;
+    background-image: url(/images/lists_sprite.png);
+    background-repeat: no-repeat;
+    background-position: 35px -860px;
 }

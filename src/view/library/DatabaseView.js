@@ -5,6 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         DatabaseModel = require('model/DatabaseModel'),
+        DatabaseSelectionModel = require('model/DatabaseSelectionModel'),
         DatabaseViewTemplate = require('text!template/library/DatabaseViewTemplate.html');
 
     require('css!styles/library/database');
@@ -17,7 +18,7 @@ define(function (require) {
         initialize: function () {
             this.model = new DatabaseModel();
 
-            this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.model, 'change:items', this.render);
 
             this.model.loadSchemas();
         },
@@ -27,10 +28,13 @@ define(function (require) {
         },
         expandSchema: function (event) {
             var schemaName = $(event.target).data('schemaName');
-            this.model.expandSchema(schemaName);
+            DatabaseSelectionModel.set('schema', schemaName);
+            this.model.expand(schemaName);
         },
-        expandTable: function () {
-            Tamanoir.application.router.navigate('preview', {trigger: true}, {hello: 'jaf'});
+        expandTable: function (event) {
+            var tableName = $(event.target).data('tableName');
+            DatabaseSelectionModel.set('table', DatabaseSelectionModel.get('schema') + '.' + tableName);
+            Tamanoir.application.router.navigate('preview', {trigger: true});
         }
     });
 });
