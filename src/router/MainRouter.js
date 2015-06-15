@@ -12,29 +12,23 @@ define(function (require) {
         },
         routes: {
             '(/)': 'navigateToHome',
-            'designer': 'navigateToDesigner',
+            'home': 'navigateToHome',
             'preview': 'navigateToPreview',
-            'library': 'navigateToLibrary',
+            'database': 'navigateToDatabase',
             '*invalid': 'navigateToError'
         },
         navigateToHome: function () {
-            this.navigate('library', {trigger: true});
+            new LayoutView({el: 'body'}).render();
         },
-        navigateToDesigner: function () {
-            var DesignerView = require('view/designer/DesignerView');
-            new DesignerView({el: '#content'}).render();
+        navigateToDatabase: function () {
+            var DatabaseView = require('view/library/DatabaseView');
+            $('.main-section').html(new DatabaseView().render().$el);
         },
         navigateToPreview: function () {
             var PreviewView = require('view/designer/PreviewView');
-            new PreviewView({el: '#content'}).render();
-        },
-        navigateToLibrary: function () {
-            var LibraryView = require('view/library/LibraryView');
-            new LibraryView({el: '#content'}).render();
+            $('.main-section').html(new PreviewView().render().$el);
         },
         navigateToError: function () {
-            var ErrorView = require('view/ErrorView');
-            new ErrorView({el: '#content'}).render();
         }
     });
 });

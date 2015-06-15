@@ -9,7 +9,20 @@ require.config({
         underscore: 'bower_components/underscore/underscore',
         text: 'bower_components/requirejs-text/text',
         css: 'bower_components/require-css/css',
-        styles: '../styles'
+        styles: '../styles',
+        foundation: 'bower_components/foundation/js/foundation'
+    },
+    shim: {
+        jquery: {
+            exports: 'jQuery'
+        },
+        backbone: {
+            deps: ['jquery', 'underscore'],
+            exports: 'Backbone'
+        },
+        foundation: {
+            deps: ['jquery']
+        }
     }
 });
 

@@ -11,6 +11,7 @@ define(function (require) {
     require('css!styles/library/database');
 
     return Backbone.View.extend({
+        className: 'database',
         events: {
             'click .schema': 'expandSchema',
             'click .table': 'expandTable'
@@ -24,7 +25,13 @@ define(function (require) {
         },
         render: function () {
             this.$el.html(_.template(DatabaseViewTemplate)(this.model.toJSON()));
+            this.calculateHeight();
             return this;
+        },
+        calculateHeight: function () {
+            setTimeout(_.bind(function () {
+                this.$el.find('.side-nav').height(this.$el.parent().height() - this.$el.find('.title').height());
+            }, this), 0);
         },
         expandSchema: function (event) {
             var schemaName = $(event.target).data('schemaName');

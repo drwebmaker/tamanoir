@@ -15,6 +15,7 @@ define(function (require) {
                 'Accept': 'application/metadata+json'
             },
             data: JSON.stringify({
+                'type': 'jdbc',
                 "url":"jdbc:postgresql://localhost:5432/jasperserver",
                 "properties":{"user":"postgres","password":"postgres"}
             })
