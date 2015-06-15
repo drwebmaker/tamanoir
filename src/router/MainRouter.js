@@ -3,6 +3,7 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
+        $ = require('jquery'),
         LayoutView = require('view/LayoutView');
 
     return Backbone.Router.extend({
@@ -14,14 +15,20 @@ define(function (require) {
             '(/)': 'navigateToHome',
             'home': 'navigateToHome',
             'preview': 'navigateToPreview',
+            'files': 'navigateToFileExplorer',
             'database': 'navigateToDatabase',
             '*invalid': 'navigateToError'
         },
         navigateToHome: function () {
-            new LayoutView({el: 'body'}).render();
+            var HomeView = require('view/HomeView');
+            $('.main-section').html(new HomeView().render().$el);
+        },
+        navigateToFileExplorer: function () {
+            var FilesExplorerView = require('view/library/FileExplorerView');
+            $('.main-section').html(new FilesExplorerView().render().$el);
         },
         navigateToDatabase: function () {
-            var DatabaseView = require('view/library/DatabaseView');
+            var DatabaseView = require('view/library/DatabaseExplorerView');
             $('.main-section').html(new DatabaseView().render().$el);
         },
         navigateToPreview: function () {

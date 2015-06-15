@@ -1,12 +1,16 @@
-<table class="column full">
-    <thead>
+<div class="title text-center">
+    Preview
+</div>
+<div class="content">
+    <table class="column full">
+        <thead>
         <tr>
             {{ _.each(result[0], function (value, key) { }}
             <th>{{- key }}</th>
             {{ }) }}
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         {{ _.each(result, function (row) { }}
         <tr>
             {{ _.each(row, function (value, key) { }}
@@ -14,5 +18,6 @@
             {{ }) }}
         </tr>
         {{ }) }}
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>

@@ -11,6 +11,7 @@ define(function (require) {
     require('css!styles/designer/preview');
 
     return Backbone.View.extend({
+        className: 'preview',
         initialize: function () {
             this.model = new DatabaseModel();
             this.listenTo(this.model, 'change:result', this.render);
@@ -18,7 +19,13 @@ define(function (require) {
         },
         render: function () {
             this.$el.html(_.template(PreviewViewTemplate)(this.model.toJSON()));
+            this.calculateHeight();
             return this;
+        },
+        calculateHeight: function () {
+            setTimeout(_.bind(function () {
+                this.$el.find('.content').height(this.$el.parent().height() - this.$el.find('.title').height());
+            }, this), 0);
         }
     });
 });

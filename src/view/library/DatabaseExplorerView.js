@@ -6,7 +6,7 @@ define(function (require) {
         _ = require('underscore'),
         DatabaseModel = require('model/DatabaseModel'),
         DatabaseSelectionModel = require('model/DatabaseSelectionModel'),
-        DatabaseViewTemplate = require('text!template/library/DatabaseViewTemplate.html');
+        DatabaseViewTemplate = require('text!template/library/DatabaseExplorerViewTemplate.html');
 
     require('css!styles/library/database');
 
@@ -30,7 +30,7 @@ define(function (require) {
         },
         calculateHeight: function () {
             setTimeout(_.bind(function () {
-                this.$el.find('.side-nav').height(this.$el.parent().height() - this.$el.find('.title').height());
+                this.$el.find('.content').height(this.$el.parent().height() - this.$el.find('.title').height());
             }, this), 0);
         },
         expandSchema: function (event) {
