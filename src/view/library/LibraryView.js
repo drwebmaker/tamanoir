@@ -4,22 +4,18 @@
 define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
-        ConnectionCollection = require('collection/ConnectionsCollection'),
+        _ = require('underscore'),
         LibraryViewTemplate = require('text!template/library/LibraryViewTemplate.html');
 
     require('css!styles/library/library');
 
     return Backbone.View.extend({
-        className: 'library',
         connectionTemplate: '<li data-name="{{- name }}">{{- name }}</li>',
         events: {
-            'click li': 'connectionClickHandler'
+            'click li': 'onConnectionClick'
         },
         initialize: function () {
-            this.collection = new ConnectionCollection([ //TODO: remove hardcoded data
-                {type: 'jdbc', name: 'jasperserver', url: 'jdbc:postgresql://localhost:5432/jasperserver', properties: {user: 'postgres', password: 'postgres'}},
-                {type: 'csv', name: 'sales', url: 'file:///C:/Users/artem.malieiev/Downloads/sales.csv', properties: {useFirstRowAsHeader: true}}
-            ]);
+            this.collection = Tamanoir.application.collection.connections;
         },
         render: function () {
             this.$el.html(LibraryViewTemplate);
@@ -29,11 +25,9 @@ define(function (require) {
         addConnection: function (connectionModel) {
             this.$el.find('ul').append(_.template(this.connectionTemplate)(connectionModel.toJSON()));
         },
-        connectionClickHandler: function (event) {
-            var connectionModel = this.collection.find(function (model) {
-                return model.get('name') === $(event.target).data('name');
-            });
-            this.trigger('connectionSelected', connectionModel);
+        onConnectionClick: function (event) {
+            var connectionName = $(event.target).data('name');
+            Tamanoir.application.router.navigate('library/' + connectionName, {trigger: true});
         }
     });
 });
