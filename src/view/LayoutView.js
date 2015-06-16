@@ -11,10 +11,6 @@ define(function (require) {
     require('css!styles/layout');
 
     return Backbone.View.extend({
-        className: 'layout',
-        initialize: function () {
-
-        },
         render: function () {
             this.$el.html(LayoutViewTemplate);
             return this;

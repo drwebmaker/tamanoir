@@ -1,0 +1,39 @@
+.sidebar {
+    margin-top: 10px;
+}
+
+.sidebar .title {
+    background: #008CBA;
+    color: white;
+}
+
+.sidebar ul {
+    list-style: none;
+    margin: 0;
+    border: 1px solid #e9e9e9;
+}
+
+.sidebar li {
+    background: white;
+    color: #008CBA;
+    line-height: 30px;
+    cursor: pointer;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.sidebar li.active {
+    background: #e1e1e1;
+}
+
+.sidebar li:hover:before {
+    display: block;
+    position: absolute;
+    content: '';
+    width: 5px;
+    height: 30px;
+    background: #008CBA;
+}
+
+.sidebar li:last-child {
+    border-bottom: none;
+}

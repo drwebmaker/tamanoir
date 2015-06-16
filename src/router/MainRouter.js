@@ -17,13 +17,19 @@ define(function (require) {
             'library/:connectionName': 'navigateToConnection',
             'library/:connectionName/:schemaName': 'navigateToSchema',
             'preview/:connectionName/:schemaName/:tableName': 'navigateToPreview',
+            'designer': 'navigateToDesigner',
             '*otherwise': 'navigateToLibrary'
         },
         navigateToHome: function () {
             this.navigate('library', {trigger: true});
         },
+        navigateToDesigner: function () {
+            var DesignerView = require('view/designer/DesignerView');
+            $('.main-content').html(new DesignerView().render().$el);
+        },
         navigateToConnection: function (connectionName) {
             var SchemasListView = require('view/library/SchemasListView'),
+                PreviewView = require('view/preview/PreviewView'),
                 connectionModel;
 
             connectionModel = Tamanoir.application.collection.connections.find(function (model) {
@@ -35,6 +41,7 @@ define(function (require) {
                     $('.main-content').html(new SchemasListView({model: connectionModel}).render().$el);
                     break;
                 case 'csv':
+                    $('.main-content').html(new PreviewView({connectionModel: connectionModel}).render().$el);
                     break;
             }
         },
