@@ -9,11 +9,7 @@ define(function (require) {
             type: '',
             name: '',
             url: '',
-            properties: null,
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/metadata+json'
-            }
+            properties: null
         }
     });
 });

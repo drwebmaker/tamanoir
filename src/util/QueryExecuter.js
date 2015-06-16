@@ -4,20 +4,30 @@
 define(function (require) {
     var $ = require('jquery');
 
-    var QueryExecuter = function () {};
+    var QueryExecuter = function (connection) {
+        this.serviceUrl = 'http://localhost:8085/rest/connections';
+        this.url = connection.url;
+        this.type = connection.type;
+        this.user = connection.user;
+        this.password = connection.password;
+    };
 
     QueryExecuter.prototype._request = function (query) {
         return $.ajax({
-            url: 'http://localhost:8085/rest/connections',
+            url: this.serviceUrl,
             method: 'post',
             headers: {
                 'Content-Type': 'application/queryconnection+json',
                 'Accept': 'application/json'
             },
             data: JSON.stringify({
-                type: 'jdbc',
-                url: 'jdbc:postgresql://localhost:5432/jasperserver',
-                properties: {user: 'postgres',password: 'postgres'},
+                type: this.type,
+                url: this.url,
+                properties: {
+                    useFirstRowAsHeader: true,
+                    user: this.user,
+                    password: this.password
+                },
                 nativeQuery: query
             })
         });
@@ -27,5 +37,5 @@ define(function (require) {
         return this._request(query);
     };
 
-    return new QueryExecuter();
+    return QueryExecuter;
 });

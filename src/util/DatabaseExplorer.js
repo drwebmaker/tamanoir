@@ -7,8 +7,8 @@ define(function (require) {
 
     var DatabaseExplorer = function (connection) {
         this.serviceUrl = 'http://localhost:8085/rest/connections';
-        this.headers = connection.headers;
-        this.properties = connection.properties;
+        this.user = connection.user;
+        this.password = connection.password;
         this.type = connection.type;
         this.url = connection.url;
     };
@@ -17,11 +17,17 @@ define(function (require) {
         return $.ajax({
             url: url,
             method: 'post',
-            headers: this.headers,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/metadata+json'
+            },
             data: JSON.stringify({
-                'type': this.type,
-                "url": this.url,
-                "properties": this.properties
+                type: this.type,
+                url: this.url,
+                properties: {
+                    user: this.user,
+                    password: this.password
+                }
             })
         });
     };

@@ -34,8 +34,13 @@ define(function (require) {
             this.$el.find('ul').append(_.template(this.tableTemplate)(tableModel.toJSON()));
         },
         onTableClick: function (event) {
-            var tableName = $(event.target).data('name');
-            Tamanoir.application.router.navigate('preview/' + tableName, {trigger: true});
+            var connectionName = this.connectionModel.get('name'),
+                schemaName = this.schemaName,
+                tableName = $(event.target).data('name');
+            Tamanoir.application.router.navigate('preview/{connectionName}/{schemaName}/{tableName}'
+                .replace('{connectionName}', connectionName)
+                .replace('{schemaName}', schemaName)
+                .replace('{tableName}', tableName), {trigger: true});
         },
         onLoadTablesComplete: function (data) {
             this.collection.add(data.items);

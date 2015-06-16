@@ -16,6 +16,7 @@ define(function (require) {
             'library': 'navigateToLibrary',
             'library/:connectionName': 'navigateToConnection',
             'library/:connectionName/:schemaName': 'navigateToSchema',
+            'preview/:connectionName/:schemaName/:tableName': 'navigateToPreview',
             '*otherwise': 'navigateToLibrary'
         },
         navigateToHome: function () {
@@ -36,6 +37,20 @@ define(function (require) {
                 case 'csv':
                     break;
             }
+        },
+        navigateToPreview: function (connectionName, schemaName, tableName) {
+            var PreviewView = require('view/preview/PreviewView'),
+                connectionModel;
+
+            connectionModel = Tamanoir.application.collection.connections.find(function (model) {
+                return model.get('name') === connectionName;
+            });
+
+            $('.main-content').html(new PreviewView({
+                connectionModel: connectionModel,
+                schemaName: schemaName,
+                tableName: tableName
+            }).render().$el);
         },
         navigateToSchema: function (connectionName, schemaName) {
             var TablesListView = require('view/library/TablesListView'),

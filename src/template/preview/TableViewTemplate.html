@@ -1,0 +1,18 @@
+<table class="table column full">
+    <thead>
+    <tr>
+        {{ _.each(data[0], function (value, key) { }}
+        <th>{{- key }}</th>
+        {{ }) }}
+    </tr>
+    </thead>
+    <tbody>
+    {{ _.each(data, function (item) { }}
+    <tr>
+        {{ _.each(item, function (value) { }}
+        <td>{{- value }}</td>
+        {{ }) }}
+    </tr>
+    {{ }) }}
+    </tbody>
+</table>
