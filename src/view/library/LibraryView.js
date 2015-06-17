@@ -5,6 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
+        DialogView = require('view/component/DialogView'),
         LibraryViewTemplate = require('text!template/library/LibraryViewTemplate.html');
 
     require('css!styles/library/library');
@@ -12,7 +13,8 @@ define(function (require) {
     return Backbone.View.extend({
         connectionTemplate: '<li data-name="{{- name }}">{{- name }}</li>',
         events: {
-            'click li': 'onConnectionClick'
+            'click li': 'onConnectionClick',
+            'click .newConnectionBtn': 'onNewConnectionBtnClick'
         },
         initialize: function () {
             this.collection = Tamanoir.application.collection.connections;
@@ -28,6 +30,8 @@ define(function (require) {
         onConnectionClick: function (event) {
             var connectionName = $(event.target).data('name');
             Tamanoir.application.router.navigate('library/' + connectionName, {trigger: true});
+        },
+        onNewConnectionBtnClick: function (event) {
         }
     });
 });

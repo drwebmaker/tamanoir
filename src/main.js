@@ -15,6 +15,7 @@ define(function (require) {
 
     Tamanoir.application.collection.connections = new ConnectionsCollection([ //TODO: remove hardcoded data
         {type: 'jdbc', name: 'jasperserver', url: 'jdbc:postgresql://localhost:5432/jasperserver', user: 'postgres', password: 'postgres'},
+        {type: 'jdbc', name: 'foodmart', url: 'jdbc:postgresql://localhost:5432/foodmart', user: 'postgres', password: 'postgres'},
         {type: 'csv', name: 'sales', url: 'file:///C:/Users/artem.malieiev/Downloads/sales.csv', useFirstRowAsHeader: true}
     ]);
 

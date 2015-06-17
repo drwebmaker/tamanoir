@@ -1,0 +1,33 @@
+.dialog,
+.dialog .mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.dialog .mask {
+    background: black;
+    opacity: .3;
+}
+.dialog .dialog-container {
+    background: white;
+    min-width: 500px;
+    position: absolute;
+}
+.dialog .dialog-container .dialog-title {
+    background: #008CBA;
+    padding-left: 20px;
+    line-height: 45px;
+    color: white;
+}
+
+.dialog .dialog-container .dialog-body {
+    padding: 20px;
+}
+
+.dialog .dialog-container .dialog-bottom-bar {
+    border-top: 1px solid #e1e1e1;
+    padding: 20px 20px 0;
+}
