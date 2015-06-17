@@ -8,9 +8,15 @@ define(function (require) {
     require('css!styles/designer/toolbar');
 
     return Backbone.View.extend({
+        events: {
+            'click .toolbar-item .menu li': 'onTypeChange'
+        },
         render: function () {
             this.$el.html(ToolbarViewTemplate);
             return this;
+        },
+        onTypeChange: function (event) {
+            this.trigger('change:type', event);
         }
     });
 });

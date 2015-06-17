@@ -27,6 +27,8 @@
     "requirejs-text": "~2.0.14",
     "require-css": "~0.1.8",
     "foundation": "~5.5.2",
-    "foundation-icons": "*"
+    "foundation-icons": "*",
+    "c3": "~0.4.10",
+    "d3": "~3.5.5"
   }
 }

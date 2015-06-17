@@ -1,4 +1,45 @@
 .toolbar {
     background: #e1e1e1;
-    height: 30px;
+    margin-bottom: 10px;
+}
+
+.toolbar .toolbar-item {
+    height: 40px;
+    width: 40px;
+    background: #d1d1d1;
+    position: relative;
+    cursor: pointer;
+    transition: background .5s;
+}
+
+.toolbar .toolbar-item:hover {
+    background: #c1c1c1;
+}
+
+.toolbar .toolbar-item .menu {
+    display: none;
+    position: absolute;
+    border: 1px solid #e1e1e1;
+    background: white;
+    width: 100px;
+    z-index: 1;
+    top: 40px;
+}
+
+.toolbar .toolbar-item:hover .menu {
+    display: block;
+}
+
+.toolbar .toolbar-item .menu ul {
+    list-style: none;
+    margin: 0;
+}
+
+.toolbar .toolbar-item .menu ul li {
+    padding-left: 20px;
+    color: #008CBA;
+}
+
+.toolbar .toolbar-item .menu ul li:hover {
+    background: #e1e1e1;
 }

@@ -10,7 +10,9 @@ require.config({
         text: 'bower_components/requirejs-text/text',
         css: 'bower_components/require-css/css',
         styles: '../styles',
-        foundation: 'bower_components/foundation/js/foundation'
+        foundation: 'bower_components/foundation/js/foundation',
+        c3: 'bower_components/c3/c3',
+        d3: 'bower_components/d3/d3'
     },
     shim: {
         jquery: {
@@ -22,6 +24,9 @@ require.config({
         },
         foundation: {
             deps: ['jquery']
+        },
+        c3: {
+            deps: ['d3']
         }
     }
 });

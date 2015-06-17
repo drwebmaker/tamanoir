@@ -19,32 +19,12 @@ define(function (require) {
         },
         render: function () {
             this.$el.html(_.template(SidebarViewTemplate)({
-                categories: this._getCategories(),
-                numbers: this._getNumbers()
+                categories: QueryResultsCollection.getCategoriesNames(),
+                numbers: QueryResultsCollection.getNumbersNames()
             }));
-            this._getCategories();
             return this;
         },
         onItemClick: function (event) {
-            $(event.target).toggleClass('active');
         },
-        _getCategories: function () {
-            var categories = [];
-            _.each(QueryResultsCollection.toJSON()[0], function (value, key) {
-                if (!$.isNumeric(value)) {
-                    categories.push(key);
-                }
-            });
-            return categories;
-        },
-        _getNumbers: function () {
-            var numbers = [];
-            _.each(QueryResultsCollection.toJSON()[0], function (value, key) {
-                if ($.isNumeric(value)) {
-                    numbers.push(key);
-                }
-            });
-            return numbers;
-        }
     });
 });
