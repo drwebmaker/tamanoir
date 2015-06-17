@@ -6,18 +6,14 @@ define(function (require) {
         ConnectionsCollection = require('collection/ConnectionsCollection');
 
     require('config/underscore.config');
+    require('config/backbone.config');
 
-    window.Tamanoir = {};
-    Tamanoir.application = {};
-    Tamanoir.application.view = {};
-    Tamanoir.application.model = {};
-    Tamanoir.application.collection = {};
-
-    Tamanoir.application.collection.connections = new ConnectionsCollection([ //TODO: remove hardcoded data
+    ConnectionsCollection.add([ //TODO: remove hardcoded data
         {type: 'jdbc', name: 'jasperserver', url: 'jdbc:postgresql://localhost:5432/jasperserver', user: 'postgres', password: 'postgres'},
         {type: 'jdbc', name: 'foodmart', url: 'jdbc:postgresql://localhost:5432/foodmart', user: 'postgres', password: 'postgres'},
         {type: 'csv', name: 'sales', url: 'file:///C:/Users/artem.malieiev/Downloads/sales.csv', useFirstRowAsHeader: true}
     ]);
 
-    Tamanoir.application.router = new MainRouter();
+    window.Tamanoir = {};
+    Tamanoir.router = new MainRouter();
 });

@@ -6,6 +6,7 @@ define(function (require) {
         $ = require('jquery'),
         _ = require('underscore'),
         DialogView = require('view/component/DialogView'),
+        ConnectionsCollection = require('collection/ConnectionsCollection'),
         LibraryViewTemplate = require('text!template/library/LibraryViewTemplate.html');
 
     require('css!styles/library/library');
@@ -17,7 +18,7 @@ define(function (require) {
             'click .newConnectionBtn': 'onNewConnectionBtnClick'
         },
         initialize: function () {
-            this.collection = Tamanoir.application.collection.connections;
+            this.collection = ConnectionsCollection;
         },
         render: function () {
             this.$el.html(LibraryViewTemplate);
@@ -29,7 +30,7 @@ define(function (require) {
         },
         onConnectionClick: function (event) {
             var connectionName = $(event.target).data('name');
-            Tamanoir.application.router.navigate('library/' + connectionName, {trigger: true});
+            Tamanoir.router.navigate('library/' + connectionName, {trigger: true});
         },
         onNewConnectionBtnClick: function (event) {
         }

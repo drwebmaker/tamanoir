@@ -33,7 +33,7 @@ define(function (require) {
         },
         onSchemaClick: function (event) {
             var schemaName = $(event.target).data('name');
-            Tamanoir.application.router.navigate(Backbone.history.fragment + '/' + schemaName, {trigger: true});
+            Tamanoir.router.navigate(Backbone.history.fragment + '/' + schemaName, {trigger: true});
         },
         onLoadSchemasComplete: function (data) {
             this.collection.add(data.items);

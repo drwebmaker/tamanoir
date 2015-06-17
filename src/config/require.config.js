@@ -5,6 +5,7 @@ require.config({
     baseUrl: 'src',
     paths: {
         backbone: 'bower_components/backbone/backbone',
+        'backbone.localStorage': 'bower_components/backbone.localStorage/backbone.localStorage',
         jquery: 'bower_components/jquery/dist/jquery',
         underscore: 'bower_components/underscore/underscore',
         text: 'bower_components/requirejs-text/text',

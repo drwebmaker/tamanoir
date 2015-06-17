@@ -3,6 +3,7 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
+        ConnectionsCollection = require('collection/ConnectionsCollection'),
         $ = require('jquery'),
         LayoutView = require('view/LayoutView');
 
@@ -32,7 +33,7 @@ define(function (require) {
                 PreviewView = require('view/preview/PreviewView'),
                 connectionModel;
 
-            connectionModel = Tamanoir.application.collection.connections.find(function (model) {
+            connectionModel = ConnectionsCollection.find(function (model) {
                 return model.get('name') === connectionName;
             });
 
@@ -49,7 +50,7 @@ define(function (require) {
             var PreviewView = require('view/preview/PreviewView'),
                 connectionModel;
 
-            connectionModel = Tamanoir.application.collection.connections.find(function (model) {
+            connectionModel = ConnectionsCollection.find(function (model) {
                 return model.get('name') === connectionName;
             });
 
@@ -63,7 +64,7 @@ define(function (require) {
             var TablesListView = require('view/library/TablesListView'),
                 connectionModel;
 
-            connectionModel = Tamanoir.application.collection.connections.find(function (model) {
+            connectionModel = ConnectionsCollection.find(function (model) {
                 return model.get('name') === connectionName;
             });
 

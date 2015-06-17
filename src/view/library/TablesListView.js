@@ -37,7 +37,7 @@ define(function (require) {
             var connectionName = this.connectionModel.get('name'),
                 schemaName = this.schemaName,
                 tableName = $(event.target).data('name');
-            Tamanoir.application.router.navigate('preview/{connectionName}/{schemaName}/{tableName}'
+            Tamanoir.router.navigate('preview/{connectionName}/{schemaName}/{tableName}'
                 .replace('{connectionName}', connectionName)
                 .replace('{schemaName}', schemaName)
                 .replace('{tableName}', tableName), {trigger: true});

@@ -5,7 +5,9 @@ define(function (require) {
     var Backbone = require('backbone'),
         ConnectionModel = require('model/ConnectionModel');
 
-    return Backbone.Collection.extend({
+    var ConnectionsCollection = Backbone.Collection.extend({
         model: ConnectionModel
     });
+
+    return new ConnectionsCollection();
 });

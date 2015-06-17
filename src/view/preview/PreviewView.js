@@ -38,7 +38,7 @@ define(function (require) {
             return this;
         },
         onEditButtonClick: function () {
-            Tamanoir.application.router.navigate('designer', {trigger: true});
+            Tamanoir.router.navigate('designer', {trigger: true});
         }
     });
 });
