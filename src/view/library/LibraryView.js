@@ -6,19 +6,26 @@ define(function (require) {
         $ = require('jquery'),
         _ = require('underscore'),
         DialogView = require('view/component/DialogView'),
+        ConnectionSettingsView = require('view/library/ConnectionSettingsView'),
+        ConnectionListItemViewTemplate = require('text!template/library/ConnectionListItemViewTemplate.html'),
+        ConnectionModel = require('model/ConnectionModel'),
         ConnectionsCollection = require('collection/ConnectionsCollection'),
         LibraryViewTemplate = require('text!template/library/LibraryViewTemplate.html');
 
     require('css!styles/library/library');
 
     return Backbone.View.extend({
-        connectionTemplate: '<li data-name="{{- name }}">{{- name }}</li>',
+        connectionTemplate: ConnectionListItemViewTemplate,
         events: {
-            'click li': 'onConnectionClick',
+            'click li .connection': 'onConnectionClick',
+            'click li .removeBtn': 'onRemoveConnectionClick',
+            'click li .editBtn': 'onEditConnectionClick',
             'click .newConnectionBtn': 'onNewConnectionBtnClick'
         },
         initialize: function () {
             this.collection = ConnectionsCollection;
+
+            this.listenTo(this.collection, 'update', this.render);
         },
         render: function () {
             this.$el.html(LibraryViewTemplate);
@@ -33,6 +40,43 @@ define(function (require) {
             Tamanoir.router.navigate('library/' + connectionName, {trigger: true});
         },
         onNewConnectionBtnClick: function (event) {
+            this.connectionSettings = new ConnectionSettingsView({
+                model: new ConnectionModel()
+            });
+            this.dialog = new DialogView({
+                title: 'Add Connection',
+                content: this.connectionSettings.render().$el
+            }).render();
+
+            this.listenTo(this.dialog, 'action:ok', this.saveConnection);
+        },
+        onRemoveConnectionClick: function (event) {
+            var connectionModel = ConnectionsCollection.find(function (model) {
+                return model.get('name') === $(event.target).data('name');
+            });
+
+            ConnectionsCollection.remove(connectionModel);
+        },
+        onEditConnectionClick: function () {
+            var connectionModel = ConnectionsCollection.find(function (model) {
+                return model.get('name') === $(event.target).data('name');
+            });
+
+            this.connectionSettings = new ConnectionSettingsView({
+                model: connectionModel
+            });
+
+            this.dialog = new DialogView({
+                title: 'Edit Connection',
+                content: this.connectionSettings.render().$el
+            }).render();
+
+            this.listenTo(this.dialog, 'action:ok', this.saveConnection);
+        },
+        saveConnection: function () {
+            this.connectionSettings.model.set(this.connectionSettings.getValues());
+            ConnectionsCollection.add(this.connectionSettings.model);
+            this.dialog.remove();
         }
     });
 });

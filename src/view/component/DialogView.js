@@ -10,7 +10,8 @@ define(function (require) {
 
     return Backbone.View.extend({
         events: {
-            'click .closeBtn': 'onCloseBtnClick'
+            'click .okBtn': 'onOkBtnClick',
+            'click .mask': 'onMaskClick'
         },
         initialize: function (config) {
             config = config || {};
@@ -25,7 +26,10 @@ define(function (require) {
             this.center();
             return this;
         },
-        onCloseBtnClick: function () {
+        onOkBtnClick: function () {
+            this.trigger('action:ok');
+        },
+        onMaskClick: function () {
             this.remove();
         },
         center: function () {

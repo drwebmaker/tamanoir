@@ -30,3 +30,9 @@
     background: white;
     border-bottom: none;
 }
+
+.library .removeBtn,
+.library .editBtn {
+    height: 50px;
+    margin-bottom: 0;
+}

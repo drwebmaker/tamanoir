@@ -9,7 +9,8 @@ define(function (require) {
             type: '',
             name: '',
             url: '',
-            properties: null
+            login: '',
+            password: ''
         }
     });
 });
