@@ -55,7 +55,7 @@ define(function (require) {
                 return model.get('name') === $(event.target).data('name');
             });
 
-            ConnectionsCollection.remove(connectionModel);
+            connectionModel.destroy();
         },
         onEditConnectionClick: function () {
             var connectionModel = ConnectionsCollection.find(function (model) {
@@ -71,11 +71,16 @@ define(function (require) {
                 content: this.connectionSettings.render().$el
             }).render();
 
-            this.listenTo(this.dialog, 'action:ok', this.saveConnection);
+            this.listenTo(this.dialog, 'action:ok', _.bind(function () {
+                this.connectionSettings.model.save(this.connectionSettings.getValues());
+                this.dialog.remove();
+                this.render();
+            }, this));
         },
         saveConnection: function () {
             this.connectionSettings.model.set(this.connectionSettings.getValues());
             ConnectionsCollection.add(this.connectionSettings.model);
+            this.connectionSettings.model.save();
             this.dialog.remove();
         }
     });
