@@ -25,12 +25,20 @@ define(function (require) {
                 collection: QueryResultsCollection
             });
 
-            this.queryExecuter.query('SELECT * FROM {schemaName}.{tableName}'
-                .replace('{schemaName}', this.schemaName)
-                .replace('{tableName}', this.tableName))
-                .then(_.bind(function (result) {
-                    QueryResultsCollection.reset(result);
-                }, this));
+            //temporary solution
+            if (this.tableName) {
+                this.queryExecuter.query('SELECT * FROM {schemaName}.{tableName}'
+                    .replace('{schemaName}', this.schemaName)
+                    .replace('{tableName}', this.tableName))
+                    .then(_.bind(function (result) {
+                        QueryResultsCollection.reset(result);
+                    }, this));
+            } else {
+                this.queryExecuter.query('select * limit 10')
+                    .then(_.bind(function (result) {
+                        QueryResultsCollection.reset(result);
+                    }, this));
+            }
         },
         render: function () {
             this.$el.html(PreviewViewTemplate);

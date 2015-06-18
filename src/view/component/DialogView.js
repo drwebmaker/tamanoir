@@ -10,24 +10,24 @@ define(function (require) {
 
     return Backbone.View.extend({
         events: {
-            'click .okBtn': 'onOkBtnClick',
+            'click button[data-action]': 'onActionButtonClick',
             'click .mask': 'onMaskClick'
         },
         initialize: function (config) {
             config = config || {};
-            this.title = config.title;
-            this.content = config.content;
+            this.title = config.title || '';
+            this.content = config.content || '';
+            this.buttons = config.buttons || [];
         },
         render: function () {
-            this.$el.html(DialogViewTemplate);
-            this.$el.appendTo('body');
-            this.$el.find('.dialog-title').html(this.title);
+            this.$el.html(_.template(DialogViewTemplate)(this));
             this.$el.find('.dialog-body').html(this.content);
+            this.$el.appendTo('body');
             this.center();
             return this;
         },
-        onOkBtnClick: function () {
-            this.trigger('action:ok');
+        onActionButtonClick: function (event) {
+            this.trigger('action:' + $(event.target).data('action'));
         },
         onMaskClick: function () {
             this.remove();

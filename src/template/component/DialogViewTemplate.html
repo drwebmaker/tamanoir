@@ -1,10 +1,14 @@
 <div class="dialog">
     <div class="mask"></div>
     <div class="dialog-container">
-        <div class="dialog-title"></div>
+        <div class="dialog-title">{{- title }}</div>
         <div class="dialog-body"></div>
+        {{ if (buttons.length) { }}
         <div class="dialog-bottom-bar clearfix">
-            <button class="okBtn right">Ok</button>
+            {{ _.each(buttons, function (button) { }}
+            <button data-action="{{- button.action }}" class="right">{{- button.label }}</button>
+            {{ }) }}
         </div>
+        {{ } }}
     </div>
 </div>
