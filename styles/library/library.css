@@ -12,10 +12,20 @@
     background: white;
     color: #008CBA;
     line-height: 50px;
-    cursor: pointer;
     text-indent: 40px;
     border-bottom: 1px solid #e9e9e9;
 }
+
+.library li:hover {
+    color: #1cc7ff;
+}
+
+.library li .connection,
+.library li .foundicon-trash,
+.library li .foundicon-settings {
+    cursor: pointer;
+}
+
 
 .library li:hover:before {
     display: block;

@@ -18,8 +18,8 @@ define(function (require) {
         connectionTemplate: ConnectionListItemViewTemplate,
         events: {
             'click li .connection': 'onConnectionClick',
-            'click li .removeBtn': 'onRemoveConnectionClick',
-            'click li .editBtn': 'onEditConnectionClick',
+            'click li .foundicon-trash': 'onRemoveConnectionClick',
+            'click li .foundicon-settings': 'onEditConnectionClick',
             'click .newConnectionBtn': 'onNewConnectionBtnClick'
         },
         initialize: function () {
