@@ -3,8 +3,6 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        $ = require('jquery'),
-        _ = require('underscore'),
         DialogView = require('view/component/DialogView'),
         ConnectionSettingsView = require('view/library/ConnectionSettingsView'),
         ConnectionListItemView = require('view/library/ConnectionListItemView'),
@@ -35,19 +33,19 @@ define(function (require) {
             this.settingsView = new ConnectionSettingsView({
                 model: new ConnectionModel()
             });
-            this.DialogView = new DialogView({
+            this.dialogView = new DialogView({
                 title: 'Add Connection',
                 content: this.settingsView.render().$el,
                 buttons: [{label: 'Add', action: 'add'}]
             }).render();
 
-            this.listenTo(this.DialogView, 'action:add', this.saveConnection);
+            this.listenTo(this.dialogView, 'action:add', this.saveConnection);
         },
         saveConnection: function () {
             this.settingsView.model.set(this.settingsView.getValues());
             ConnectionsCollection.add(this.settingsView.model);
             this.settingsView.model.save();
-            this.DialogView.remove();
+            this.dialogView.remove();
             this.settingsView.remove();
         }
     });
