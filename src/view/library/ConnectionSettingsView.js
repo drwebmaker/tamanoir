@@ -17,7 +17,7 @@ define(function (require) {
                 type: this.$el.find('input[name="type"]').val(),
                 name: this.$el.find('input[name="name"]').val(),
                 url: this.$el.find('input[name="url"]').val(),
-                login: this.$el.find('input[name="login"]').val(),
+                user: this.$el.find('input[name="user"]').val(),
                 password: this.$el.find('input[name="password"]').val()
             }
         }

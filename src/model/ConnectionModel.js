@@ -9,7 +9,7 @@ define(function (require) {
             type: '',
             name: '',
             url: '',
-            login: '',
+            user: '',
             password: ''
         }
     });
