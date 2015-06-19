@@ -12,7 +12,7 @@ define(function (require) {
             url: '',
             type: '',
             nativeQuery: '',
-            properties: null
+            properties: {}
         }
     });
 });

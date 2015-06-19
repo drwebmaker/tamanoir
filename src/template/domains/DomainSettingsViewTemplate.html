@@ -1,0 +1,46 @@
+<div class="domainSettings">
+    <form>
+        <div class="row">
+            <div class="medium-12 columns">
+                <label>type
+                    <input type="text" placeholder="jdbc" name="type" value="{{- type }}"/>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <label>name
+                    <input type="text" placeholder="some name"  name="name" value="{{- name }}"/>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <label>url
+                    <input type="text" placeholder="jdbc:postgresql://localhost:5432/someDatabase"  name="url" value="{{- url }}"/>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <label>login
+                    <input type="text" placeholder="user"  name="user" value="{{- properties.user }}"/>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <label>password
+                    <input type="password" placeholder="password"  name="password" value="{{- properties.password }}"/>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                <label>query
+                    <input type="text" placeholder="native query"  name="query" value="{{- nativeQuery }}"/>
+                </label>
+            </div>
+        </div>
+    </form>
+</div>
