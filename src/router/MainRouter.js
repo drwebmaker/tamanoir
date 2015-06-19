@@ -15,6 +15,7 @@ define(function (require) {
         routes: {
             '/': 'navigateToHome',
             'library': 'navigateToLibrary',
+            'domains': 'navigateToDomains',
             'connections': 'navigateToConnections',
             'connections/:connectionName': 'navigateToConnection',
             'connections/:connectionName/:schemaName': 'navigateToSchema',
@@ -32,6 +33,10 @@ define(function (require) {
         navigateToConnections: function () {
             var ConnectionsView = require('view/connections/ConnectionsView');
             $('.main-content').html(new ConnectionsView().render().$el);
+        },
+        navigateToDomains: function () {
+            var DomainsView = require('view/domains/DomainsView');
+            $('.main-content').html(new DomainsView().render().$el);
         },
         navigateToConnection: function (connectionName) {
             var SchemasListView = require('view/connections/SchemasListView'),

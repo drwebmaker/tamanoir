@@ -38,7 +38,23 @@ define(function (require) {
             this.listenTo(this.dialogView, 'action:save', this.save);
         },
         onRemoveClick: function () {
+            this.deletingDialog = new DialogView({
+                title: 'Delete',
+                content: 'Are you sure, that you want delete ' + this.model.get('name'),
+                buttons: [
+                    {label: 'Yes', action: 'yes'},
+                    {label: 'No', action: 'no'}
+                ]
+            }).render();
+            this.listenTo(this.deletingDialog, 'action:yes', this.onDeleteConfirmed);
+            this.listenTo(this.deletingDialog, 'action:no', this.onDeleteCanceled);
+        },
+        onDeleteConfirmed: function () {
+            this.deletingDialog.remove();
             this.model.destroy();
+        },
+        onDeleteCanceled: function () {
+            this.deletingDialog.remove();
         },
         save: function () {
             this.model.save(this.settingsView.getValues());
