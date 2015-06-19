@@ -5,10 +5,10 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
-        TablesListViewTemplate = require('text!template/library/TablesListViewTemplate.html'),
+        TablesListViewTemplate = require('text!template/connections/TablesListViewTemplate.html'),
         DatabaseExplorer = require('util/DatabaseExplorer');
 
-    require('css!styles/library/tables');
+    require('css!styles/connections/tables');
 
     return Backbone.View.extend({
         tableTemplate: '<li data-name="{{- name }}">{{- name }}</li>',

@@ -15,8 +15,9 @@ define(function (require) {
         routes: {
             '/': 'navigateToHome',
             'library': 'navigateToLibrary',
-            'library/:connectionName': 'navigateToConnection',
-            'library/:connectionName/:schemaName': 'navigateToSchema',
+            'connections': 'navigateToConnections',
+            'connections/:connectionName': 'navigateToConnection',
+            'connections/:connectionName/:schemaName': 'navigateToSchema',
             'preview/:connectionName/:schemaName/:tableName': 'navigateToPreview',
             'designer': 'navigateToDesigner',
             '*otherwise': 'navigateToLibrary'
@@ -28,8 +29,12 @@ define(function (require) {
             var DesignerView = require('view/designer/DesignerView');
             $('.main-content').html(new DesignerView().render().$el);
         },
+        navigateToConnections: function () {
+            var ConnectionsView = require('view/connections/ConnectionsView');
+            $('.main-content').html(new ConnectionsView().render().$el);
+        },
         navigateToConnection: function (connectionName) {
-            var SchemasListView = require('view/library/SchemasListView'),
+            var SchemasListView = require('view/connections/SchemasListView'),
                 PreviewView = require('view/preview/PreviewView'),
                 connectionModel;
 
@@ -61,7 +66,7 @@ define(function (require) {
             }).render().$el);
         },
         navigateToSchema: function (connectionName, schemaName) {
-            var TablesListView = require('view/library/TablesListView'),
+            var TablesListView = require('view/connections/TablesListView'),
                 connectionModel;
 
             connectionModel = ConnectionsCollection.find(function (model) {

@@ -3,9 +3,9 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        ConnectionSettingsViewTemplate = require('text!template/library/ConnectionSettingsViewTemplate');
+        ConnectionSettingsViewTemplate = require('text!template/connections/ConnectionSettingsViewTemplate');
 
-    require('css!styles/library/connectionSettings');
+    require('css!styles/connections/connectionSettings');
 
     return Backbone.View.extend({
         render: function () {

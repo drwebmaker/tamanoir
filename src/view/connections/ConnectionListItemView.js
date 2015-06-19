@@ -5,8 +5,8 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         DialogView = require('view/component/DialogView'),
-        ConnectionSettingsView = require('view/library/ConnectionSettingsView'),
-        ConnectionListItemViewTemplate = require('text!template/library/ConnectionListItemViewTemplate.html');
+        ConnectionSettingsView = require('view/connections/ConnectionSettingsView'),
+        ConnectionListItemViewTemplate = require('text!template/connections/ConnectionListItemViewTemplate.html');
 
     return Backbone.View.extend({
         tagName: 'li',
@@ -24,7 +24,7 @@ define(function (require) {
             return this;
         },
         onConnectionClick: function () {
-            Tamanoir.router.navigate('library/' + this.model.get('name'), {trigger: true});
+            Tamanoir.router.navigate('connections/' + this.model.get('name'), {trigger: true});
         },
         onEditClick: function () {
             this.settingsView = new ConnectionSettingsView({model: this.model});
