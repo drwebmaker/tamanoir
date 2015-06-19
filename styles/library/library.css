@@ -1,14 +1,14 @@
-.connections {
+.library {
     margin-top: 10px;
 }
 
-.connections ul {
+.library ul {
     list-style: none;
     margin: 0;
     border: 1px solid #e9e9e9;
 }
 
-.connections li {
+.library li {
     background: white;
     color: #008CBA;
     line-height: 50px;
@@ -16,18 +16,18 @@
     border-bottom: 1px solid #e9e9e9;
 }
 
-.connections li:hover {
+.library li:hover {
     color: #1cc7ff;
 }
 
-.connections li .connection,
-.connections li .foundicon-trash,
-.connections li .foundicon-settings {
+.library li .connection,
+.library li .foundicon-trash,
+.library li .foundicon-settings {
     cursor: pointer;
 }
 
 
-.connections li:hover:before {
+.library li:hover:before {
     display: block;
     position: absolute;
     content: '';
@@ -36,7 +36,7 @@
     background: #008CBA;
 }
 
-.connections li:last-child {
+.library li:last-child {
     background: white;
     border-bottom: none;
 }
