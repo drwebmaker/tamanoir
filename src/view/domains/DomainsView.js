@@ -36,7 +36,7 @@ define(function (require) {
                 model: new DomainModel()
             });
             this.dialogView = new DialogView({
-                title: 'Add Connection',
+                title: 'Add Domain',
                 content: this.settingsView.render().$el,
                 buttons: [{label: 'Add', action: 'add'}]
             }).render();

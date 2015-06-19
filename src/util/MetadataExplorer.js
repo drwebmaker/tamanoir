@@ -8,12 +8,12 @@ define(function (require) {
 
     /**
      *
-     * @param {ConnectionModel} connection
+     * @param {DomainModel} domain
      * @constructor
      */
-    var MetadataExplorer = function (connection) {
-        this.metadataRequestFactory = new MetadataRequestFactory(connection);
-        this.connection = connection;
+    var MetadataExplorer = function (domain) {
+        this.metadataRequestFactory = new MetadataRequestFactory(domain);
+        this.domain = domain;
         this._request = this.metadataRequestFactory.createRequest();
     };
 

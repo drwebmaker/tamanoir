@@ -4,27 +4,27 @@
 define(function (require) {
 
     /**
-     * @param {ConnectionModel} connection
+     * @param {DomainModel} domain
      * @constructor
      */
-    var MetadataRequestFactory = function (connection) {
-        this.connection = connection;
+    var MetadataRequestFactory = function (domain) {
+        this.domain = domain;
     };
 
     MetadataRequestFactory.prototype._jdbcRequest = function (uri) {
         return $.ajax({
-            url: this.connection.get('serviceUrl') + uri,
+            url: this.domain.get('serviceUrl') + uri,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/metadata+json'
             },
             data: JSON.stringify({
-                url: this.connection.get('url'),
-                type: this.connection.get('type'),
+                url: this.domain.get('url'),
+                type: this.domain.get('type'),
                 properties: {
-                    user: this.connection.get('user'),
-                    password: this.connection.get('password')
+                    user: this.domain.get('user'),
+                    password: this.domain.get('password')
                 }
             })
         });
@@ -32,15 +32,15 @@ define(function (require) {
 
     MetadataRequestFactory.prototype._csvRequest = function (uri) {
         return $.ajax({
-            url: this.connection.get('serviceUrl') + uri,
+            url: this.domain.get('serviceUrl') + uri,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/metadata+json'
             },
             data: JSON.stringify({
-                url: this.connection.get('url'),
-                type: this.connection.get('type'),
+                url: this.domain.get('url'),
+                type: this.domain.get('type'),
                 properties: {
                     useFirstRowAsHeader: true
                 }
@@ -49,7 +49,7 @@ define(function (require) {
     };
 
     MetadataRequestFactory.prototype.createRequest = function () {
-        switch (this.connection.get('type')) {
+        switch (this.domain.get('type')) {
             case 'jdbc':
                 return this._jdbcRequest;
                 break;

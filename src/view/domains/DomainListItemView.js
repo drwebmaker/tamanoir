@@ -24,7 +24,7 @@ define(function (require) {
             return this;
         },
         onDomainClick: function () {
-            Tamanoir.router.navigate('domains/' + this.model.get('name'), {trigger: true});
+            Tamanoir.router.navigate('designer/' + this.model.get('name'), {trigger: true});
         },
         onEditClick: function () {
             this.settingsView = new DomainSettingsView({model: this.model});
