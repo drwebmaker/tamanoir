@@ -6,6 +6,7 @@ define(function (require) {
 
     return Backbone.Model.extend({
         defaults: {
+            serviceUrl: 'http://localhost:8085/rest/connections',
             type: '',
             name: '',
             url: '',
