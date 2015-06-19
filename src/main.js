@@ -6,7 +6,6 @@ define(function (require) {
         ConnectionsCollection = require('collection/ConnectionsCollection');
 
     require('config/underscore.config');
-    require('config/backbone.config');
 
     window.Tamanoir = {};
     Tamanoir.router = new MainRouter();
