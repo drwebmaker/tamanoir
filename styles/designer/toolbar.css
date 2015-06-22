@@ -1,27 +1,28 @@
 .toolbar {
-    background: #e1e1e1;
-    margin-bottom: 10px;
+    background: #444444;
 }
 
 .toolbar .toolbar-item {
     height: 40px;
     width: 40px;
-    background: #d1d1d1;
+    display: inline-block;
     position: relative;
+    color: #ffffff;
+    line-height: 40px;
+    font-size: 1.4em;
     cursor: pointer;
-    transition: background .5s;
 }
 
 .toolbar .toolbar-item:hover {
-    background: #c1c1c1;
+    background: #333333;
 }
 
 .toolbar .toolbar-item .menu {
     display: none;
     position: absolute;
-    border: 1px solid #e1e1e1;
-    background: white;
-    width: 100px;
+    color: #ffffff;
+    background: #333333;
+    width: 150px;
     z-index: 1;
     top: 40px;
 }
@@ -36,10 +37,10 @@
 }
 
 .toolbar .toolbar-item .menu ul li {
-    padding-left: 20px;
-    color: #008CBA;
+    height: 40px;
+    line-height: 40px;
 }
 
 .toolbar .toolbar-item .menu ul li:hover {
-    background: #e1e1e1;
+    background: #008CBA;
 }

@@ -15,7 +15,7 @@ define(function (require) {
             '/': 'navigateToHome',
             'library': 'navigateToLibrary',
             'domains': 'navigateToDomains',
-            'designer': 'navigateToDesigner',
+            'designer/:domain': 'navigateToDesigner',
             '*otherwise': 'navigateToLibrary'
         },
         navigateToHome: function () {
@@ -29,6 +29,11 @@ define(function (require) {
             var DomainsView = require('view/domains/DomainsView');
             $('.main-content').html(new DomainsView().render().$el);
         },
-        navigateToDesigner: function () {}
+        navigateToDesigner: function (domain) {
+            var DesignerView = require('view/designer/DesignerView');
+            $('.main-content').html(new DesignerView({
+                domain: domain
+            }).render().$el);
+        }
     });
 });
