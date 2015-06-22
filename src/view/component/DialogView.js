@@ -21,9 +21,8 @@ define(function (require) {
         },
         render: function () {
             this.$el.html(_.template(DialogViewTemplate)(this));
-            this.$el.find('.dialog-body').html(this.content);
             this.$el.appendTo('body');
-            this.center();
+            this.setContent(this.content);
             return this;
         },
         onActionButtonClick: function (event) {
@@ -31,6 +30,10 @@ define(function (require) {
         },
         onMaskClick: function () {
             this.remove();
+        },
+        setContent: function (content) {
+            this.$el.find('.dialog-body').html(content);
+            this.center();
         },
         center: function () {
             var bodyHeight = $('body').height(),
