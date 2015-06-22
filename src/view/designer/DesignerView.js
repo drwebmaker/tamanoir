@@ -7,11 +7,16 @@ define(function (require) {
         ToolbarView = require('view/designer/ToolbarView'),
         SidebarView = require('view/designer/SidebarView'),
         TableView = require('view/preview/TableView'),
+        DialogView = require('view/component/DialogView'),
         CanvasView = require('view/designer/CanvasView'),
+        MetadataExplorer = require('util/MetadataExplorer'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
         QueryResultsCollection = require('collection/QueryResultsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
+        MetadataListItemView = require('view/designer/MetadataListItemView'),
+        ListView = require('view/component/ListView'),
+        MetadataResultsCollection = require('collection/MetadataResultsCollection'),
         DesignerViewTemplate = require('text!template/designer/DesignerViewTemplate.html');
 
     require('css!styles/designer/designer');
@@ -25,15 +30,18 @@ define(function (require) {
 
             this.nativeQuery = '';
             this.queryExecuter = null;
+            this.metadataExplorer = null;
 
             this.domainsCollection = new DomainsCollection();
-            this.domainsCollection.fetch({reset: true});
-            this.queryResultCollection = new QueryResultsCollection();
+            this.queryResultsCollection = new QueryResultsCollection();
+            this.metadataResultsCollection = new MetadataResultsCollection();
 
-            this.sidebar = new SidebarView({collection: this.queryResultCollection});
+            this.domainsCollection.fetch({reset: true});
+
+            this.sidebar = new SidebarView({collection: this.queryResultsCollection});
             this.toolbar = new ToolbarView();
             this.canvas = new CanvasView();
-            this.table = new TableView({collection: this.queryResultCollection});
+            this.table = new TableView({collection: this.queryResultsCollection});
 
             this.listenTo(this.domainsCollection, 'sync', this.onDomainsLoaded);
             this.listenTo(this.toolbar, 'change:type', this.onTypeChange);
@@ -58,11 +66,28 @@ define(function (require) {
             if (this.nativeQuery) {
                 this.queryExecuter = new QueryExecuter(domain);
                 this.queryExecuter.query(domain.get('nativeQuery')).then(_.bind(function (data) {
-                    this.queryResultCollection.reset(data);
+                    this.queryResultsCollection.reset(data);
                 }, this));
             } else {
-                console.log('todo: implement query builder');
+                this.metadataExplorer = new MetadataExplorer(domain);
+                this.metadataExplorer.getMetaData().then(_.bind(this.onMetadataLoaded, this));
             }
+        },
+
+        onMetadataLoaded: function (data) {
+
+            var listView = new ListView({
+                collection: this.metadataResultsCollection,
+                itemClass: MetadataListItemView
+            });
+            var dialog = new DialogView({
+                title: 'metadata',
+                content: listView.render().$el
+            }).render();
+
+            this.metadataResultsCollection.reset(data);
+            dialog.center();
+
         },
 
         onTypeChange: function (event, type) {
@@ -72,7 +97,7 @@ define(function (require) {
                 c3.generate({
                     bindto: '.canvas',
                     data: {
-                        columns: this.queryResultCollection.getDataForC3(),
+                        columns: this.queryResultsCollection.getDataForC3(),
                         type: type
                     }
                 });

@@ -4,16 +4,13 @@
 define(function (require) {
 
     /**
-     * @param {DomainModel} domain
      * @constructor
      */
-    var MetadataRequestFactory = function (domain) {
-        this.domain = domain;
-    };
+    var MetadataRequestFactory = function () {};
 
-    MetadataRequestFactory.prototype._jdbcRequest = function (uri) {
+    MetadataRequestFactory.prototype.jdbc = function (uri) {
         return $.ajax({
-            url: this.domain.get('serviceUrl') + uri,
+            url: this.serviceUrl + uri,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -22,17 +19,14 @@ define(function (require) {
             data: JSON.stringify({
                 url: this.domain.get('url'),
                 type: this.domain.get('type'),
-                properties: {
-                    user: this.domain.get('user'),
-                    password: this.domain.get('password')
-                }
+                properties: this.domain.get('properties')
             })
         });
     };
 
-    MetadataRequestFactory.prototype._csvRequest = function (uri) {
+    MetadataRequestFactory.prototype.csv = function (uri) {
         return $.ajax({
-            url: this.domain.get('serviceUrl') + uri,
+            url: this.serviceUrl + uri,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,15 +42,8 @@ define(function (require) {
         });
     };
 
-    MetadataRequestFactory.prototype.createRequest = function () {
-        switch (this.domain.get('type')) {
-            case 'jdbc':
-                return this._jdbcRequest;
-                break;
-            case 'csv':
-                return this._csvRequest;
-                break;
-        }
+    MetadataRequestFactory.prototype.getRequest = function (type) {
+        return this[type];
     };
 
     return MetadataRequestFactory;

@@ -4,6 +4,7 @@
 define(function (require) {
     var $ = require('jquery'),
         _ = require('underscore'),
+        TamanoirConfig = require('config/tamanoir.config'),
         MetadataRequestFactory = require('util/MetadataRequestFactory');
 
     /**
@@ -12,9 +13,10 @@ define(function (require) {
      * @constructor
      */
     var MetadataExplorer = function (domain) {
-        this.metadataRequestFactory = new MetadataRequestFactory(domain);
         this.domain = domain;
-        this._request = this.metadataRequestFactory.createRequest();
+        this.serviceUrl = TamanoirConfig.serverUrl + '/rest/connections'
+        this.metadataRequestFactory = new MetadataRequestFactory();
+        this._request = this.metadataRequestFactory.getRequest(this.domain.get('type'));
     };
 
     MetadataExplorer.prototype._buildUri = function (uri) {
