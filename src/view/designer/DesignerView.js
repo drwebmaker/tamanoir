@@ -7,16 +7,12 @@ define(function (require) {
         ToolbarView = require('view/designer/ToolbarView'),
         SidebarView = require('view/designer/SidebarView'),
         TableView = require('view/preview/TableView'),
-        DialogView = require('view/component/DialogView'),
         CanvasView = require('view/designer/CanvasView'),
-        MetadataExplorer = require('util/MetadataExplorer'),
+        DomainDesignerView = require('view/designer/DomainDesignerView'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
         QueryResultsCollection = require('collection/QueryResultsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
-        MetadataListItemView = require('view/designer/MetadataListItemView'),
-        ListView = require('view/component/ListView'),
-        MetadataResultsCollection = require('collection/MetadataResultsCollection'),
         DesignerViewTemplate = require('text!template/designer/DesignerViewTemplate.html');
 
     require('css!styles/designer/designer');
@@ -30,11 +26,9 @@ define(function (require) {
 
             this.nativeQuery = '';
             this.queryExecuter = null;
-            this.metadataExplorer = null;
 
             this.domainsCollection = new DomainsCollection();
             this.queryResultsCollection = new QueryResultsCollection();
-            this.metadataResultsCollection = new MetadataResultsCollection();
 
             this.domainsCollection.fetch({reset: true});
 
@@ -69,25 +63,9 @@ define(function (require) {
                     this.queryResultsCollection.reset(data);
                 }, this));
             } else {
-                this.metadataExplorer = new MetadataExplorer(domain);
-                this.metadataExplorer.getMetaData().then(_.bind(this.onMetadataLoaded, this));
+                this.domainDesigner = new DomainDesignerView({domain: domain});
+                this.domainDesigner.render();
             }
-        },
-
-        onMetadataLoaded: function (data) {
-
-            var listView = new ListView({
-                collection: this.metadataResultsCollection,
-                itemClass: MetadataListItemView
-            });
-            var dialog = new DialogView({
-                title: 'metadata',
-                content: listView.render().$el
-            }).render();
-
-            this.metadataResultsCollection.reset(data);
-            dialog.center();
-
         },
 
         onTypeChange: function (event, type) {
