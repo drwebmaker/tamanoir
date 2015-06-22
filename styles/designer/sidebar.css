@@ -1,5 +1,4 @@
 .sidebar {
-    min-width: 150px;
     line-height: 40px;
 }
 
@@ -16,4 +15,9 @@
 .sidebar li {
     background: white;
     color: #008CBA;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.sidebar li:last-child {
+    border-bottom: 0;
 }

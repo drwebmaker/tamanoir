@@ -3,6 +3,7 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
+        $ = require('jquery'),
         ToolbarViewTemplate = require('text!template/designer/ToolbarViewTemplate.html');
 
     require('css!styles/designer/toolbar');
@@ -16,7 +17,8 @@ define(function (require) {
             return this;
         },
         onTypeChange: function (event) {
-            this.trigger('change:type', event);
+            var type = $(event.target).data('chartType');
+            this.trigger('change:type', event, type);
         }
     });
 });

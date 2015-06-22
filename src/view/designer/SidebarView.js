@@ -5,7 +5,6 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
-        QueryResultsCollection = require('collection/QueryResultsCollection'),
         SidebarViewTemplate = require('text!template/designer/SidebarViewTemplate.html');
 
     require('css!styles/designer/sidebar');
@@ -15,16 +14,17 @@ define(function (require) {
             'click li': 'onItemClick'
         },
         initialize: function () {
-            this.listenTo(QueryResultsCollection, 'reset', this.render);
+            this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
             this.$el.html(_.template(SidebarViewTemplate)({
-                categories: QueryResultsCollection.getCategoriesNames(),
-                numbers: QueryResultsCollection.getNumbersNames()
+                categories: this.collection.getCategoriesNames(),
+                numbers: this.collection.getNumbersNames()
             }));
             return this;
         },
         onItemClick: function (event) {
-        },
+            console.log('sidebar item click');
+        }
     });
 });

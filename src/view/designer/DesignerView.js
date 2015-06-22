@@ -6,9 +6,11 @@ define(function (require) {
         $ = require('jquery'),
         ToolbarView = require('view/designer/ToolbarView'),
         SidebarView = require('view/designer/SidebarView'),
+        TableView = require('view/preview/TableView'),
         CanvasView = require('view/designer/CanvasView'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
+        QueryResultsCollection = require('collection/QueryResultsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
         DesignerViewTemplate = require('text!template/designer/DesignerViewTemplate.html');
 
@@ -24,20 +26,25 @@ define(function (require) {
             this.nativeQuery = '';
             this.queryExecuter = null;
 
-            this.sidebar = new SidebarView();
-            this.toolbar = new ToolbarView();
-            this.canvas = new CanvasView();
-
             this.domainsCollection = new DomainsCollection();
             this.domainsCollection.fetch({reset: true});
+            this.queryResultCollection = new QueryResultsCollection();
+
+            this.sidebar = new SidebarView({collection: this.queryResultCollection});
+            this.toolbar = new ToolbarView();
+            this.canvas = new CanvasView();
+            this.table = new TableView({collection: this.queryResultCollection});
 
             this.listenTo(this.domainsCollection, 'sync', this.onDomainsLoaded);
+            this.listenTo(this.toolbar, 'change:type', this.onTypeChange);
         },
         render: function () {
             this.$el.html(DesignerViewTemplate);
             this.$el.find('.sidebar-holder').html(this.sidebar.render().$el);
             this.$el.find('.toolbar-holder').html(this.toolbar.render().$el);
             this.$el.find('.canvas-holder').html(this.canvas.render().$el);
+
+            this.$el.find('.canvas').html(this.table.render().$el);
             return this;
         },
 
@@ -50,8 +57,25 @@ define(function (require) {
 
             if (this.nativeQuery) {
                 this.queryExecuter = new QueryExecuter(domain);
+                this.queryExecuter.query(domain.get('nativeQuery')).then(_.bind(function (data) {
+                    this.queryResultCollection.reset(data);
+                }, this));
             } else {
                 console.log('todo: implement query builder');
+            }
+        },
+
+        onTypeChange: function (event, type) {
+            if (type === 'table') {
+                this.$el.find('.canvas').html(this.table.render().$el);
+            } else {
+                c3.generate({
+                    bindto: '.canvas',
+                    data: {
+                        columns: this.queryResultCollection.getDataForC3(),
+                        type: type
+                    }
+                });
             }
         }
     });

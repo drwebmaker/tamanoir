@@ -39,5 +39,5 @@ define(function (require) {
         }
     });
 
-    return new QueryResultsCollection();
+    return QueryResultsCollection;
 });

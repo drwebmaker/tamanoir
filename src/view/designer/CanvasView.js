@@ -3,6 +3,7 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
+        $ = require('jquery'),
         CanvasViewTemplate = require('text!template/designer/CanvasViewTemplate.html');
 
     require('css!styles/designer/canvas');
