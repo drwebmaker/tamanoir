@@ -5,8 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         DialogView = require('view/component/DialogView'),
-        DomainSettingsView = require('view/domains/DomainSettingsView'),
-        DomainListItemViewTemplate = require('text!template/domains/DomainListItemViewTemplate.html');
+        DomainListItemViewTemplate = require('text!template/library/DomainListItemViewTemplate.html');
 
     return Backbone.View.extend({
         tagName: 'li',
@@ -24,18 +23,10 @@ define(function (require) {
             return this;
         },
         onDomainClick: function () {
-            Tamanoir.router.navigate('designer/' + this.model.get('name'), {trigger: true});
+            Tamanoir.router.navigate('library/' + this.model.get('name'), {trigger: true});
         },
         onEditClick: function () {
-            this.settingsView = new DomainSettingsView({model: this.model});
-            this.dialogView = new DialogView({
-                title: 'Edit',
-                content: this.settingsView.render().$el,
-                buttons: [
-                    {label: 'Save', action: 'save'}
-                ]
-            }).render();
-            this.listenTo(this.dialogView, 'action:save', this.save);
+            Tamanoir.router.navigate('library/' + this.model.get('name') + '/edit', {trigger: true});
         },
         onRemoveClick: function () {
             this.deletingDialog = new DialogView({
@@ -55,11 +46,6 @@ define(function (require) {
         },
         onDeleteCanceled: function () {
             this.deletingDialog.remove();
-        },
-        save: function () {
-            this.model.save(this.settingsView.getValues());
-            this.dialogView.remove();
-            this.settingsView.remove();
         }
     });
 });

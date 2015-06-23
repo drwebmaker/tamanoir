@@ -21,3 +21,7 @@
 .sidebar li:last-child {
     border-bottom: 0;
 }
+
+.sidebar ul {
+    overflow: auto;
+}

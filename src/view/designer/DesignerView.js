@@ -4,11 +4,11 @@
 define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
+        _ = require('underscore'),
         ToolbarView = require('view/designer/ToolbarView'),
         SidebarView = require('view/designer/SidebarView'),
         TableView = require('view/preview/TableView'),
         CanvasView = require('view/designer/CanvasView'),
-        DomainDesignerView = require('view/designer/DomainDesignerView'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
         QueryResultsCollection = require('collection/QueryResultsCollection'),
@@ -22,24 +22,27 @@ define(function (require) {
         initialize: function (config) {
             config = config || {};
 
-            this.initialConfig = config;
-
-            this.nativeQuery = '';
-            this.queryExecuter = null;
-
-            this.domainsCollection = new DomainsCollection();
+            this.queryExecuter = new QueryExecuter(this.model.get('domain'));
+            this.columnsCollection = new QueryResultsCollection();
             this.queryResultsCollection = new QueryResultsCollection();
 
-            this.domainsCollection.fetch({reset: true});
-
-            this.sidebar = new SidebarView({collection: this.queryResultsCollection});
+            this.sidebar = new SidebarView({collection: this.columnsCollection});
             this.toolbar = new ToolbarView();
             this.canvas = new CanvasView();
             this.table = new TableView({collection: this.queryResultsCollection});
 
-            this.listenTo(this.domainsCollection, 'sync', this.onDomainsLoaded);
             this.listenTo(this.toolbar, 'change:type', this.onTypeChange);
-            this.listenTo(this.toolbar, 'click:settings', this.onSettingsClick);
+
+            var query;
+            if (this.model.get('schemaName')) {
+                query = 'select * from ' + this.model.get('schemaName') + '.' + this.model.get('tableName') + ' limit 20';
+            } else {
+                query = 'select * limit 20';
+            }
+            this.queryExecuter.query(query).then(_.bind(function (data) {
+                this.columnsCollection.reset(data);
+                this.queryResultsCollection.reset(data);
+            }, this));
         },
         render: function () {
             this.$el.html(DesignerViewTemplate);
@@ -53,33 +56,6 @@ define(function (require) {
 
         calculateCanvasHeight: function () {
             this.$el.find('.canvas-holder').height($('body').height() - 85);
-        },
-
-        getDomain: function () {
-            return this.domainsCollection.find(_.bind(function (domain) {
-                return domain.get('name') === this.initialConfig.domain;
-            }, this));
-        },
-
-        onDomainsLoaded: function () {
-            var domain = this.getDomain();
-
-            this.nativeQuery = domain.get('nativeQuery');
-
-            if (this.nativeQuery) {
-                this.queryExecuter = new QueryExecuter(domain);
-                this.queryExecuter.query(domain.get('nativeQuery')).then(_.bind(function (data) {
-                    this.queryResultsCollection.reset(data);
-                }, this));
-            } else {
-                this.domainDesigner = new DomainDesignerView({domain: domain});
-                this.domainDesigner.render();
-            }
-        },
-
-        onSettingsClick: function () {
-            this.domainDesigner = new DomainDesignerView({domain: this.getDomain()});
-            this.domainDesigner.render();
         },
 
         onTypeChange: function (event, type) {

@@ -21,7 +21,13 @@ define(function (require) {
                 categories: this.collection.getCategoriesNames(),
                 numbers: this.collection.getNumbersNames()
             }));
+            this.calculateSidebarHeight();
             return this;
+        },
+
+        calculateSidebarHeight: function () {
+            var availableHeight = $('body').height() - 85;
+            this.$el.find('ul').height(availableHeight / 2 - 40);
         },
         onItemClick: function (event) {
             console.log('sidebar item click');
