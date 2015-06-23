@@ -39,21 +39,30 @@ define(function (require) {
 
             this.listenTo(this.domainsCollection, 'sync', this.onDomainsLoaded);
             this.listenTo(this.toolbar, 'change:type', this.onTypeChange);
+            this.listenTo(this.toolbar, 'click:settings', this.onSettingsClick);
         },
         render: function () {
             this.$el.html(DesignerViewTemplate);
             this.$el.find('.sidebar-holder').html(this.sidebar.render().$el);
             this.$el.find('.toolbar-holder').html(this.toolbar.render().$el);
             this.$el.find('.canvas-holder').html(this.canvas.render().$el);
-
             this.$el.find('.canvas').html(this.table.render().$el);
+            this.calculateCanvasHeight();
             return this;
         },
 
-        onDomainsLoaded: function () {
-            var domain = this.domainsCollection.find(_.bind(function (domain) {
+        calculateCanvasHeight: function () {
+            this.$el.find('.canvas-holder').height($('body').height() - 85);
+        },
+
+        getDomain: function () {
+            return this.domainsCollection.find(_.bind(function (domain) {
                 return domain.get('name') === this.initialConfig.domain;
             }, this));
+        },
+
+        onDomainsLoaded: function () {
+            var domain = this.getDomain();
 
             this.nativeQuery = domain.get('nativeQuery');
 
@@ -66,6 +75,11 @@ define(function (require) {
                 this.domainDesigner = new DomainDesignerView({domain: domain});
                 this.domainDesigner.render();
             }
+        },
+
+        onSettingsClick: function () {
+            this.domainDesigner = new DomainDesignerView({domain: this.getDomain()});
+            this.domainDesigner.render();
         },
 
         onTypeChange: function (event, type) {

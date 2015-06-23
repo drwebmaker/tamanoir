@@ -24,7 +24,7 @@ define(function (require) {
 
     return Backbone.View.extend({
         tagName: 'ul',
-        className: 'list',
+        className: 'list tablesList',
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
         },

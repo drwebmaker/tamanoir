@@ -1,3 +1,10 @@
 .canvas-holder {
     overflow: auto;
+    float: left;
+    width: 80%;
+}
+
+.sidebar-holder {
+    width: 20%;
+    float: left;
 }

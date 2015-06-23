@@ -10,7 +10,8 @@ define(function (require) {
 
     return Backbone.View.extend({
         events: {
-            'click .toolbar-item .menu li': 'onTypeChange'
+            'click .toolbar-item .menu li': 'onTypeChange',
+            'click .toolbar-item .foundicon-settings': 'onSettingsClick'
         },
         render: function () {
             this.$el.html(ToolbarViewTemplate);
@@ -19,6 +20,9 @@ define(function (require) {
         onTypeChange: function (event) {
             var type = $(event.target).data('chartType');
             this.trigger('change:type', event, type);
+        },
+        onSettingsClick: function () {
+            this.trigger('click:settings');
         }
     });
 });

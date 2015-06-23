@@ -36,9 +36,31 @@ define(function (require) {
                     action: 'ok'
                 }]
             });
+            this.listenTo(this.dialog, 'action:ok', this.onDialogOkClick);
         },
         render: function () {
             this.dialog.render();
+        },
+        buildQuery: function () {
+            var query;
+
+            switch (this.domain.get('type')) {
+                case 'jdbc':
+                    query = 'select {names} from {table} limit 20'
+                        .replace('{names}', this.state.columns.join(','))
+                        .replace('{table}', [this.state.schema, this.state.table].join('.'));
+                    break;
+                case 'csv':
+                    query = 'select {names} limit 20'
+                        .replace('{names}', this.state.columns.join(','));
+                    break;
+            }
+
+            return query;
+        },
+        onDialogOkClick: function () {
+            var query = this.buildQuery();
+            this.domain.save('nativeQuery', query);
         },
         onMetadataLoaded: function (data) {
             switch (this.domain.get('type')) {
@@ -77,7 +99,14 @@ define(function (require) {
             this.metadataExplorer.getMetaData(this.state.schema + '.' + this.state.table).then(_.bind(this.onColumnsLoaded, this));
         },
         onColumnClick: function (model) {
-            console.log('column click', model);
+            var name = model.get('name');
+            if (_.contains(this.state.columns, name)) {
+                this.state.columns = _.reject(this.state.columns, function (value) {
+                    return value === name;
+                });
+            } else {
+                this.state.columns.push(name);
+            }
         }
     });
 });

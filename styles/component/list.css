@@ -18,6 +18,18 @@ ul.list li:last-child {
     border-bottom: none;
 }
 
-ul.list li:hover {
+
+
+ul.list.schemasList li,
+ul.list.tablesList li,
+ul.list.columnsList li {
+    cursor: pointer;
+}
+ul.list.schemasList li:hover,
+ul.list.tablesList li:hover,
+ul.list.columnsList li:hover {
     color: #1cc7ff;
+}
+ul.list.columnsList .selected {
+    background: #e1e1e1;
 }

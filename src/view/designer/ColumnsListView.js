@@ -9,6 +9,7 @@ define(function (require) {
 
     var ColumnListItemView = Backbone.View.extend({
         tagName: 'li',
+        className: 'columnName',
         template: '{{- name }}',
         events: {
             'click': 'onColumnClick'
@@ -19,12 +20,13 @@ define(function (require) {
         },
         onColumnClick: function () {
             this.trigger('column:click', this.model);
+            this.$el.toggleClass('selected');
         }
     });
 
     return Backbone.View.extend({
         tagName: 'ul',
-        className: 'list',
+        className: 'list columnsList',
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
         },
