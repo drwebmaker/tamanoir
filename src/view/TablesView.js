@@ -10,6 +10,9 @@ define(function (require) {
     require('css!styles/domains');
 
     return Backbone.View.extend({
+        initialize: function () {
+            this.render();
+        },
         render: function () {
             this.$el.html(TablesViewTemplate);
             this.collection.each(this.addTable, this);

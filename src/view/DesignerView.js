@@ -5,7 +5,6 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
-        ToolbarView = require('view/ToolbarView'),
         SidebarView = require('view/SidebarView'),
         TableView = require('view/TableView'),
         CanvasView = require('view/CanvasView'),
@@ -19,19 +18,15 @@ define(function (require) {
     require('css!bower_components/c3/c3');
 
     return Backbone.View.extend({
-        initialize: function (config) {
-            config = config || {};
-
+        initialize: function () {
             this.queryExecuter = new QueryExecuter(this.model.get('domain'));
             this.columnsCollection = new QueryResultsCollection();
             this.queryResultsCollection = new QueryResultsCollection();
 
             this.sidebar = new SidebarView({collection: this.columnsCollection});
-            this.toolbar = new ToolbarView();
             this.canvas = new CanvasView();
             this.table = new TableView({collection: this.queryResultsCollection});
 
-            this.listenTo(this.toolbar, 'change:type', this.onTypeChange);
 
             var query;
             if (this.model.get('schemaName')) {
@@ -47,7 +42,6 @@ define(function (require) {
         render: function () {
             this.$el.html(DesignerViewTemplate);
             this.$el.find('.sidebar-holder').html(this.sidebar.render().$el);
-            this.$el.find('.toolbar-holder').html(this.toolbar.render().$el);
             this.$el.find('.canvas-holder').html(this.canvas.render().$el);
             this.$el.find('.canvas').html(this.table.render().$el);
             this.calculateCanvasHeight();

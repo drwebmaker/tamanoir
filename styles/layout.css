@@ -1,0 +1,34 @@
+.main-header {
+    height: 45px;
+    background: #333333;
+    color: white;
+}
+
+.main-header .title {
+    display: inline-block;
+    padding: 0 20px;
+    line-height: 45px;
+}
+
+.main-header ul {
+    display: inline-block;
+    margin: 0;
+    list-style: none;
+}
+
+.main-header ul li {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 30px;
+    line-height: 45px;
+    height: 45px;
+    width: 45px;
+}
+
+.main-header ul li a {
+    color: white;
+}
+
+.main-header ul li:hover {
+    background: #222222;
+}
