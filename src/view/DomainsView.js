@@ -3,16 +3,19 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        DomainListItemView = require('view/library/DomainListItemView'),
+        DomainListItemView = require('view/DomainListItemView'),
         DomainModel = require('model/DomainModel'),
-        DomainsViewTemplate = require('text!template/library/DomainsViewTemplate.html');
+        DomainsCollection = require('collection/DomainsCollection'),
+        DomainsViewTemplate = require('text!template/DomainsViewTemplate.html');
 
-    require('css!styles/domains/domains');
+    require('css!styles/domains');
 
     return Backbone.View.extend({
         initialize: function () {
-            this.collection.fetch();
-            this.listenTo(this.collection, 'update', this.render);
+            this.collection = new DomainsCollection();
+            this.collection.fetch({reset: true});
+            this.listenTo(this.collection, 'reset', this.render);
+            this.listenTo(this.collection, 'add', this.addDomain);
         },
         render: function () {
             this.$el.html(DomainsViewTemplate);

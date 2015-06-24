@@ -4,9 +4,9 @@
 define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
-        TableViewTemplate = require('text!template/preview/TableViewTemplate.html');
+        TableViewTemplate = require('text!template/TableViewTemplate.html');
 
-    require('css!styles/preview/table');
+    require('css!styles/table');
 
     return Backbone.View.extend({
         initialize: function () {

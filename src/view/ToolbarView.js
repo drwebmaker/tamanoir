@@ -4,9 +4,9 @@
 define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
-        ToolbarViewTemplate = require('text!template/designer/ToolbarViewTemplate.html');
+        ToolbarViewTemplate = require('text!template/ToolbarViewTemplate.html');
 
-    require('css!styles/designer/toolbar');
+    require('css!styles/toolbar');
 
     return Backbone.View.extend({
         events: {

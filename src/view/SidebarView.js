@@ -5,9 +5,9 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
-        SidebarViewTemplate = require('text!template/designer/SidebarViewTemplate.html');
+        SidebarViewTemplate = require('text!template/SidebarViewTemplate.html');
 
-    require('css!styles/designer/sidebar');
+    require('css!styles/sidebar');
 
     return Backbone.View.extend({
         events: {
@@ -27,7 +27,7 @@ define(function (require) {
 
         calculateSidebarHeight: function () {
             var availableHeight = $('body').height() - 85;
-            this.$el.find('ul').height(availableHeight / 2 - 40);
+            this.$el.find('ul').css('max-height', (availableHeight / 2 - 40) + 'px');
         },
         onItemClick: function (event) {
             console.log('sidebar item click');

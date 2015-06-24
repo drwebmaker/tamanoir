@@ -4,9 +4,9 @@
 define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
-        CanvasViewTemplate = require('text!template/designer/CanvasViewTemplate.html');
+        CanvasViewTemplate = require('text!template/CanvasViewTemplate.html');
 
-    require('css!styles/designer/canvas');
+    require('css!styles/canvas');
 
     return Backbone.View.extend({
         render: function () {

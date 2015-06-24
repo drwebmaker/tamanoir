@@ -4,9 +4,9 @@
 define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
-        DialogViewTemplate = require('text!template/component/DialogViewTemplate.html');
+        DialogViewTemplate = require('text!template/DialogViewTemplate.html');
 
-    require('css!styles/component/dialog');
+    require('css!styles/dialog');
 
     return Backbone.View.extend({
         events: {

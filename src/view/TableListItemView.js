@@ -4,18 +4,18 @@
 define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
-        SchemaListItemViewTemplate = require('text!template/library/SchemaListItemViewTemplate.html');
+        TableListItemViewTemplate = require('text!template/TableListItemViewTemplate.html');
 
     return Backbone.View.extend({
         tagName: 'li',
         events: {
-            'click': 'onSchemaClick'
+            'click': 'onTableClick'
         },
         render: function () {
-            this.$el.html(_.template(SchemaListItemViewTemplate)(this.model.toJSON()));
+            this.$el.html(_.template(TableListItemViewTemplate)(this.model.toJSON()));
             return this;
         },
-        onSchemaClick: function () {
+        onTableClick: function () {
             Tamanoir.router.navigate(location.hash + '/' + this.model.get('name'), {trigger: true});
         }
     });

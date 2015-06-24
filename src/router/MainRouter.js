@@ -5,7 +5,14 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         DomainsCollection = require('collection/DomainsCollection'),
+        EditDomainView = require('view/EditDomainView'),
+        DomainsView = require('view/DomainsView'),
+        DomainModel = require('model/DomainModel'),
         MetadataExplorer = require('util/MetadataExplorer'),
+        DesignerView = require('view/DesignerView'),
+        DesignerModel = require('model/DesignerModel'),
+        SchemasView = require('view/SchemasView'),
+        TablesView = require('view/TablesView'),
         LayoutView = require('view/LayoutView');
 
     return Backbone.Router.extend({
@@ -17,48 +24,37 @@ define(function (require) {
             '/': 'navigateToHome',
             'library': 'navigateToLibrary',
             'library/new': 'navigateToAddDomain',
-            'library/:domainName/edit': 'navigateToEditDomain',
-            'library/:domainName': 'navigateToDomain',
-            'library/:domainName/:schemaName': 'navigateToSchema',
-            'library/:domainName/:schemaName/:tableName': 'navigateToTable',
+            'library/:domainId/edit': 'navigateToEditDomain',
+            'library/:domainId': 'navigateToDomain',
+            'library/:domainId/:schemaName': 'navigateToSchema',
+            'library/:domainId/:schemaName/:tableName': 'navigateToTable',
             '*otherwise': 'navigateToLibrary'
         },
         navigateToHome: function () {
             this.navigate('library', {trigger: true});
         },
         navigateToLibrary: function () {
-            var DomainsView = require('view/library/DomainsView');
-            $('.main-content').html(new DomainsView({collection: new DomainsCollection()}).render().$el);
+            $('.main-content').html(new DomainsView().$el);
         },
         navigateToAddDomain: function () {
-            var NewDomainView = require('view/library/NewDomainView');
-            $('.main-content').html(new NewDomainView().render().$el);
+            $('.main-content').html(new EditDomainView({model: new DomainModel()}).$el);
         },
-        navigateToEditDomain: function (domainName) {
-            var EditDomainView = require('view/library/EditDomainView');
-            $('.main-content').html(new EditDomainView({
-                domainName: domainName
-            }).render().$el);
+        navigateToEditDomain: function (id) {
+            $('.main-content').html(new EditDomainView({model: new DomainModel({id: id})}).$el);
         },
-        navigateToDomain: function (domainName) {
-            var domainsCollection = new DomainsCollection();
-            domainsCollection.fetch().then(function () {
-                var domain = domainsCollection.find(function (model) {
-                    return model.get('name') === domainName;
-                });
+        navigateToDomain: function (domainId) {
+            var domain = new DomainModel({id: domainId});
+            domain.fetch().done(function () {
                 var metadataExplorer = new MetadataExplorer(domain);
 
                 switch (domain.get('type')) {
                     case 'jdbc':
                         metadataExplorer.getMetaData().then(function (schemas) {
-                            var SchemasView = require('view/library/SchemasView');
-                            $('.main-content').html(new SchemasView({collection: new Backbone.Collection(schemas)}).render().$el);
+                            $('.main-content').html(new SchemasView({collection: new Backbone.Collection(schemas)}).$el);
                         });
                         break;
                     case 'csv':
                         metadataExplorer.getMetaData().then(function (columns) {
-                            var DesignerView = require('view/designer/DesignerView'),
-                                DesignerModel = require('model/DesignerModel');
                             $('.main-content').html(new DesignerView({
                                 model: new DesignerModel({
                                     domain: domain
@@ -69,31 +65,22 @@ define(function (require) {
                 }
             });
         },
-        navigateToSchema: function (domainName, schemaName) {
-            var domainsCollection = new DomainsCollection();
-            domainsCollection.fetch().then(function () {
-                var domain = domainsCollection.find(function (model) {
-                    return model.get('name') === domainName;
-                });
+        navigateToSchema: function (domainId, schemaName) {
+            var domain = new DomainModel({id: domainId});
+            domain.fetch().done(function () {
                 var metadataExplorer = new MetadataExplorer(domain);
 
                 metadataExplorer.getMetaData(schemaName).then(function (tables) {
-                    var TablesView = require('view/library/TablesView');
-                    $('.main-content').html(new TablesView({collection: new Backbone.Collection(tables)}).render().$el);
+                    $('.main-content').html(new TablesView({collection: new Backbone.Collection(tables)}).$el);
                 });
             });
         },
-        navigateToTable: function (domainName, schemaName, tableName) {
-            var domainsCollection = new DomainsCollection();
-            domainsCollection.fetch().then(function () {
-                var domain = domainsCollection.find(function (model) {
-                    return model.get('name') === domainName;
-                });
+        navigateToTable: function (domainId, schemaName, tableName) {
+            var domain = new DomainModel({id: domainId});
+            domain.fetch().done(function () {
                 var metadataExplorer = new MetadataExplorer(domain);
 
                 metadataExplorer.getMetaData(schemaName + '.' + tableName).then(function (columns) {
-                    var DesignerView = require('view/designer/DesignerView'),
-                        DesignerModel = require('model/DesignerModel');
                     $('.main-content').html(new DesignerView({
                         model: new DesignerModel({
                             domain: domain,

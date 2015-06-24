@@ -4,8 +4,8 @@
 define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
-        DialogView = require('view/component/DialogView'),
-        DomainListItemViewTemplate = require('text!template/library/DomainListItemViewTemplate.html');
+        DialogView = require('view/DialogView'),
+        DomainListItemViewTemplate = require('text!template/DomainListItemViewTemplate.html');
 
     return Backbone.View.extend({
         tagName: 'li',
@@ -16,17 +16,16 @@ define(function (require) {
         },
         initialize: function () {
             this.listenTo(this.model, 'destroy', this.remove);
-            this.listenTo(this.model, 'change', this.render);
         },
         render: function () {
             this.$el.html(_.template(DomainListItemViewTemplate)(this.model.toJSON()));
             return this;
         },
         onDomainClick: function () {
-            Tamanoir.router.navigate('library/' + this.model.get('name'), {trigger: true});
+            Tamanoir.router.navigate('library/' + this.model.get('id'), {trigger: true});
         },
         onEditClick: function () {
-            Tamanoir.router.navigate('library/' + this.model.get('name') + '/edit', {trigger: true});
+            Tamanoir.router.navigate('library/' + this.model.get('id') + '/edit', {trigger: true});
         },
         onRemoveClick: function () {
             this.deletingDialog = new DialogView({

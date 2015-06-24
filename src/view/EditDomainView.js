@@ -5,28 +5,25 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         DomainsCollection = require('collection/DomainsCollection'),
-        EditDomainViewTemplate = require('text!template/library/EditDomainViewTemplate.html');
+        EditDomainViewTemplate = require('text!template/EditDomainViewTemplate.html');
 
     return Backbone.View.extend({
         events: {
             'click button.save': 'onSaveButtonClick'
         },
-        initialize: function (config) {
-            config = config || {};
-
-            this.domainName = config.domainName;
-            this.domainsCollection = new DomainsCollection();
-
-            this.domainsCollection.fetch();
-
-            this.listenTo(this.domainsCollection, 'sync', this.onDomainsLoaded);
+        initialize: function () {
+            if (this.model.isNew()) {
+                this.render();
+            } else {
+                this.model.fetch().done(_.bind(this.render, this));
+            }
         },
-        onDomainsLoaded: function () {
-            this.model = this.domainsCollection.find(_.bind(function (model) {
-                return this.domainName === model.get('name');
-            }, this));
+
+        render: function () {
             this.$el.html(_.template(EditDomainViewTemplate)(this.model.toJSON()));
+            return this;
         },
+
         onSaveButtonClick: function () {
             var values = this.$el.find('form').serializeArray().reduce(function(obj, item) {
                 obj[item.name] = item.value;
@@ -41,11 +38,13 @@ define(function (require) {
                     user: values.user,
                     password: values.password
                 }
+            }).done(function () {
+                Tamanoir.router.navigate('library', {trigger: true});
+            }).error(function (res) {
+                if (res.status === 201) {
+                    Tamanoir.router.navigate('library', {trigger: true});
+                }
             });
-
-            Tamanoir.router.navigate('library', {trigger: true});
-
-            this.remove();
         }
     });
 });

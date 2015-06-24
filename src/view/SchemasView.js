@@ -3,11 +3,11 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        SchemaListItemView = require('view/library/SchemaListItemView'),
+        SchemaListItemView = require('view/SchemaListItemView'),
         SchemaModel = require('model/SchemaModel'),
-        SchemasViewTemplate = require('text!template/library/SchemasViewTemplate.html');
+        SchemasViewTemplate = require('text!template/SchemasViewTemplate.html');
 
-    require('css!styles/domains/domains');
+    require('css!styles/domains');
 
     return Backbone.View.extend({
         render: function () {

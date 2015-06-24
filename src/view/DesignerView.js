@@ -5,17 +5,17 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
-        ToolbarView = require('view/designer/ToolbarView'),
-        SidebarView = require('view/designer/SidebarView'),
-        TableView = require('view/preview/TableView'),
-        CanvasView = require('view/designer/CanvasView'),
+        ToolbarView = require('view/ToolbarView'),
+        SidebarView = require('view/SidebarView'),
+        TableView = require('view/TableView'),
+        CanvasView = require('view/CanvasView'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
         QueryResultsCollection = require('collection/QueryResultsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
-        DesignerViewTemplate = require('text!template/designer/DesignerViewTemplate.html');
+        DesignerViewTemplate = require('text!template/DesignerViewTemplate.html');
 
-    require('css!styles/designer/designer');
+    require('css!styles/designer');
     require('css!bower_components/c3/c3');
 
     return Backbone.View.extend({
