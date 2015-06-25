@@ -11,17 +11,17 @@ define(function (require) {
             return _.keys(this.toJSON()[0]);
         },
         getCategoriesNames: function () {
-            return _.reduce(this.toJSON()[0], function (memo, value, key) {
-                if (!$.isNumeric(value)) {
-                    memo.push(key);
+            return _.reduce(this.toJSON(), function (memo, value, key) {
+                if (!/integer/i.test(value.type)) {
+                    memo.push(value.name);
                 }
                 return memo;
             }, []);
         },
         getNumbersNames: function () {
-            return _.reduce(this.toJSON()[0], function (memo, value, key) {
-                if ($.isNumeric(value)) {
-                    memo.push(key);
+            return _.reduce(this.toJSON(), function (memo, value, key) {
+                if (/integer/i.test(value.type)) {
+                    memo.push(value.name);
                 }
                 return memo;
             }, []);

@@ -10,7 +10,7 @@ define(function (require) {
 
     return Backbone.View.extend({
         initialize: function () {
-            this.listenTo(this.collection, 'reset', this.render);
+            this.listenTo(this.collection, 'add', this.render);
         },
         render: function () {
             this.$el.html(_.template(TableViewTemplate)({

@@ -11,6 +11,7 @@ define(function (require) {
         ToolbarModel = require('model/ToolbarModel'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
+        MetadataExplorer = require('util/MetadataExplorer'),
         QueryResultsCollection = require('collection/QueryResultsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
         DesignerViewTemplate = require('text!template/DesignerViewTemplate.html');
@@ -19,9 +20,16 @@ define(function (require) {
     require('css!bower_components/c3/c3');
 
     return Backbone.View.extend({
-        initialize: function () {
+        events: {
+            'click .foundicon-remove': 'onRemoveColumnClick',
+            'click .foundicon-paper-clip': 'onRemovePaperClipClick'
+        },
+        initialize: function (config) {
             ToolbarModel.set('state', 'designer');
-            this.queryExecuter = new QueryExecuter(this.model.get('domain'));
+            this.domain = config.domain;
+            this.tableName = config.tableName;
+            this.queryExecuter = new QueryExecuter(this.domain);
+            this.metadataExplorer = new MetadataExplorer(this.domain);
             this.columnsCollection = new QueryResultsCollection();
             this.queryResultsCollection = new QueryResultsCollection();
 
@@ -29,21 +37,12 @@ define(function (require) {
             this.canvas = new CanvasView();
             this.table = new TableView({collection: this.queryResultsCollection});
 
+            this.fetchData();
+            this.fetchMetadata();
 
-            var query;
-            if (this.model.get('schemaName')) {
-                query = 'select * from ' + this.model.get('schemaName') + '.' + this.model.get('tableName') + ' limit 20';
-            } else {
-                query = 'select * limit 20';
-            }
-            this.queryExecuter.query(query).then(_.bind(function (data) {
-                this.columnsCollection.reset(data);
-                this.queryResultsCollection.reset(data);
-            }, this));
+            this.render();
         },
         render: function () {
-            $('.main-header li.graph').show();//TODO: remove this hack
-            $('.main-header li.graph li').bind('click', _.bind(this.onTypeChange, this));
             this.$el.html(DesignerViewTemplate);
             this.$el.find('.sidebar-holder').html(this.sidebar.render().$el);
             this.$el.find('.canvas-holder').html(this.canvas.render().$el);
@@ -53,7 +52,33 @@ define(function (require) {
         },
 
         calculateCanvasHeight: function () {
-            this.$el.find('.canvas-holder').height($('body').height() - 85);
+            this.$el.find('.canvas-holder').height($('body').height() - 45);
+        },
+
+        onRemoveColumnClick: function () {
+            console.log('onRemoveColumnClick');
+        },
+
+        onRemovePaperClipClick: function () {
+            console.log('onRemovePaperClipClick');
+        },
+
+        fetchMetadata: function () {
+            this.metadataExplorer.getMetaData(this.tableName).then(_.bind(function (data) {
+                this.columnsCollection.add(data);
+            }, this));
+        },
+
+        fetchData: function () {
+            if (this.tableName) {
+                this.queryExecuter.query('select * from ' + this.tableName).then(_.bind(function (data) {
+                    this.queryResultsCollection.add(data);
+                }, this));
+            } else {
+                this.queryExecuter.query('select *').then(_.bind(function (data) {
+                    this.queryResultsCollection.add(data);
+                }, this));
+            }
         },
 
         onTypeChange: function (event) {

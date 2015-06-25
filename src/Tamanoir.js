@@ -10,7 +10,6 @@ define(function (require) {
         DomainModel = require('model/DomainModel'),
         MetadataExplorer = require('util/MetadataExplorer'),
         DesignerView = require('view/DesignerView'),
-        DesignerModel = require('model/DesignerModel'),
         ToolbarModel = require('model/ToolbarModel'),
         SchemasView = require('view/SchemasView'),
         TablesView = require('view/TablesView'),
@@ -59,13 +58,9 @@ define(function (require) {
                         });
                         break;
                     case 'csv':
-                        metadataExplorer.getMetaData().then(function (columns) {
-                            $('.content-holder').html(new DesignerView({
-                                model: new DesignerModel({
-                                    domain: domain
-                                })
-                            }).render().$el);
-                        });
+                        $('.content-holder').html(new DesignerView({
+                            domain: domain
+                        }).$el);
                         break;
                 }
             });
@@ -83,17 +78,10 @@ define(function (require) {
         navigateToTable: function (domainId, schemaName, tableName) {
             var domain = new DomainModel({id: domainId});
             domain.fetch().done(function () {
-                var metadataExplorer = new MetadataExplorer(domain);
-
-                metadataExplorer.getMetaData(schemaName + '.' + tableName).then(function (columns) {
-                    $('.content-holder').html(new DesignerView({
-                        model: new DesignerModel({
-                            domain: domain,
-                            schemaName: schemaName,
-                            tableName: tableName
-                        })
-                    }).render().$el);
-                });
+                $('.content-holder').html(new DesignerView({
+                    domain: domain,
+                    tableName: schemaName + '.' + tableName
+                }).$el);
             });
         }
     });

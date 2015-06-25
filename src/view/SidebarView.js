@@ -14,7 +14,7 @@ define(function (require) {
             'click li': 'onItemClick'
         },
         initialize: function () {
-            this.listenTo(this.collection, 'reset', this.render);
+            this.listenTo(this.collection, 'add', this.render);
         },
         render: function () {
             this.$el.html(_.template(SidebarViewTemplate)({
