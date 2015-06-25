@@ -11,13 +11,14 @@ define(function (require) {
         MetadataExplorer = require('util/MetadataExplorer'),
         DesignerView = require('view/DesignerView'),
         DesignerModel = require('model/DesignerModel'),
+        ToolbarModel = require('model/ToolbarModel'),
         SchemasView = require('view/SchemasView'),
         TablesView = require('view/TablesView'),
         LayoutView = require('view/LayoutView');
 
     return Backbone.Router.extend({
         initialize: function () {
-            $('body').html(new LayoutView().render().$el);
+            $('body').html(new LayoutView().$el);
             Backbone.history.start();
         },
         routes: {
@@ -31,20 +32,20 @@ define(function (require) {
             '*otherwise': 'navigateToLibrary'
         },
         execute: function (callback, args, name) {
-            $('.main-header li.graph').hide(); //TODO: remove this hack
+            ToolbarModel.set('state', name);
             callback.apply(this, args);
         },
         navigateToHome: function () {
             this.navigate('library', {trigger: true});
         },
         navigateToLibrary: function () {
-            $('.main-content').html(new DomainsView().$el);
+            $('.content-holder').html(new DomainsView().$el);
         },
         navigateToAddDomain: function () {
-            $('.main-content').html(new EditDomainView({model: new DomainModel()}).$el);
+            $('.content-holder').html(new EditDomainView({model: new DomainModel()}).$el);
         },
         navigateToEditDomain: function (id) {
-            $('.main-content').html(new EditDomainView({model: new DomainModel({id: id})}).$el);
+            $('.content-holder').html(new EditDomainView({model: new DomainModel({id: id})}).$el);
         },
         navigateToDomain: function (domainId) {
             var domain = new DomainModel({id: domainId});
@@ -54,12 +55,12 @@ define(function (require) {
                 switch (domain.get('type')) {
                     case 'jdbc':
                         metadataExplorer.getMetaData().then(function (schemas) {
-                            $('.main-content').html(new SchemasView({collection: new Backbone.Collection(schemas)}).$el);
+                            $('.content-holder').html(new SchemasView({collection: new Backbone.Collection(schemas)}).$el);
                         });
                         break;
                     case 'csv':
                         metadataExplorer.getMetaData().then(function (columns) {
-                            $('.main-content').html(new DesignerView({
+                            $('.content-holder').html(new DesignerView({
                                 model: new DesignerModel({
                                     domain: domain
                                 })
@@ -75,7 +76,7 @@ define(function (require) {
                 var metadataExplorer = new MetadataExplorer(domain);
 
                 metadataExplorer.getMetaData(schemaName).then(function (tables) {
-                    $('.main-content').html(new TablesView({collection: new Backbone.Collection(tables)}).$el);
+                    $('.content-holder').html(new TablesView({collection: new Backbone.Collection(tables)}).$el);
                 });
             });
         },
@@ -85,7 +86,7 @@ define(function (require) {
                 var metadataExplorer = new MetadataExplorer(domain);
 
                 metadataExplorer.getMetaData(schemaName + '.' + tableName).then(function (columns) {
-                    $('.main-content').html(new DesignerView({
+                    $('.content-holder').html(new DesignerView({
                         model: new DesignerModel({
                             domain: domain,
                             schemaName: schemaName,

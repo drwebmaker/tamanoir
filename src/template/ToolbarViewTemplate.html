@@ -1,16 +1,11 @@
-<div class="toolbar">
-    <div class="toolbar-item text-center">
-        <i class="foundicon-settings"></i>
-    </div>
-    <div class="toolbar-item text-center">
-        <i class="foundicon-graph"></i>
-        <div class="menu">
-            <ul>
-                <li data-chart-type="table">table</li>
-                <li data-chart-type="line">line</li>
-                <li data-chart-type="bar">bar</li>
-                <li data-chart-type="pie">pie</li>
-            </ul>
-        </div>
-    </div>
-</div>
+{{ if (state === 'designer') { }}
+<li class="graph">
+    <i class="foundicon-graph"></i>
+    <ul class="menu">
+        <li>table</li>
+        <li>line</li>
+        <li>bar</li>
+        <li>pie</li>
+    </ul>
+</li>
+{{ } }}

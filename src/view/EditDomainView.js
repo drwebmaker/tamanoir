@@ -39,10 +39,10 @@ define(function (require) {
                     password: values.password
                 }
             }).done(function () {
-                Tamanoir.router.navigate('library', {trigger: true});
+                Tamanoir.navigate('library', {trigger: true});
             }).error(function (res) {
                 if (res.status === 201) {
-                    Tamanoir.router.navigate('library', {trigger: true});
+                    Tamanoir.navigate('library', {trigger: true});
                 }
             });
         }

@@ -8,6 +8,7 @@ define(function (require) {
         SidebarView = require('view/SidebarView'),
         TableView = require('view/TableView'),
         CanvasView = require('view/CanvasView'),
+        ToolbarModel = require('model/ToolbarModel'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
         QueryResultsCollection = require('collection/QueryResultsCollection'),
@@ -19,6 +20,7 @@ define(function (require) {
 
     return Backbone.View.extend({
         initialize: function () {
+            ToolbarModel.set('state', 'designer');
             this.queryExecuter = new QueryExecuter(this.model.get('domain'));
             this.columnsCollection = new QueryResultsCollection();
             this.queryResultsCollection = new QueryResultsCollection();

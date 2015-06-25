@@ -22,10 +22,10 @@ define(function (require) {
             return this;
         },
         onDomainClick: function () {
-            Tamanoir.router.navigate('library/' + this.model.get('id'), {trigger: true});
+            Tamanoir.navigate('library/' + this.model.get('id'), {trigger: true});
         },
         onEditClick: function () {
-            Tamanoir.router.navigate('library/' + this.model.get('id') + '/edit', {trigger: true});
+            Tamanoir.navigate('library/' + this.model.get('id') + '/edit', {trigger: true});
         },
         onRemoveClick: function () {
             this.deletingDialog = new DialogView({

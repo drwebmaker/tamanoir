@@ -16,7 +16,7 @@ define(function (require) {
             return this;
         },
         onTableClick: function () {
-            Tamanoir.router.navigate(location.hash + '/' + this.model.get('name'), {trigger: true});
+            Tamanoir.navigate(location.hash + '/' + this.model.get('name'), {trigger: true});
         }
     });
 });

@@ -1,60 +1,15 @@
-.main-header {
+.header {
     height: 45px;
     background: #333333;
     color: white;
 }
 
-.main-header .title {
+.header .title {
     display: inline-block;
     padding: 0 20px;
     line-height: 45px;
 }
 
-.main-header ul {
-    display: inline-block;
-    margin: 0;
-    list-style: none;
-}
-
-.main-header ul li {
-    display: inline-block;
-    cursor: pointer;
-    font-size: 30px;
-    line-height: 45px;
-    height: 45px;
-    width: 45px;
-}
-
-.main-header ul li a {
+.header .title a {
     color: white;
-}
-
-.main-header ul li:hover {
-    background: #222222;
-}
-
-.main-header li.graph {
-    position: relative;
-}
-.main-header li .menu {
-    position: absolute;
-    top: 45px;
-    display: none;
-    left: 0;
-    background: #222222;
-}
-
-.main-header li.graph:hover .menu {
-    display: inherit;
-}
-
-.main-header li .menu li {
-    font-size: 1em;
-    cursor: pointer;
-    width: 150px;
-    display: list-item;
-}
-
-.main-header li .menu li:hover {
-    background: #333333;
 }

@@ -1,46 +1,45 @@
 .toolbar {
-    background: #444444;
+    background: #333333;
 }
 
-.toolbar .toolbar-item {
-    height: 40px;
-    width: 40px;
+.toolbar {
     display: inline-block;
-    position: relative;
-    color: #ffffff;
-    line-height: 40px;
-    font-size: 1.4em;
-    cursor: pointer;
-}
-
-.toolbar .toolbar-item:hover {
-    background: #333333;
-}
-
-.toolbar .toolbar-item .menu {
-    display: none;
-    position: absolute;
-    color: #ffffff;
-    background: #333333;
-    width: 150px;
-    z-index: 1;
-    top: 40px;
-}
-
-.toolbar .toolbar-item:hover .menu {
-    display: block;
-}
-
-.toolbar .toolbar-item .menu ul {
-    list-style: none;
     margin: 0;
+    list-style: none;
 }
 
-.toolbar .toolbar-item .menu ul li {
-    height: 40px;
+.toolbar > li {
+    line-height: 45px;
+    font-size: 1.5em;
+    width: 45px;
+    cursor: pointer;
+    height: 45px;
+    position: relative;
+}
+
+.toolbar > li:hover {
+    background: #222222;
+}
+
+.toolbar .menu {
+    position: absolute;
+    background: #222222;
+    min-width: 150px;
+    display: none;
+    z-index: 1;
+    margin: 0;
+    top: 45px;
+    left: 0;
+}
+
+.toolbar .menu li {
     line-height: 40px;
 }
 
-.toolbar .toolbar-item .menu ul li:hover {
-    background: #008CBA;
+.toolbar > li:hover .menu {
+    display: inherit;
+}
+
+.toolbar .menu li:hover {
+    background: #333333;
 }

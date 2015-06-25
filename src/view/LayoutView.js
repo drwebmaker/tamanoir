@@ -4,6 +4,8 @@
 define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
+        ToolbarView = require('view/ToolbarView'),
+        ToolbarModel = require('model/ToolbarModel'),
         LayoutViewTemplate = require('text!template/LayoutViewTemplate.html');
 
     require('css!bower_components/foundation/css/foundation.css');
@@ -12,8 +14,13 @@ define(function (require) {
     require('css!styles/layout');
 
     return Backbone.View.extend({
+        className: 'layout',
+        initialize: function () {
+            this.render();
+        },
         render: function () {
             this.$el.html(LayoutViewTemplate);
+            this.$el.find('.toolbar-holder').html(new ToolbarView({model: ToolbarModel}).$el);
             return this;
         }
     });

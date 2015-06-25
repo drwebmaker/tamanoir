@@ -4,25 +4,21 @@
 define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
+        _ = require('underscore'),
         ToolbarViewTemplate = require('text!template/ToolbarViewTemplate.html');
 
     require('css!styles/toolbar');
 
     return Backbone.View.extend({
-        events: {
-            'click .toolbar-item .menu li': 'onTypeChange',
-            'click .toolbar-item .foundicon-settings': 'onSettingsClick'
+        className: 'toolbar text-center',
+        tagName: 'ul',
+        initialize: function () {
+            this.render();
+            this.listenTo(this.model, 'change', this.render);
         },
         render: function () {
-            this.$el.html(ToolbarViewTemplate);
+            this.$el.html(_.template(ToolbarViewTemplate)(this.model.toJSON()));
             return this;
-        },
-        onTypeChange: function (event) {
-            var type = $(event.target).data('chartType');
-            this.trigger('change:type', event, type);
-        },
-        onSettingsClick: function () {
-            this.trigger('click:settings');
         }
     });
 });
