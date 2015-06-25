@@ -4,12 +4,14 @@
 define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
+        $ = require('jquery'),
         DomainsCollection = require('collection/DomainsCollection'),
         EditDomainViewTemplate = require('text!template/EditDomainViewTemplate.html');
 
     return Backbone.View.extend({
         events: {
-            'click button.save': 'onSaveButtonClick'
+            'click button.save': 'onSaveButtonClick',
+            'change select[name="type"]': 'toggleControls'
         },
         initialize: function () {
             if (this.model.isNew()) {
@@ -21,7 +23,16 @@ define(function (require) {
 
         render: function () {
             this.$el.html(_.template(EditDomainViewTemplate)(this.model.toJSON()));
+            this.toggleControls();
             return this;
+        },
+
+        toggleControls: function () {
+            if ($('select[name="type"]').val() === 'csv') {
+                $('.jdbc-controls').hide();
+            } else {
+                $('.jdbc-controls').show();
+            }
         },
 
         onSaveButtonClick: function () {

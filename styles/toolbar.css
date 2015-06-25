@@ -17,6 +17,10 @@
     position: relative;
 }
 
+.toolbar > li a {
+    color: white;
+}
+
 .toolbar > li:hover {
     background: #222222;
 }

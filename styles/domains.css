@@ -1,5 +1,5 @@
-.domains {
-    margin-top: 10px;
+.domains.row {
+    margin-top: 20px;
 }
 
 .domains ul {
@@ -18,6 +18,14 @@
 
 .domains li:hover {
     color: #1cc7ff;
+}
+
+.domains li span {
+    padding-left: 20px;
+}
+
+.domains .domain:hover {
+    cursor: pointer;
 }
 
 .domains li .connection,

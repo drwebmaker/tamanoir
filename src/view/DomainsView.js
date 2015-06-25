@@ -5,6 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         DomainListItemView = require('view/DomainListItemView'),
         DomainModel = require('model/DomainModel'),
+        ToolbarModel = require('model/ToolbarModel'),
         DomainsCollection = require('collection/DomainsCollection'),
         DomainsViewTemplate = require('text!template/DomainsViewTemplate.html');
 
@@ -12,6 +13,7 @@ define(function (require) {
 
     return Backbone.View.extend({
         initialize: function () {
+            ToolbarModel.set('state', 'domains');
             this.collection = new DomainsCollection();
             this.collection.fetch({reset: true});
             this.listenTo(this.collection, 'reset', this.render);
