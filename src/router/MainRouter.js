@@ -30,6 +30,10 @@ define(function (require) {
             'library/:domainId/:schemaName/:tableName': 'navigateToTable',
             '*otherwise': 'navigateToLibrary'
         },
+        execute: function (callback, args, name) {
+            $('.main-header li.graph').hide(); //TODO: remove this hack
+            callback.apply(this, args);
+        },
         navigateToHome: function () {
             this.navigate('library', {trigger: true});
         },

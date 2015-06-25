@@ -32,3 +32,29 @@
 .main-header ul li:hover {
     background: #222222;
 }
+
+.main-header li.graph {
+    position: relative;
+}
+.main-header li .menu {
+    position: absolute;
+    top: 45px;
+    display: none;
+    left: 0;
+    background: #222222;
+}
+
+.main-header li.graph:hover .menu {
+    display: inherit;
+}
+
+.main-header li .menu li {
+    font-size: 1em;
+    cursor: pointer;
+    width: 150px;
+    display: list-item;
+}
+
+.main-header li .menu li:hover {
+    background: #333333;
+}

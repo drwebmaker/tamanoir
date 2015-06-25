@@ -40,6 +40,8 @@ define(function (require) {
             }, this));
         },
         render: function () {
+            $('.main-header li.graph').show();//TODO: remove this hack
+            $('.main-header li.graph li').bind('click', _.bind(this.onTypeChange, this));
             this.$el.html(DesignerViewTemplate);
             this.$el.find('.sidebar-holder').html(this.sidebar.render().$el);
             this.$el.find('.canvas-holder').html(this.canvas.render().$el);
@@ -52,7 +54,8 @@ define(function (require) {
             this.$el.find('.canvas-holder').height($('body').height() - 85);
         },
 
-        onTypeChange: function (event, type) {
+        onTypeChange: function (event) {
+            var type = $(event.target).text();
             if (type === 'table') {
                 this.$el.find('.canvas').html(this.table.render().$el);
             } else {
