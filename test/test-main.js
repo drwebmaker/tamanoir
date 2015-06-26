@@ -1,8 +1,24 @@
 /**
- * Created by Artem.Malieiev on 6/10/2015.
+ * Created by Artem.Malieiev on 6/26/2015.
  */
+var allTestFiles = [];
+var TEST_REGEXP = /base\/test\/.*Spec\.js$/;
+
+Object.keys(window.__karma__.files).forEach(function(file) {
+    if (TEST_REGEXP.test(file)) {
+        // Normalize paths to RequireJS module names.
+        allTestFiles.push(file);
+    }
+});
+
+console.log(allTestFiles.join(','));
+
 require.config({
-    baseUrl: 'src',
+    // Karma serves files under /base, which is the basePath from your config file
+    baseUrl: '/base/src',
+
+
+
     paths: {
         backbone: 'bower_components/backbone/backbone',
         'backbone.localStorage': 'bower_components/backbone.localStorage/backbone.localStorage',
@@ -29,7 +45,14 @@ require.config({
         c3: {
             deps: ['d3']
         }
-    }
-});
+    },
 
-require(['main']);
+
+
+
+
+    // dynamically load all test files
+    deps: allTestFiles,
+    // we have to kickoff jasmine, as it is asynchronous
+    callback: window.__karma__.start
+});
