@@ -18,17 +18,12 @@ define(function (require) {
         },
         render: function () {
             this.$el.html(_.template(SidebarViewTemplate)({
-                categories: this.collection.getCategoriesNames(),
-                numbers: this.collection.getNumbersNames()
+                categories: this.collection.getCategories(),
+                numbers: this.collection.getNumbers()
             }));
-            this.calculateSidebarHeight();
             return this;
         },
 
-        calculateSidebarHeight: function () {
-            var availableHeight = $('body').height() - 85;
-            this.$el.find('ul').css('max-height', (availableHeight / 2 - 40) + 'px');
-        },
         onItemClick: function (event) {
             console.log('sidebar item click');
         }

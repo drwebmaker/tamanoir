@@ -2,7 +2,9 @@
     <thead>
     <tr>
         {{ _.each(data[0], function (value, key) { }}
-        <th>{{- key }}<i class="foundicon-remove pointer"></i><i class="foundicon-paper-clip pointer"></i></th>
+        <th>
+            {{- key }}<i class="foundicon-remove pointer"></i>{{ if (metadata.getReference(key)) { }}<i data-reference-to="{{- metadata.getReference(key) }}" class="foundicon-paper-clip pointer">{{ } }}</i>
+        </th>
         {{ }) }}
     </tr>
     </thead>

@@ -10,22 +10,6 @@ define(function (require) {
         getNames: function () {
             return _.keys(this.toJSON()[0]);
         },
-        getCategoriesNames: function () {
-            return _.reduce(this.toJSON(), function (memo, value, key) {
-                if (!/integer/i.test(value.type)) {
-                    memo.push(value.name);
-                }
-                return memo;
-            }, []);
-        },
-        getNumbersNames: function () {
-            return _.reduce(this.toJSON(), function (memo, value, key) {
-                if (/integer/i.test(value.type)) {
-                    memo.push(value.name);
-                }
-                return memo;
-            }, []);
-        },
         getDataForC3: function () {
             var data = this.toJSON();
 

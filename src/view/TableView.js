@@ -9,12 +9,15 @@ define(function (require) {
     require('css!styles/table');
 
     return Backbone.View.extend({
-        initialize: function () {
-            this.listenTo(this.collection, 'add', this.render);
+        initialize: function (config) {
+            this.metadataCollection = config.metadataCollection;
+            this.listenTo(this.collection, 'update', this.render);
+            this.listenTo(this.metadataCollection, 'update', this.render);
         },
         render: function () {
             this.$el.html(_.template(TableViewTemplate)({
-                data: this.collection.toJSON()
+                data: this.collection.toJSON(),
+                metadata: this.metadataCollection
             }));
             return this;
         }

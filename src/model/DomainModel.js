@@ -11,7 +11,6 @@ define(function (require) {
             name: '',
             url: '',
             type: '',
-            nativeQuery: '',
             properties: {}
         }
     });

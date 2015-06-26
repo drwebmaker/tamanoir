@@ -5,3 +5,8 @@
 .table thead tr th{
     background: #e1e1e1;
 }
+
+.table {
+    max-height: 350px;
+    overflow: scroll;
+}

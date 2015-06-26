@@ -1,17 +1,17 @@
 <div class="sidebar">
     <div class="categories-holder">
-        <div class="title text-center">Categories</div>
+        <div class="title">Categories</div>
         <ul>
             {{ _.each(categories, function (value) { }}
-            <li class="text-center">{{- value }}</li>
+            <li>{{- value.name }}</li>
             {{ }) }}
         </ul>
     </div>
     <div class="numbers-holder">
-        <div class="title text-center">Numbers</div>
+        <div class="title">Numbers</div>
         <ul>
             {{ _.each(numbers, function (value) { }}
-            <li class="text-center">{{- value }}</li>
+            <li>{{- value.name }}</li>
             {{ }) }}
         </ul>
     </div>

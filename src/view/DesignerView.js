@@ -13,6 +13,7 @@ define(function (require) {
         QueryExecuter = require('util/QueryExecuter'),
         MetadataExplorer = require('util/MetadataExplorer'),
         QueryResultsCollection = require('collection/QueryResultsCollection'),
+        MetadataResultsCollection = require('collection/MetadataResultsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
         DesignerViewTemplate = require('text!template/DesignerViewTemplate.html');
 
@@ -22,7 +23,7 @@ define(function (require) {
     return Backbone.View.extend({
         events: {
             'click .foundicon-remove': 'onRemoveColumnClick',
-            'click .foundicon-paper-clip': 'onRemovePaperClipClick'
+            'click .foundicon-paper-clip': 'onPaperClipClick'
         },
         initialize: function (config) {
             ToolbarModel.set('state', 'designer');
@@ -30,16 +31,17 @@ define(function (require) {
             this.tableName = config.tableName;
             this.queryExecuter = new QueryExecuter(this.domain);
             this.metadataExplorer = new MetadataExplorer(this.domain);
-            this.columnsCollection = new QueryResultsCollection();
+            this.metadataResultsCollection = new MetadataResultsCollection();
             this.queryResultsCollection = new QueryResultsCollection();
 
-            this.sidebar = new SidebarView({collection: this.columnsCollection});
+            this.sidebar = new SidebarView({collection: this.metadataResultsCollection});
             this.canvas = new CanvasView();
-            this.table = new TableView({collection: this.queryResultsCollection});
+            this.table = new TableView({
+                collection: this.queryResultsCollection,
+                metadataCollection: this.metadataResultsCollection
+            });
 
             this.fetchData();
-            this.fetchMetadata();
-
             this.render();
         },
         render: function () {
@@ -47,38 +49,59 @@ define(function (require) {
             this.$el.find('.sidebar-holder').html(this.sidebar.render().$el);
             this.$el.find('.canvas-holder').html(this.canvas.render().$el);
             this.$el.find('.canvas').html(this.table.render().$el);
-            this.calculateCanvasHeight();
             return this;
-        },
-
-        calculateCanvasHeight: function () {
-            this.$el.find('.canvas-holder').height($('body').height() - 45);
         },
 
         onRemoveColumnClick: function () {
             console.log('onRemoveColumnClick');
         },
 
-        onRemovePaperClipClick: function () {
-            console.log('onRemovePaperClipClick');
+        onPaperClipClick: function (event) {
+            console.log('onPaperClipClick');
+            var reference = $(event.target).data('referenceTo');
+
+            this.originColumnName = $(event.target).parent().text().trim();
+            this.originTableName = this.tableName;
+            this.foreignTableName = reference.slice(0, reference.lastIndexOf('.'));
+            this.foreignColumnName = reference.slice(reference.lastIndexOf('.') + 1);
+
+            this.metadataExplorer.getMetaData(this.foreignTableName).then(_.bind(this.onMetadataLoaded, this));
+
         },
 
-        fetchMetadata: function () {
-            this.metadataExplorer.getMetaData(this.tableName).then(_.bind(function (data) {
-                this.columnsCollection.add(data);
-            }, this));
+        onMetadataLoaded: function (metadata) {
+            var originTableName = this.originTableName;
+            var foreignTableName = this.foreignTableName;
+            var originColumns = _.map(this.metadataResultsCollection.toJSON(), function (value) {
+                return originTableName + '.' + value.name;
+            });
+            var foreignColumns = _.map(metadata, function (value) {
+                return foreignTableName + '.' + value.name;
+            });
+            var columns = originColumns.concat(foreignColumns);
+            var query = 'SELECT {columns} FROM {originTableName} INNER JOIN {foreignTableName} ON {originTableName}.{originColumnName}={foreignTableName}.{foreignColumnName}'
+                .replace(/{columns}/g, columns.join(','))
+                .replace(/{originTableName}/g, this.originTableName)
+                .replace(/{foreignTableName}/g, this.foreignTableName)
+                .replace(/{originColumnName}/g, this.originColumnName)
+                .replace(/{foreignColumnName}/g, this.foreignColumnName);
+
+            this.metadataResultsCollection.add(metadata);
+            this.queryExecuter.query(query).then(_.bind(this.onDataLoaded, this));
+        },
+        onDataLoaded: function (data) {
+            this.queryResultsCollection.add(data);
         },
 
         fetchData: function () {
-            if (this.tableName) {
-                this.queryExecuter.query('select * from ' + this.tableName).then(_.bind(function (data) {
-                    this.queryResultsCollection.add(data);
-                }, this));
-            } else {
-                this.queryExecuter.query('select *').then(_.bind(function (data) {
-                    this.queryResultsCollection.add(data);
-                }, this));
-            }
+            this.metadataExplorer.getMetaData(this.tableName).then(_.bind(function (metadata) {
+                console.log(metadata);
+                this.metadataResultsCollection.add(metadata);
+            }, this));
+            this.queryExecuter.query(this.tableName ? 'select * from ' + this.tableName : 'select *').then(_.bind(function (data) {
+                console.log(data);
+                this.queryResultsCollection.add(data);
+            }, this));
         },
 
         onTypeChange: function (event) {

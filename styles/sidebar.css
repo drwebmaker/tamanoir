@@ -4,6 +4,7 @@
 
 .sidebar .title {
     background: #008CBA;
+    padding-left: 20px;
     color: white;
 }
 
@@ -14,8 +15,11 @@
 
 .sidebar li {
     background: white;
+    padding-left: 20px;
     color: #008CBA;
     border-bottom: 1px solid #f1f1f1;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sidebar li:last-child {
