@@ -34,6 +34,10 @@
     cursor: pointer;
 }
 
+.domains i {
+    font-size: 20px;
+}
+
 
 .domains li:hover:before {
     display: block;
