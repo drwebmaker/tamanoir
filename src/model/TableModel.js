@@ -14,19 +14,21 @@ define(function (require) {
      */
     return Backbone.Model.extend({
         defaults: {
+            name: '',
             headers: [],
-            data: []
+            data: [],
+            metadata: {}
         },
 
         initialize: function (config) {
             this.metadataExplorer = new MetadataExplorer(config.domain);
             this.queryExecuter = new QueryExecuter(config.domain);
 
-            this._metadata = {};
             this._table = null;
         },
 
         load: function (table) {
+            this.set('name', table);
             this._table = table;
             this.metadataExplorer.getMetadata(table).then(_.bind(this.onMetadataLoaded, this));
         },
@@ -45,10 +47,10 @@ define(function (require) {
         },
 
         prepareMetadata: function (metadata) {
-            _.each(metadata, _.bind(function (value) {
-                //this._metadata[this._table + '.' + value.name] = value;
-                this._metadata[value.name] = value;
-            }, this));
+            this.set('metadata', _.extend(this.get('metadata'), _.reduce(metadata, function (memo, value) {
+                memo[value.name] = value;
+                return memo;
+            }, {})));
         },
 
         getColumnNames: function (metadata) {
@@ -63,11 +65,11 @@ define(function (require) {
             console.log('data loaded', data);
             this.prepareHeaders(data);
             this.set('data', data);
-            this.trigger('loaded');
+            this.trigger('loaded', this);
         },
 
         prepareHeaders: function (data) {
-            var metadata = this._metadata;
+            var metadata = this.get('metadata');
             var table = this._table;
             var headers = _.map(data[0], function (value, key) {
                 return {
@@ -78,6 +80,18 @@ define(function (require) {
             });
 
             this.set('headers', headers);
+        },
+
+        getDataForC3: function () {
+            var data = this.get('data');
+
+            return _.map(data, function (name) {
+                var tmp = [name];
+                _.each(data, function (value) {
+                    tmp.push(value[name]);
+                });
+                return tmp;
+            });
         },
 
         join: function (originTable, foreignTable, originKey, foreignKey) {

@@ -1,12 +1,22 @@
-.table tbody tr:nth-child(even){
+.tableView tbody tr:nth-child(even){
     background: #F1F1F1;
 }
 
-.table thead tr th{
+.tableView thead tr th{
     background: #e1e1e1;
 }
 
-.table {
+.tableView {
     max-height: 350px;
     overflow: scroll;
+}
+
+.tableView {
+    background: #e1e1e1;
+}
+
+.tableView .title {
+    font-weight: bold;
+    line-height: 1.5em;
+    padding-left: 20px;
 }

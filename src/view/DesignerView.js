@@ -13,7 +13,6 @@ define(function (require) {
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
         MetadataExplorer = require('util/MetadataExplorer'),
-        QueryResultsCollection = require('collection/QueryResultsCollection'),
         MetadataResultsCollection = require('collection/MetadataResultsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
         DesignerViewTemplate = require('text!template/DesignerViewTemplate.html');
@@ -33,7 +32,6 @@ define(function (require) {
             this.queryExecuter = new QueryExecuter(this.domain);
             this.metadataExplorer = new MetadataExplorer(this.domain);
             this.metadataResultsCollection = new MetadataResultsCollection();
-            this.queryResultsCollection = new QueryResultsCollection();
 
             this.sidebar = new SidebarView({collection: this.metadataResultsCollection});
             this.canvas = new CanvasView();
@@ -43,6 +41,7 @@ define(function (require) {
                 })
             });
             this.table.load(config.tableName);
+            this.listenTo(this.table.model, 'loaded', this.onTableLoaded);
 
             this.render();
         },
@@ -62,6 +61,10 @@ define(function (require) {
             console.log('onPaperClipClick');
         },
 
+        onTableLoaded: function (tableModel) {
+            this.metadataResultsCollection.reset(_.values(tableModel.get('metadata')));
+        },
+
         onTypeChange: function (event) {
             var type = $(event.target).text();
             if (type === 'table') {
@@ -70,7 +73,7 @@ define(function (require) {
                 c3.generate({
                     bindto: '.canvas',
                     data: {
-                        columns: this.queryResultsCollection.getDataForC3(),
+                        columns: this.table.model.getDataForC3(),
                         type: type
                     }
                 });

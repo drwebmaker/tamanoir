@@ -10,6 +10,7 @@ define(function (require) {
     require('css!styles/table');
 
     return Backbone.View.extend({
+        className: 'tableView',
         events: {
             'click .foundicon-remove': 'onRemoveColumnClick',
             'click .foundicon-paper-clip': 'onReferenceClick'
