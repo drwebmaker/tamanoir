@@ -12,7 +12,6 @@ define(function (require) {
     return Backbone.View.extend({
         className: 'tableView',
         events: {
-            'click .foundicon-remove': 'onRemoveColumnClick',
             'click .foundicon-paper-clip': 'onReferenceClick'
         },
         initialize: function () {

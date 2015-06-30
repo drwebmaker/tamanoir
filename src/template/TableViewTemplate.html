@@ -3,7 +3,7 @@
     <tr>
         {{ _.each(headers, function (header, key) { }}
         <th data-reference-to="{{- header.referenceTo }}" data-belong-to="{{- header.belongTo }}" data-name="{{- header.name }}">
-            {{- header.name }}<i class="foundicon-remove pointer"></i>{{= header.referenceTo ? '<i class="foundicon-paper-clip pointer"></i>' : '' }}
+            {{- header.name }}{{= header.referenceTo ? '<i class="foundicon-paper-clip pointer"></i>' : '' }}
         </th>
         {{ }) }}
     </tr>

@@ -53,14 +53,6 @@ define(function (require) {
             return this;
         },
 
-        onRemoveColumnClick: function () {
-            console.log('onRemoveColumnClick');
-        },
-
-        onPaperClipClick: function (event) {
-            console.log('onPaperClipClick');
-        },
-
         onTableLoaded: function (tableModel) {
             this.metadataResultsCollection.reset(_.values(tableModel.get('metadata')));
         },
