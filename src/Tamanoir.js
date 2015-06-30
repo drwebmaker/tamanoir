@@ -53,7 +53,7 @@ define(function (require) {
 
                 switch (domain.get('type')) {
                     case 'jdbc':
-                        metadataExplorer.getMetaData().then(function (schemas) {
+                        metadataExplorer.getMetadata().then(function (schemas) {
                             $('.content-holder').html(new SchemasView({collection: new Backbone.Collection(schemas)}).$el);
                         });
                         break;
@@ -70,7 +70,7 @@ define(function (require) {
             domain.fetch().done(function () {
                 var metadataExplorer = new MetadataExplorer(domain);
 
-                metadataExplorer.getMetaData(schemaName).then(function (tables) {
+                metadataExplorer.getMetadata(schemaName).then(function (tables) {
                     $('.content-holder').html(new TablesView({collection: new Backbone.Collection(tables)}).$el);
                 });
             });

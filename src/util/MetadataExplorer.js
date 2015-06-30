@@ -20,28 +20,15 @@ define(function (require) {
     };
 
     MetadataExplorer.prototype._buildUri = function (uri) {
-        return uri ? '?expand=' + uri : '';
+        return uri ? '?include=' + uri : '';
     };
 
-    MetadataExplorer.prototype._parseMetaData = function (data) {
-        return _.reduce(this._chunks, function (memo, part) {
-            return _.find(memo, function (value) {
-                return value.name === part;
-            }).items;
-        }, data.items);
-    };
-
-    MetadataExplorer.prototype._saveChunks = function (uri) {
-        this._chunks = uri ? uri.split('.') : [];
-    };
-
-    MetadataExplorer.prototype.getMetaData = function (uri) {
+    MetadataExplorer.prototype.getMetadata = function (uri) {
         var deferred = $.Deferred();
 
-        this._saveChunks(uri);
-        this._request(this._buildUri(uri)).then(_.bind(function (data) {
-            deferred.resolve(this._parseMetaData(data));
-        }, this));
+        this._request(this._buildUri(uri)).then(function (data) {
+            deferred.resolve(data.items);
+        });
 
         return deferred;
     };

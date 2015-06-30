@@ -9,6 +9,7 @@ define(function (require) {
         TableView = require('view/TableView'),
         CanvasView = require('view/CanvasView'),
         ToolbarModel = require('model/ToolbarModel'),
+        TableModel = require('model/TableModel'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
         MetadataExplorer = require('util/MetadataExplorer'),
@@ -37,18 +38,19 @@ define(function (require) {
             this.sidebar = new SidebarView({collection: this.metadataResultsCollection});
             this.canvas = new CanvasView();
             this.table = new TableView({
-                collection: this.queryResultsCollection,
-                metadataCollection: this.metadataResultsCollection
+                model: new TableModel({
+                    domain: config.domain
+                })
             });
+            this.table.load(config.tableName);
 
-            this.fetchData();
             this.render();
         },
         render: function () {
             this.$el.html(DesignerViewTemplate);
             this.$el.find('.sidebar-holder').html(this.sidebar.render().$el);
             this.$el.find('.canvas-holder').html(this.canvas.render().$el);
-            this.$el.find('.canvas').html(this.table.render().$el);
+            this.$el.find('.canvas').html(this.table.$el);
             return this;
         },
 
@@ -58,50 +60,6 @@ define(function (require) {
 
         onPaperClipClick: function (event) {
             console.log('onPaperClipClick');
-            var reference = $(event.target).data('referenceTo');
-
-            this.originColumnName = $(event.target).parent().text().trim();
-            this.originTableName = this.tableName;
-            this.foreignTableName = reference.slice(0, reference.lastIndexOf('.'));
-            this.foreignColumnName = reference.slice(reference.lastIndexOf('.') + 1);
-
-            this.metadataExplorer.getMetaData(this.foreignTableName).then(_.bind(this.onMetadataLoaded, this));
-
-        },
-
-        onMetadataLoaded: function (metadata) {
-            var originTableName = this.originTableName;
-            var foreignTableName = this.foreignTableName;
-            var originColumns = _.map(this.metadataResultsCollection.toJSON(), function (value) {
-                return originTableName + '.' + value.name;
-            });
-            var foreignColumns = _.map(metadata, function (value) {
-                return foreignTableName + '.' + value.name;
-            });
-            var columns = originColumns.concat(foreignColumns);
-            var query = 'SELECT {columns} FROM {originTableName} INNER JOIN {foreignTableName} ON {originTableName}.{originColumnName}={foreignTableName}.{foreignColumnName}'
-                .replace(/{columns}/g, columns.join(','))
-                .replace(/{originTableName}/g, this.originTableName)
-                .replace(/{foreignTableName}/g, this.foreignTableName)
-                .replace(/{originColumnName}/g, this.originColumnName)
-                .replace(/{foreignColumnName}/g, this.foreignColumnName);
-
-            this.metadataResultsCollection.add(metadata);
-            this.queryExecuter.query(query).then(_.bind(this.onDataLoaded, this));
-        },
-        onDataLoaded: function (data) {
-            this.queryResultsCollection.add(data);
-        },
-
-        fetchData: function () {
-            this.metadataExplorer.getMetaData(this.tableName).then(_.bind(function (metadata) {
-                console.log(metadata);
-                this.metadataResultsCollection.add(metadata);
-            }, this));
-            this.queryExecuter.query(this.tableName ? 'select * from ' + this.tableName : 'select *').then(_.bind(function (data) {
-                console.log(data);
-                this.queryResultsCollection.add(data);
-            }, this));
         },
 
         onTypeChange: function (event) {
