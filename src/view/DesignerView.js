@@ -54,7 +54,12 @@ define(function (require) {
         },
 
         onTableLoaded: function (tableModel) {
-            this.metadataResultsCollection.reset(_.values(tableModel.get('metadata')));
+            var tableData = tableModel.toJSON(),
+                result = _.map(tableData.data[0], function (value, key) {
+                return tableData.metadata[key];
+            });
+
+            this.metadataResultsCollection.reset(result);
         },
 
         onTypeChange: function (event) {

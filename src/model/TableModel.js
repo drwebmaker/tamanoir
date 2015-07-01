@@ -34,8 +34,6 @@ define(function (require) {
         },
 
         onMetadataLoaded: function (metadata) {
-            console.log('metadata loaded', metadata);
-
             this.prepareMetadata(metadata);
 
             var columnNames = this.getColumnNames(metadata),
@@ -47,17 +45,16 @@ define(function (require) {
         },
 
         prepareMetadata: function (metadata) {
-            this.set('metadata', _.extend(this.get('metadata'), _.reduce(metadata, function (memo, value) {
-                memo[value.name] = value;
+            console.log('metadata loaded', metadata);
+            this.set('metadata', _.extend(this.get('metadata'), _.reduce(metadata.items, function (memo, value) {
+                memo[value.name] = _.extend(value, {belongTo: metadata.name});
                 return memo;
             }, {})));
         },
 
         getColumnNames: function (metadata) {
-            var table = this._table;
-
-            return _.map(metadata, function (value) {
-                return table + '.' + value.name;
+            return _.map(metadata.items, function (value) {
+                return metadata.name + '.' + value.name;
             });
         },
 

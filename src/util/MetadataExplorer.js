@@ -26,9 +26,7 @@ define(function (require) {
     MetadataExplorer.prototype.getMetadata = function (uri) {
         var deferred = $.Deferred();
 
-        this._request(this._buildUri(uri)).then(function (data) {
-            deferred.resolve(data.items);
-        });
+        this._request(this._buildUri(uri)).then(deferred.resolve);
 
         return deferred;
     };
