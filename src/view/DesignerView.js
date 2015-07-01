@@ -12,7 +12,8 @@ define(function (require) {
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
         MetadataExplorer = require('util/MetadataExplorer'),
-        MetadataResultsCollection = require('collection/MetadataResultsCollection'),
+        ColumnsCollection = require('collection/ColumnsCollection'),
+        //MetadataResultsCollection = require('collection/MetadataResultsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
         DesignerViewTemplate = require('text!template/DesignerViewTemplate.html');
 
@@ -31,10 +32,11 @@ define(function (require) {
             this.tableName = config.tableName;
             this.queryExecuter = new QueryExecuter(this.domain);
             this.metadataExplorer = new MetadataExplorer(this.domain);
-            this.metadataResultsCollection = new MetadataResultsCollection();
+            this.columnsCollection = new ColumnsCollection();
 
-            this.sidebar = new SidebarView({collection: this.metadataResultsCollection});
+            this.sidebar = new SidebarView({collection: this.columnsCollection});
             this.table = new TableView({
+                columnsCollection: this.columnsCollection,
                 model: new TableModel({
                     domain: config.domain
                 })
@@ -81,7 +83,7 @@ define(function (require) {
                     return tableData.metadata[key];
                 });
 
-            this.metadataResultsCollection.reset(result);
+            this.columnsCollection.reset(result);
         },
 
         onAddChartClick: function () {

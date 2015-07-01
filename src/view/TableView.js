@@ -12,10 +12,14 @@ define(function (require) {
     return Backbone.View.extend({
         className: 'tableView',
         events: {
-            'click .foundicon-paper-clip': 'onReferenceClick'
+            'click .foundicon-paper-clip': 'onReferenceClick',
+            'click .foundicon-remove': 'onRemoveColumnClick'
         },
-        initialize: function () {
+        initialize: function (config) {
+            this.columnsCollection = config.columnsCollection;
+
             this.listenTo(this.model, 'loaded', this.render);
+            this.listenTo(this.model, 'change:columns', this.render);
         },
         render: function () {
             this.$el.html(_.template(TableViewTemplate)(this.model.toJSON()));
@@ -31,6 +35,11 @@ define(function (require) {
                 foreignTable = foreignKey.slice(0, foreignKey.lastIndexOf('.'));
 
             this.model.join(originTable, foreignTable, originKey, foreignKey);
+        },
+        onRemoveColumnClick: function () {
+            var name = $(event.target).parent().data('name');
+            this.model.hideColumn(name);
+            this.columnsCollection.get(name).set('hidden', true);
         }
     });
 });

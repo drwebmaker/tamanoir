@@ -14,22 +14,17 @@ define(function (require) {
      */
     return Backbone.Model.extend({
         defaults: {
-            name: '',
-            headers: [],
             data: [],
-            metadata: {}
+            metadata: {},
+            columns: []
         },
 
         initialize: function (config) {
             this.metadataExplorer = new MetadataExplorer(config.domain);
             this.queryExecuter = new QueryExecuter(config.domain);
-
-            this._table = null;
         },
 
         load: function (table) {
-            this.set('name', table);
-            this._table = table;
             this.metadataExplorer.getMetadata(table).then(_.bind(this.onMetadataLoaded, this));
         },
 
@@ -39,7 +34,7 @@ define(function (require) {
             var columnNames = this.getColumnNames(metadata),
                 query = 'SELECT {columnNames} FROM {tableName} LIMIT 20'
                     .replace(/{columnNames}/gi, columnNames)
-                    .replace(/{tableName}/gi, this._table);
+                    .replace(/{tableName}/gi, metadata.name);
 
             this.queryExecuter.query(query).then(_.bind(this.onDataLoaded, this));
         },
@@ -58,25 +53,16 @@ define(function (require) {
             });
         },
 
-        onDataLoaded: function (data) {
-            console.log('data loaded', data);
-            this.prepareHeaders(data);
-            this.set('data', data);
-            this.trigger('loaded', this);
+        hideColumn: function (name) {
+            console.log('hide', name);
+            this.set('columns', _.without(this.get('columns'), name));
         },
 
-        prepareHeaders: function (data) {
-            var metadata = this.get('metadata');
-            var table = this._table;
-            var headers = _.map(data[0], function (value, key) {
-                return {
-                    name: key,
-                    belongTo: table,
-                    referenceTo: metadata[key].referenceTo
-                };
-            });
-
-            this.set('headers', headers);
+        onDataLoaded: function (data) {
+            console.log('data loaded', data);
+            this.set('data', data);
+            this.set('columns', _.keys(data[0]));
+            this.trigger('loaded', this);
         },
 
         join: function (originTable, foreignTable, originKey, foreignKey) {

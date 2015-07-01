@@ -2,8 +2,9 @@
     <thead>
     <tr>
         {{ _.each(data[0], function (header, key) { }}
+        {{ if (!_.contains(columns, key)) return }}
         <th draggable="true" data-reference-to="{{- metadata[key].referenceTo }}" data-belong-to="{{- metadata[key].belongTo }}" data-name="{{- key }}">
-            {{- key }}{{= metadata[key].referenceTo ? '<i class="foundicon-paper-clip pointer"></i>' : '' }}
+            {{- key }}<i class="foundicon-remove pointer"></i>{{= metadata[key].referenceTo ? '<i class="foundicon-paper-clip pointer"></i>' : '' }}
         </th>
         {{ }) }}
     </tr>
@@ -11,7 +12,8 @@
     <tbody>
     {{ _.each(data, function (item) { }}
     <tr>
-        {{ _.each(item, function (value) { }}
+        {{ _.each(item, function (value, key) { }}
+        {{ if (!_.contains(columns, key)) return }}
         <td>{{- value }}</td>
         {{ }) }}
     </tr>
