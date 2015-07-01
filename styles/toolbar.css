@@ -24,26 +24,3 @@
 .toolbar > li:hover {
     background: #222222;
 }
-
-.toolbar .menu {
-    position: absolute;
-    background: #222222;
-    min-width: 150px;
-    display: none;
-    z-index: 1;
-    margin: 0;
-    top: 45px;
-    left: 0;
-}
-
-.toolbar .menu li {
-    line-height: 40px;
-}
-
-.toolbar > li:hover .menu {
-    display: inherit;
-}
-
-.toolbar .menu li:hover {
-    background: #333333;
-}

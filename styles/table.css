@@ -4,11 +4,11 @@
 
 .tableView thead tr th{
     background: #e1e1e1;
+    cursor: move;
 }
 
 .tableView {
-    max-height: 350px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .tableView {

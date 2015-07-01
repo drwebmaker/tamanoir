@@ -12,6 +12,9 @@ define(function (require) {
     return Backbone.View.extend({
         className: 'toolbar text-center',
         tagName: 'ul',
+        events: {
+            'click .foundicon-graph': 'onAddChartClick'
+        },
         initialize: function () {
             this.render();
             this.listenTo(this.model, 'change', this.render);
@@ -19,6 +22,10 @@ define(function (require) {
         render: function () {
             this.$el.html(_.template(ToolbarViewTemplate)(this.model.toJSON()));
             return this;
+        },
+
+        onAddChartClick: function () {
+            Tamanoir.trigger('toolbar:addchart');
         }
     });
 });

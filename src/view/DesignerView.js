@@ -7,7 +7,6 @@ define(function (require) {
         _ = require('underscore'),
         SidebarView = require('view/SidebarView'),
         TableView = require('view/TableView'),
-        CanvasView = require('view/CanvasView'),
         ToolbarModel = require('model/ToolbarModel'),
         TableModel = require('model/TableModel'),
         c3 = require('c3'),
@@ -22,8 +21,9 @@ define(function (require) {
 
     return Backbone.View.extend({
         events: {
-            'click .foundicon-remove': 'onRemoveColumnClick',
-            'click .foundicon-paper-clip': 'onPaperClipClick'
+            'dragstart table th': 'onDragStart',
+            'dragover .chart-holder': 'onDragOver',
+            'drop .chart-holder': 'onDrop'
         },
         initialize: function (config) {
             ToolbarModel.set('state', 'designer');
@@ -34,7 +34,6 @@ define(function (require) {
             this.metadataResultsCollection = new MetadataResultsCollection();
 
             this.sidebar = new SidebarView({collection: this.metadataResultsCollection});
-            this.canvas = new CanvasView();
             this.table = new TableView({
                 model: new TableModel({
                     domain: config.domain
@@ -42,39 +41,57 @@ define(function (require) {
             });
             this.table.load(config.tableName);
             this.listenTo(this.table.model, 'loaded', this.onTableLoaded);
+            this.listenTo(Tamanoir, 'toolbar:addchart', this.onAddChartClick);
 
             this.render();
         },
         render: function () {
             this.$el.html(DesignerViewTemplate);
             this.$el.find('.sidebar-holder').html(this.sidebar.render().$el);
-            this.$el.find('.canvas-holder').html(this.canvas.render().$el);
-            this.$el.find('.canvas').html(this.table.$el);
+            this.$el.find('.table-holder').html(this.table.$el);
             return this;
+        },
+
+        onDragStart: function (event) {
+            var data = this.table.model.get('data'),
+                columnName = $(event.target).data('name'),
+                c3data = _.map(data, function (value) {
+                    return value[columnName];
+                });
+
+            c3data.unshift(columnName);
+
+            this._c3data = c3data;
+        },
+
+        onDragOver: function (event) {
+            event.preventDefault();
+        },
+
+        onDrop: function (event) {
+            event.preventDefault();
+            this.chart.load({
+                columns: [this._c3data]
+            });
         },
 
         onTableLoaded: function (tableModel) {
             var tableData = tableModel.toJSON(),
                 result = _.map(tableData.data[0], function (value, key) {
-                return tableData.metadata[key];
-            });
+                    return tableData.metadata[key];
+                });
 
             this.metadataResultsCollection.reset(result);
         },
 
-        onTypeChange: function (event) {
-            var type = $(event.target).text();
-            if (type === 'table') {
-                this.$el.find('.canvas').html(this.table.render().$el);
-            } else {
-                c3.generate({
-                    bindto: '.canvas',
-                    data: {
-                        columns: this.table.model.getDataForC3(),
-                        type: type
-                    }
-                });
-            }
+        onAddChartClick: function () {
+            console.log('add chart');
+            this.chart = c3.generate({
+                bindto: '.chart-holder',
+                data: {
+                    columns: []
+                }
+            });
         }
     });
 });

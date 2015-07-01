@@ -37,7 +37,7 @@ define(function (require) {
             this.prepareMetadata(metadata);
 
             var columnNames = this.getColumnNames(metadata),
-                query = 'SELECT {columnNames} FROM {tableName}'
+                query = 'SELECT {columnNames} FROM {tableName} LIMIT 20'
                     .replace(/{columnNames}/gi, columnNames)
                     .replace(/{tableName}/gi, this._table);
 
@@ -79,21 +79,9 @@ define(function (require) {
             this.set('headers', headers);
         },
 
-        getDataForC3: function () {
-            var data = this.get('data');
-
-            return _.map(data, function (name) {
-                var tmp = [name];
-                _.each(data, function (value) {
-                    tmp.push(value[name]);
-                });
-                return tmp;
-            });
-        },
-
         join: function (originTable, foreignTable, originKey, foreignKey) {
 
-            var query = 'SELECT * FROM {originTable} INNER JOIN {foreignTable} ON {originKey}={foreignKey}'
+            var query = 'SELECT * FROM {originTable} INNER JOIN {foreignTable} ON {originKey}={foreignKey} LIMIT 20'
                 .replace(/{originTable}/gi, originTable)
                 .replace(/{originKey}/gi, originKey)
                 .replace(/{foreignTable}/gi, foreignTable)
