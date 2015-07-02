@@ -29,3 +29,8 @@
 .sidebar ul {
     overflow: auto;
 }
+
+.sidebar li input {
+    margin: 6px;
+    cursor: pointer;
+}

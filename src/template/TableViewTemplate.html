@@ -3,8 +3,8 @@
     <tr>
         {{ _.each(data[0], function (header, key) { }}
         {{ if (!_.contains(columns, key)) return }}
-        <th draggable="true" data-reference-to="{{- metadata[key].referenceTo }}" data-belong-to="{{- metadata[key].belongTo }}" data-name="{{- key }}">
-            {{- key }}<i class="foundicon-remove pointer"></i>{{= metadata[key].referenceTo ? '<i class="foundicon-paper-clip pointer"></i>' : '' }}
+        <th class="" draggable="true" data-reference-to="{{- metadata[key].referenceTo }}" data-belong-to="{{- metadata[key].belongTo }}" data-name="{{- key }}">
+            {{- key }}<i class="foundicon-remove pointer right"></i>{{= metadata[key].referenceTo ? '<i class="foundicon-paper-clip pointer right"></i>' : '' }}
         </th>
         {{ }) }}
     </tr>
