@@ -20,3 +20,7 @@
     line-height: 1.5em;
     padding-left: 20px;
 }
+
+.tableView th i {
+    margin-left: 10px;
+}

@@ -13,6 +13,9 @@ define(function (require) {
     return Backbone.View.extend({
         className: 'sidebar',
         template: SidebarViewTemplate,
+        events: {
+            'click .foundicon-paper-clip': 'onPaperClipClick'
+        },
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
         },
@@ -31,6 +34,11 @@ define(function (require) {
 
         addNumber: function (model) {
             this.$('.numbers-holder ul').append(new SidebarItemView({model: model}).$el);
+        },
+
+        onPaperClipClick: function (event) {
+            var name = $(event.target).parent().text().trim();
+            this.trigger('click:join', this.collection.get(name));
         }
     });
 });

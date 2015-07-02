@@ -43,6 +43,7 @@ define(function (require) {
             this.table.load(config.tableName);
             this.listenTo(this.table.model, 'loaded', this.onTableLoaded);
             this.listenTo(Tamanoir, 'toolbar:addchart', this.onAddChartClick);
+            this.listenTo(this.sidebar, 'click:join', this.onReferenceClick);
 
             this.render();
         },
@@ -83,6 +84,15 @@ define(function (require) {
                 });
 
             this.columnsCollection.reset(result);
+        },
+
+        onReferenceClick: function (model) {
+            var foreignKey = model.get('referenceTo'),
+                originTable = model.get('belongTo'),
+                originKey = originTable + '.' + model.get('name'),
+                foreignTable = foreignKey.slice(0, foreignKey.lastIndexOf('.'));
+
+            this.table.model.join(originTable, foreignTable, originKey, foreignKey);
         },
 
         onAddChartClick: function () {
