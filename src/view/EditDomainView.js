@@ -45,6 +45,7 @@ define(function (require) {
                 type: values.type,
                 name: values.name,
                 url: values.url,
+                nativeQuery: values.nativeQuery,
                 properties: {
                     user: values.user,
                     password: values.password
