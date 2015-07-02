@@ -5,15 +5,16 @@ define(function (require) {
     var Backbone = require('backbone'),
         DomainListItemView = require('view/DomainListItemView'),
         DomainModel = require('model/DomainModel'),
-        ToolbarModel = require('model/ToolbarModel'),
         DomainsCollection = require('collection/DomainsCollection'),
         DomainsViewTemplate = require('text!template/DomainsViewTemplate.html');
 
     require('css!styles/domains');
 
     return Backbone.View.extend({
+        events: {
+            'click .header .foundicon-plus': 'addNewDomain'
+        },
         initialize: function () {
-            ToolbarModel.set('state', 'domains');
             this.collection = new DomainsCollection();
             this.collection.fetch({reset: true});
             this.listenTo(this.collection, 'reset', this.render);
@@ -26,6 +27,9 @@ define(function (require) {
         },
         addDomain: function (domainModel) {
             this.$el.find('ul').append(new DomainListItemView({model: domainModel}).render().$el);
+        },
+        addNewDomain: function () {
+            Tamanoir.navigate('library/new', {trigger: true});
         }
     });
 });

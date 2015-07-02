@@ -10,14 +10,17 @@ define(function (require) {
         DomainModel = require('model/DomainModel'),
         MetadataExplorer = require('util/MetadataExplorer'),
         DesignerView = require('view/DesignerView'),
-        ToolbarModel = require('model/ToolbarModel'),
         SchemasView = require('view/SchemasView'),
-        TablesView = require('view/TablesView'),
-        LayoutView = require('view/LayoutView');
+        TablesView = require('view/TablesView');
+
+    require('css!bower_components/foundation/css/foundation.css');
+    require('css!bower_components/foundation-icons/foundation_icons_general/stylesheets/general_foundicons.css');
+    require('css!styles/base');
+    require('css!styles/layout');
+    require('css!styles/toolbar');
 
     return Backbone.Router.extend({
         initialize: function () {
-            $('body').html(new LayoutView().$el);
             Backbone.history.start();
         },
         routes: {
@@ -30,21 +33,17 @@ define(function (require) {
             'library/:domainId/:schemaName/:tableName': 'navigateToTable',
             '*otherwise': 'navigateToLibrary'
         },
-        execute: function (callback, args, name) {
-            ToolbarModel.set('state', name);
-            callback.apply(this, args);
-        },
         navigateToHome: function () {
             this.navigate('library', {trigger: true});
         },
         navigateToLibrary: function () {
-            $('.content-holder').html(new DomainsView().$el);
+            $('body').html(new DomainsView().$el);
         },
         navigateToAddDomain: function () {
-            $('.content-holder').html(new EditDomainView({model: new DomainModel()}).$el);
+            $('body').html(new EditDomainView({model: new DomainModel()}).$el);
         },
         navigateToEditDomain: function (id) {
-            $('.content-holder').html(new EditDomainView({model: new DomainModel({id: id})}).$el);
+            $('body').html(new EditDomainView({model: new DomainModel({id: id})}).$el);
         },
         navigateToDomain: function (domainId) {
             var domain = new DomainModel({id: domainId});
@@ -55,11 +54,11 @@ define(function (require) {
                     case 'jdbc':
                         metadataExplorer.getMetadata().then(function (metadata) {
                             var schemas = metadata.items;
-                            $('.content-holder').html(new SchemasView({collection: new Backbone.Collection(schemas)}).$el);
+                            $('body').html(new SchemasView({collection: new Backbone.Collection(schemas)}).$el);
                         });
                         break;
                     case 'csv':
-                        $('.content-holder').html(new DesignerView({
+                        $('body').html(new DesignerView({
                             domain: domain
                         }).$el);
                         break;
@@ -73,14 +72,14 @@ define(function (require) {
 
                 metadataExplorer.getMetadata(schemaName).then(function (metadata) {
                     var tables = metadata.items;
-                    $('.content-holder').html(new TablesView({collection: new Backbone.Collection(tables)}).$el);
+                    $('body').html(new TablesView({collection: new Backbone.Collection(tables)}).$el);
                 });
             });
         },
         navigateToTable: function (domainId, schemaName, tableName) {
             var domain = new DomainModel({id: domainId});
             domain.fetch().done(function () {
-                $('.content-holder').html(new DesignerView({
+                $('body').html(new DesignerView({
                     domain: domain,
                     tableName: schemaName + '.' + tableName
                 }).$el);

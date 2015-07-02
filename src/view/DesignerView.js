@@ -7,7 +7,6 @@ define(function (require) {
         _ = require('underscore'),
         SidebarView = require('view/SidebarView'),
         TableView = require('view/TableView'),
-        ToolbarModel = require('model/ToolbarModel'),
         TableModel = require('model/TableModel'),
         ChartView = require('view/ChartView'),
         c3 = require('c3'),
@@ -23,10 +22,10 @@ define(function (require) {
     return Backbone.View.extend({
         events: {
             'dragstart table th': 'onDragStart',
-            'dragover .chart-holder': 'onDragOver'
+            'dragover .chart-holder': 'onDragOver',
+            'click .header .foundicon-graph': 'onAddChartClick'
         },
         initialize: function (config) {
-            ToolbarModel.set('state', 'designer');
             this.domain = config.domain;
             this.tableName = config.tableName;
             this.queryExecuter = new QueryExecuter(this.domain);
@@ -74,18 +73,6 @@ define(function (require) {
             event.preventDefault();
         },
 
-        onDrop: function (event) {
-            event.preventDefault();
-
-            if (this._c3categories && this._c3data && !this._categoriesRendered) {
-                this.generageCategoriesChart();
-            } else {
-                this.chart.load({
-                    columns: [this._c3data]
-                });
-            }
-        },
-
         onTableLoaded: function (tableModel) {
             var tableData = tableModel.toJSON(),
                 result = _.map(tableData.data[0], function (value, key) {
@@ -102,25 +89,6 @@ define(function (require) {
                 foreignTable = foreignKey.slice(0, foreignKey.lastIndexOf('.'));
 
             this.table.model.join(originTable, foreignTable, originKey, foreignKey);
-        },
-
-        generageCategoriesChart: function () {
-            this._categoriesRendered = true;
-            chart = this.chart = c3.generate({
-                bindto: '.chart-holder',
-                data: {
-                    x: this._c3categories[0],
-                    columns: [
-                        this._c3categories,
-                        this._c3data
-                    ]
-                },
-                axis: {
-                    x: {
-                        type: 'category'
-                    }
-                }
-            });
         },
 
         onAddChartClick: function () {

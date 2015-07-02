@@ -1,26 +1,13 @@
-.toolbar {
-    background: #333333;
-}
-
-.toolbar {
-    display: inline-block;
-    margin: 0;
-    list-style: none;
-}
-
-.toolbar > li {
+.header .toolbar i {
     line-height: 45px;
-    font-size: 1.5em;
+    display: inline-block;
+    text-align: center;
+    font-size: 1.2em;
+    height: 45px;
     width: 45px;
     cursor: pointer;
-    height: 45px;
-    position: relative;
 }
 
-.toolbar > li a {
-    color: white;
-}
-
-.toolbar > li:hover {
+.header .toolbar i:hover {
     background: #222222;
 }
