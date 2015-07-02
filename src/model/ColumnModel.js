@@ -12,6 +12,10 @@ define(function (require) {
             belongTo: '',
             referenceTo: '',
             type: ''
+        },
+
+        toggleHidden: function () {
+            this.set('hidden', !this.get('hidden'));
         }
     });
 });

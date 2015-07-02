@@ -5,27 +5,30 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
+        SidebarItemView = require('view/SidebarItemView'),
         SidebarViewTemplate = require('text!template/SidebarViewTemplate.html');
 
     require('css!styles/sidebar');
 
     return Backbone.View.extend({
-        events: {
-            'click li': 'onItemClick'
-        },
+        tagName: 'ul',
+        className: 'sidebar',
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
-            this.$el.html(_.template(SidebarViewTemplate)({
-                categories: this.collection.getCategories(),
-                numbers: this.collection.getNumbers()
-            }));
+            //this.$el.html(_.template(SidebarViewTemplate)({
+            //    categories: this.collection.getCategories(),
+            //    numbers: this.collection.getNumbers()
+            //}));
+            this.$el.empty();
+            this.collection.each(this.addOne, this);
             return this;
         },
 
-        onItemClick: function (event) {
-            console.log('sidebar item click');
+        addOne: function (model) {
+            this.$el.append(new SidebarItemView({model: model}).$el);
+            return this;
         }
     });
 });

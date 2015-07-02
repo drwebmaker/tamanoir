@@ -20,6 +20,7 @@ define(function (require) {
 
             this.listenTo(this.model, 'loaded', this.render);
             this.listenTo(this.model, 'change:columns', this.render);
+            this.listenTo(this.columnsCollection, 'change', this.onColumnsCollectionChange);
         },
         render: function () {
             this.$el.html(_.template(TableViewTemplate)(this.model.toJSON()));
@@ -29,7 +30,7 @@ define(function (require) {
             this.model.load(table);
         },
         onReferenceClick: function (event) {
-            var foreignKey =  $(event.target).parent().data('referenceTo'),
+            var foreignKey = $(event.target).parent().data('referenceTo'),
                 originTable = $(event.target).parent().data('belongTo'),
                 originKey = originTable + '.' + $(event.target).parent().data('name'),
                 foreignTable = foreignKey.slice(0, foreignKey.lastIndexOf('.'));
@@ -38,8 +39,16 @@ define(function (require) {
         },
         onRemoveColumnClick: function () {
             var name = $(event.target).parent().data('name');
-            this.model.hideColumn(name);
             this.columnsCollection.get(name).set('hidden', true);
+        },
+
+        onColumnsCollectionChange: function () {
+            this.model.set('columns', _.chain(this.columnsCollection.toJSON())
+                .filter(function (value) {
+                    return !value.hidden;
+                })
+                .pluck('name')
+                .value());
         }
     });
 });

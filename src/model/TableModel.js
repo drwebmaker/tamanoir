@@ -53,11 +53,6 @@ define(function (require) {
             });
         },
 
-        hideColumn: function (name) {
-            console.log('hide', name);
-            this.set('columns', _.without(this.get('columns'), name));
-        },
-
         onDataLoaded: function (data) {
             console.log('data loaded', data);
             this.set('data', data);
