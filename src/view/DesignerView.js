@@ -13,7 +13,6 @@ define(function (require) {
         QueryExecuter = require('util/QueryExecuter'),
         MetadataExplorer = require('util/MetadataExplorer'),
         ColumnsCollection = require('collection/ColumnsCollection'),
-        //MetadataResultsCollection = require('collection/MetadataResultsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
         DesignerViewTemplate = require('text!template/DesignerViewTemplate.html');
 

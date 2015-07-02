@@ -10,20 +10,17 @@ define(function (require) {
         model: ColumnModel,
 
         getCategories: function () {
-            return _.reduce(this.toJSON(), function (memo, value, key) {
-                if (!/integer/i.test(value.type) && !/long/i.test(value.type)) {
-                    memo.push(value);
-                }
-                return memo;
-            }, []);
+            return this.filter(function (value) {
+                var type = value.get('type');
+                return !/integer/i.test(type) && !/long/i.test(type);
+            });
         },
+
         getNumbers: function () {
-            return _.reduce(this.toJSON(), function (memo, value, key) {
-                if (/integer/i.test(value.type) || /long/i.test(value.type)) {
-                    memo.push(value);
-                }
-                return memo;
-            }, []);
+            return this.filter(function (value) {
+                var type = value.get('type');
+                return /integer/i.test(type) || /long/i.test(type);
+            });
         }
     });
 });

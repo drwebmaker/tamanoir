@@ -11,24 +11,26 @@ define(function (require) {
     require('css!styles/sidebar');
 
     return Backbone.View.extend({
-        tagName: 'ul',
         className: 'sidebar',
+        template: SidebarViewTemplate,
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
-            //this.$el.html(_.template(SidebarViewTemplate)({
-            //    categories: this.collection.getCategories(),
-            //    numbers: this.collection.getNumbers()
-            //}));
-            this.$el.empty();
-            this.collection.each(this.addOne, this);
+            this.$el.html(this.template);
+
+            _.each(this.collection.getNumbers(), this.addNumber, this);
+            _.each(this.collection.getCategories(), this.addCategory, this);
+
             return this;
         },
 
-        addOne: function (model) {
-            this.$el.append(new SidebarItemView({model: model}).$el);
-            return this;
+        addCategory: function (model) {
+            this.$('.categories-holder ul').append(new SidebarItemView({model: model}).$el);
+        },
+
+        addNumber: function (model) {
+            this.$('.numbers-holder ul').append(new SidebarItemView({model: model}).$el);
         }
     });
 });
