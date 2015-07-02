@@ -32,9 +32,16 @@ define(function (require) {
             this.prepareMetadata(metadata);
 
             var columnNames = this.getColumnNames(metadata),
+                type = this.get('domain').get('type'),
+                query;
+
+            if (type === 'jdbc') {
                 query = 'SELECT {columnNames} FROM {tableName} LIMIT 20'
                     .replace(/{columnNames}/gi, columnNames)
                     .replace(/{tableName}/gi, metadata.name);
+            } else {
+                query = 'select * limit 20'
+            }
 
             this.queryExecuter.query(query).then(_.bind(this.onDataLoaded, this));
         },

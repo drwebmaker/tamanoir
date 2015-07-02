@@ -1,0 +1,31 @@
+.chart .header {
+    background-color: #007095;
+    color: white;
+    padding-left: 10px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.chart i {
+    position: relative;
+}
+
+.chart .menu {
+    position: absolute;
+    list-style: none;
+    margin: 0;
+    display: none;
+    top: 21px;
+    left: 0;
+    z-index: 1;
+    min-width: 100px;
+    background-color: #007095;
+}
+
+.chart .menu li {
+    padding-left: 20px;
+}
+
+.chart .menu li:hover {
+    background: #006085;
+}

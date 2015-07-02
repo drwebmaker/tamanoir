@@ -9,6 +9,7 @@ define(function (require) {
         TableView = require('view/TableView'),
         ToolbarModel = require('model/ToolbarModel'),
         TableModel = require('model/TableModel'),
+        ChartView = require('view/ChartView'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
         MetadataExplorer = require('util/MetadataExplorer'),
@@ -22,8 +23,7 @@ define(function (require) {
     return Backbone.View.extend({
         events: {
             'dragstart table th': 'onDragStart',
-            'dragover .chart-holder': 'onDragOver',
-            'drop .chart-holder': 'onDrop'
+            'dragover .chart-holder': 'onDragOver'
         },
         initialize: function (config) {
             ToolbarModel.set('state', 'designer');
@@ -63,7 +63,11 @@ define(function (require) {
 
             c3data.unshift(columnName);
 
-            this._c3data = c3data;
+            if ($.isNumeric(c3data[1])) {
+                this._c3data = c3data;
+            } else {
+                this._c3categories = c3data;
+            }
         },
 
         onDragOver: function (event) {
@@ -72,9 +76,14 @@ define(function (require) {
 
         onDrop: function (event) {
             event.preventDefault();
-            this.chart.load({
-                columns: [this._c3data]
-            });
+
+            if (this._c3categories && this._c3data && !this._categoriesRendered) {
+                this.generageCategoriesChart();
+            } else {
+                this.chart.load({
+                    columns: [this._c3data]
+                });
+            }
         },
 
         onTableLoaded: function (tableModel) {
@@ -95,14 +104,56 @@ define(function (require) {
             this.table.model.join(originTable, foreignTable, originKey, foreignKey);
         },
 
-        onAddChartClick: function () {
-            console.log('add chart');
-            this.chart = c3.generate({
+        generageCategoriesChart: function () {
+            this._categoriesRendered = true;
+            chart = this.chart = c3.generate({
                 bindto: '.chart-holder',
                 data: {
-                    columns: []
+                    x: this._c3categories[0],
+                    columns: [
+                        this._c3categories,
+                        this._c3data
+                    ]
+                },
+                axis: {
+                    x: {
+                        type: 'category'
+                    }
                 }
             });
+        },
+
+        onAddChartClick: function () {
+            var chartView = new ChartView();
+
+            this.listenTo(chartView, 'drop', function(view) {
+                if (this._c3categories && this._c3data) {
+
+                    view.chart = c3.generate({
+                        bindto: '.' + view.cid + ' .chart-holder',
+                        data: {
+                            x: this._c3categories[0],
+                            columns: [
+                                this._c3categories,
+                                this._c3data
+                            ]
+                        },
+                        axis: {
+                            x: {
+                                type: 'category'
+                            }
+                        }
+                    });
+
+                    this._c3categories = null;
+                    this._c3data = null;
+
+                } else {
+                    view.chart.load({
+                        columns: [this._c3data]
+                    });
+                }
+            }.bind(this));
         }
     });
 });
