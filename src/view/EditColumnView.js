@@ -19,6 +19,9 @@ define(function (require) {
             'click .save': 'save'
         },
         initialize: function () {
+            this.table = '';
+            this.column = '';
+
             Tamanoir.metadataExplorer.getMetadata('public').then(_.bind(this.onTablesMetadataLoaded, this));
         },
         render: function () {
@@ -42,6 +45,9 @@ define(function (require) {
         },
         save: function () {
             console.log('save clicked', this.table, this.column);
+            this.model.save({
+                referenceTo: 'public.' + this.table + '.' + this.column
+            });
             this.remove();
         }
     });

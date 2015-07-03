@@ -6,8 +6,12 @@ define(function (require) {
         _ = require('underscore'),
         ColumnModel = require('model/ColumnModel');
 
+    require('backbone.localStorage');
+
     return Backbone.Collection.extend({
         model: ColumnModel,
+
+        localStorage: new Backbone.LocalStorage('columns-collection'),
 
         getCategories: function () {
             return this.filter(function (value) {
