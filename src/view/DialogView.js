@@ -17,6 +17,7 @@ define(function (require) {
             config = config || {};
             this.icon = config.icon || '';
             this.title = config.title || '';
+            this.type = config.type || '';
             this.content = config.content || '';
             this.buttons = config.buttons || [];
         },

@@ -8,6 +8,12 @@ define(function (require) {
 
     return Backbone.Collection.extend({
         url: TamanoirConfig.serverUrl + '/rest/domains',
-        model: DomainModel
+        model: DomainModel,
+        initialize: function () {
+            this.on('error', this.showError);
+        },
+        showError: function () {
+            Tamanoir.showError('Internal Server Error');
+        }
     });
 });

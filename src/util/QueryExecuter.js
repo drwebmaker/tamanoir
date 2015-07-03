@@ -13,7 +13,13 @@ define(function (require) {
     };
 
     QueryExecuter.prototype.query = function (query) {
-        return this._request(query);
+        var deferred = this._request(query);
+
+        deferred.fail(function (error) {
+            Tamanoir.showError((error.responseJSON && error.responseJSON.message) || error.statusText);
+        });
+
+        return deferred;
     };
 
     return QueryExecuter;

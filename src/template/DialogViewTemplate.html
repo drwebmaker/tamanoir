@@ -1,8 +1,8 @@
 <div class="dialog">
     <div class="mask"></div>
     <div class="dialog-container">
-        <div class="dialog-title">
-            {{ if (icon) { }}<i class="foundicon-{{- icon }}"></i>{{ } }}
+        <div class="dialog-title clearfix {{- type }}">
+            {{ if (icon) { }}<i class="foundicon-{{- icon }} right"></i>{{ } }}
             <span>{{- title }}</span>
         </div>
         <div class="dialog-body"></div>

@@ -13,6 +13,12 @@ define(function (require) {
             type: '',
             nativeQuery: '',
             properties: {}
+        },
+        initialize: function () {
+            this.on('error', this.showError);
+        },
+        showError: function () {
+            Tamanoir.showError('Internal Server Error');
         }
     });
 });

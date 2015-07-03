@@ -26,7 +26,9 @@ define(function (require) {
     MetadataExplorer.prototype.getMetadata = function (uri) {
         var deferred = $.Deferred();
 
-        this._request(this._buildUri(uri)).then(deferred.resolve);
+        this._request(this._buildUri(uri)).then(deferred.resolve).fail(function (error) {
+            Tamanoir.showError((error.responseJSON && error.responseJSON.message) || error.statusText);
+        });
 
         return deferred;
     };

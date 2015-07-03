@@ -99,6 +99,21 @@ define(function (require) {
             };
 
             return new DialogView(options).render();
+        },
+
+        /**
+         * Message config
+         * @param {String | Object} options
+         */
+        showError: function (options) {
+            options = typeof options === 'object' ? options : {
+                icon: 'error',
+                type: 'error',
+                title: 'Error',
+                content: options
+            };
+
+            return new DialogView(options).render();
         }
     });
 });
