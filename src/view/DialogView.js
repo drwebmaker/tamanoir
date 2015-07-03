@@ -15,6 +15,7 @@ define(function (require) {
         },
         initialize: function (config) {
             config = config || {};
+            this.icon = config.icon || '';
             this.title = config.title || '';
             this.content = config.content || '';
             this.buttons = config.buttons || [];
@@ -27,6 +28,7 @@ define(function (require) {
         },
         onActionButtonClick: function (event) {
             this.trigger('action:' + $(event.target).data('action'));
+            this.remove();
         },
         onMaskClick: function () {
             this.remove();

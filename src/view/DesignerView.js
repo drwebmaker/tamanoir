@@ -41,14 +41,13 @@ define(function (require) {
             });
             this.table.load(config.tableName);
             this.listenTo(this.table.model, 'loaded', this.onTableLoaded);
-            this.listenTo(Tamanoir, 'toolbar:addchart', this.onAddChartClick);
             this.listenTo(this.sidebar, 'click:join', this.onReferenceClick);
 
             this.render();
         },
         render: function () {
             this.$el.html(DesignerViewTemplate);
-            this.$el.find('.sidebar-holder').html(this.sidebar.render().$el);
+            this.$el.find('.sidebar-holder').html(this.sidebar.$el);
             this.$el.find('.table-holder').html(this.table.$el);
             return this;
         },
@@ -79,7 +78,11 @@ define(function (require) {
                     return tableData.metadata[key];
                 });
 
-            this.columnsCollection.reset(result);
+            if (tableData.data.length) {
+                this.columnsCollection.reset(result);
+            } else {
+                Tamanoir.showMessage('Table is empty');
+            }
         },
 
         onReferenceClick: function (model) {

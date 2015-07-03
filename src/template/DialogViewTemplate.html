@@ -1,7 +1,10 @@
 <div class="dialog">
     <div class="mask"></div>
     <div class="dialog-container">
-        <div class="dialog-title">{{- title }}</div>
+        <div class="dialog-title">
+            {{ if (icon) { }}<i class="foundicon-{{- icon }}"></i>{{ } }}
+            <span>{{- title }}</span>
+        </div>
         <div class="dialog-body"></div>
         {{ if (buttons.length) { }}
         <div class="dialog-bottom-bar clearfix">

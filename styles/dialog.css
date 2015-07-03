@@ -19,8 +19,12 @@
 .dialog .dialog-container .dialog-title {
     background: #008CBA;
     padding-left: 20px;
-    line-height: 45px;
+    font-size: 28px;
     color: white;
+}
+
+.dialog .dialog-container .dialog-title i {
+    margin-right: 10px;
 }
 
 .dialog .dialog-container .dialog-body {

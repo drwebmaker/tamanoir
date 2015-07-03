@@ -9,6 +9,7 @@ define(function (require) {
         DomainsView = require('view/DomainsView'),
         DomainModel = require('model/DomainModel'),
         MetadataExplorer = require('util/MetadataExplorer'),
+        DialogView = require('view/DialogView'),
         DesignerView = require('view/DesignerView'),
         SchemasView = require('view/SchemasView'),
         TablesView = require('view/TablesView');
@@ -84,6 +85,20 @@ define(function (require) {
                     tableName: schemaName + '.' + tableName
                 }).$el);
             });
+        },
+
+        /**
+         * Message config
+         * @param {String | Object} options
+         */
+        showMessage: function (options) {
+            options = typeof options === 'object' ? options : {
+                icon: 'idea',
+                content: options,
+                buttons: [{label: 'Ok'}]
+            };
+
+            return new DialogView(options).render();
         }
     });
 });
