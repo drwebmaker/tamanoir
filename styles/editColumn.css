@@ -1,9 +1,13 @@
 .editColumn .content {
-    min-height: 200px;
+    padding: 10px;
 }
 .editColumn .header {
     background: #007095;
     height: 30px;
     line-height: 30px;
+    padding-left: 10px;
+}
+
+.editColumn .header span {
     padding-left: 10px;
 }
