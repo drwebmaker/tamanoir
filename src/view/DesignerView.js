@@ -11,6 +11,7 @@ define(function (require) {
         ChartView = require('view/ChartView'),
         c3 = require('c3'),
         QueryExecuter = require('util/QueryExecuter'),
+        EditColumnView = require('view/EditColumnView'),
         MetadataExplorer = require('util/MetadataExplorer'),
         ColumnsCollection = require('collection/ColumnsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
@@ -28,8 +29,9 @@ define(function (require) {
         initialize: function (config) {
             this.domain = config.domain;
             this.tableName = config.tableName;
-            this.queryExecuter = new QueryExecuter(this.domain);
-            this.metadataExplorer = new MetadataExplorer(this.domain);
+            //assign queryExecuter and metadata explorer to Tamanoir just for debug.
+            Tamanoir.queryExecuter = this.queryExecuter = new QueryExecuter(this.domain);
+            Tamanoir.metadataExplorer = this.metadataExplorer = new MetadataExplorer(this.domain);
             this.columnsCollection = new ColumnsCollection();
 
             this.sidebar = new SidebarView({collection: this.columnsCollection});
@@ -42,6 +44,7 @@ define(function (require) {
             this.table.load(config.tableName);
             this.listenTo(this.table.model, 'loaded', this.onTableLoaded);
             this.listenTo(this.sidebar, 'click:join', this.onReferenceClick);
+            this.listenTo(Tamanoir, 'column:settings:click', this.onColumnSettingsClick);
 
             this.render();
         },
@@ -88,6 +91,11 @@ define(function (require) {
                 foreignTable = foreignKey.slice(0, foreignKey.lastIndexOf('.'));
 
             this.table.model.join(originTable, foreignTable, originKey, foreignKey);
+        },
+
+        onColumnSettingsClick: function (model) {
+            var editColumnView = new EditColumnView({model: model});
+            this.$('.column-settings-holder').html(editColumnView.$el);
         },
 
         onAddChartClick: function () {

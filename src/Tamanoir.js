@@ -21,9 +21,6 @@ define(function (require) {
     require('css!styles/toolbar');
 
     return Backbone.Router.extend({
-        initialize: function () {
-            Backbone.history.start();
-        },
         routes: {
             '/': 'navigateToHome',
             'library': 'navigateToLibrary',

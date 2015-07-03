@@ -34,3 +34,13 @@
     margin: 6px;
     cursor: pointer;
 }
+
+.sidebar li i.settings {
+    display: none;
+    cursor: pointer;
+}
+
+.sidebar li:hover i.settings {
+    display: inline-block;
+    height: 25px;
+}

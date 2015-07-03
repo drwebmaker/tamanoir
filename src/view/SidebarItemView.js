@@ -12,7 +12,8 @@ define(function (require) {
         className: 'sidebarItem',
         template: _.template(SidebarItemViewTemplate),
         events: {
-            'change input': 'onCheckboxChange'
+            'change input': 'onCheckboxChange',
+            'click .settings': 'onSettingsClick'
         },
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
@@ -24,6 +25,10 @@ define(function (require) {
         },
         onCheckboxChange: function (event) {
             this.model.toggleHidden();
+        },
+        onSettingsClick: function (event) {
+            event.preventDefault();
+            Tamanoir.trigger('column:settings:click', this.model);
         }
     });
 });

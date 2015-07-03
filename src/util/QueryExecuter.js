@@ -22,5 +22,15 @@ define(function (require) {
         return deferred;
     };
 
+    /**
+     * Logs query result to browser console. Just for debug.
+     * @param query
+     */
+    QueryExecuter.prototype.logQuery = function (query) {
+        this.query(query).then(function (data) {
+            console.log(data);
+        });
+    };
+
     return QueryExecuter;
 });

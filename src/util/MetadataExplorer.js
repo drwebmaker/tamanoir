@@ -33,5 +33,15 @@ define(function (require) {
         return deferred;
     };
 
+    /**
+     * Logs metadata to browser console. Just for debug.
+     * @param uri
+     */
+    MetadataExplorer.prototype.logMetadata = function (uri) {
+        this.getMetadata(uri).then(function (metadata) {
+            console.log(metadata);
+        });
+    };
+
     return MetadataExplorer;
 });
