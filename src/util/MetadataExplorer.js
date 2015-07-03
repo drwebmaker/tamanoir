@@ -4,7 +4,7 @@
 define(function (require) {
     var $ = require('jquery'),
         _ = require('underscore'),
-        TamanoirConfig = require('config/tamanoir.config'),
+        TamanoirConfig = require('json!/tamanoir.config.json'),
         MetadataRequestFactory = require('util/MetadataRequestFactory');
 
     /**

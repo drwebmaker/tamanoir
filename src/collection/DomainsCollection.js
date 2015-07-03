@@ -4,7 +4,7 @@
 define(function (require) {
     var Backbone = require('backbone'),
         DomainModel = require('model/DomainModel'),
-        TamanoirConfig = require('config/tamanoir.config');
+        TamanoirConfig = require('json!/tamanoir.config.json');
 
     return Backbone.Collection.extend({
         url: TamanoirConfig.serverUrl + '/rest/domains',

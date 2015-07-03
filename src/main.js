@@ -4,7 +4,7 @@
 define(function (require) {
     var Tamanoir = require('Tamanoir');
 
-    require('config/underscore.config');
+    require('/underscore.config.js');
 
     window.Tamanoir = new Tamanoir();
 });
