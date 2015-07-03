@@ -78,11 +78,7 @@ define(function (require) {
                     return tableData.metadata[key];
                 });
 
-            if (tableData.data.length) {
-                this.columnsCollection.reset(result);
-            } else {
-                Tamanoir.showMessage('Table is empty');
-            }
+            this.columnsCollection.reset(result);
         },
 
         onReferenceClick: function (model) {

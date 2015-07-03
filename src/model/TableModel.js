@@ -66,9 +66,13 @@ define(function (require) {
 
         onDataLoaded: function (data) {
             console.log('data loaded', data);
-            this.set('data', data);
-            this.set('columns', _.keys(data[0]));
-            this.trigger('loaded', this);
+            if (data.length) {
+                this.set('data', data);
+                this.set('columns', _.keys(data[0]));
+                this.trigger('loaded', this);
+            } else {
+                Tamanoir.showMessage('Table is empty');
+            }
         },
 
         join: function (originTable, foreignTable, originKey, foreignKey) {
