@@ -5,16 +5,16 @@
     <label class="label">Table</label>
     <select name="table">
         <option value=""></option>
-        {{ _.each(this.tables, _.bind(function (table) { }}
+        {{ _.each(this.tables, function (table) { }}
         <option value="{{- table.name }}" {{= table.name === this.table ? 'selected' : '' }}>{{- table.name }}</option>
-        {{ }, this)) }}
+        {{ }.bind(this)) }}
     </select>
     <label class="label">Column</label>
     <select name="column">
         <option value=""></option>
         {{ _.each(this.columns, function (column) { }}
         <option value="{{- column.name }}" {{= column.name === this.column ? 'selected' : '' }}>{{- column.name }}</option>
-        {{ }) }}
+        {{ }.bind(this)) }}
     </select>
     <button class="save small">Save</button>
 </div>

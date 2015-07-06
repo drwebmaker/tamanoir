@@ -36,14 +36,14 @@ define(function (require) {
 
             this.sidebar = new SidebarView({collection: this.columnsCollection});
             this.table = new TableView({
-                columnsCollection: this.columnsCollection,
                 model: new TableModel({
-                    domain: config.domain
+                    domain: config.domain,
+                    metadata: this.columnsCollection
                 })
             });
             this.table.load(config.tableName);
-            this.listenTo(this.table.model, 'loaded', this.onTableLoaded);
             this.listenTo(this.sidebar, 'click:join', this.onReferenceClick);
+            this.listenTo(this.table.model, 'loaded', this.onModelDataLoaded);
             this.listenTo(Tamanoir, 'column:settings:click', this.onColumnSettingsClick);
 
             this.render();
@@ -53,6 +53,10 @@ define(function (require) {
             this.$el.find('.sidebar-holder').html(this.sidebar.$el);
             this.$el.find('.table-holder').html(this.table.$el);
             return this;
+        },
+
+        onModelDataLoaded: function() {
+            this.sidebar.render();
         },
 
         onDragStart: function (event) {
@@ -73,15 +77,6 @@ define(function (require) {
 
         onDragOver: function (event) {
             event.preventDefault();
-        },
-
-        onTableLoaded: function (tableModel) {
-            var tableData = tableModel.toJSON(),
-                result = _.map(tableData.data[0], function (value, key) {
-                    return tableData.metadata[key];
-                });
-
-            this.columnsCollection.reset(result);
         },
 
         onReferenceClick: function (model) {

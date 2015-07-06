@@ -5,8 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         QueryExecuter = require('util/QueryExecuter'),
-        DomainModel = require('model/DomainModel'),
-        MetadataExplorer = require('util/MetadataExplorer');
+        DomainModel = require('model/DomainModel');
 
     /**
      * @example
@@ -15,64 +14,28 @@ define(function (require) {
     return Backbone.Model.extend({
         defaults: {
             data: [],
-            metadata: {},
-            columns: []
+            metadata: null
         },
 
         initialize: function (config) {
-            this.metadataExplorer = new MetadataExplorer(config.domain);
             this.queryExecuter = new QueryExecuter(config.domain);
         },
 
         load: function (table) {
-            this.metadataExplorer.getMetadata(table).then(_.bind(this.onMetadataLoaded, this));
-        },
+            this.get('metadata').fetch().done(_.bind(function () {
+                this.queryExecuter.query('select * from ' + table + ' limit 20').then(_.bind(function (data) {
+                    console.log('data loaded', data);
 
-        onMetadataLoaded: function (metadata) {
-            this.prepareMetadata(metadata);
+                    this.get('metadata').prepareMetadata(data, table);
 
-            var columnNames = this.getColumnNames(metadata),
-                domain = this.get('domain'),
-                type = this.get('domain').get('type'),
-                query,
-                nativeQuery = domain.get('nativeQuery');
-
-            if (!nativeQuery) {
-                if (type === 'jdbc') {
-                    query = 'SELECT {columnNames} FROM {tableName} LIMIT 20'
-                        .replace(/{columnNames}/gi, columnNames)
-                        .replace(/{tableName}/gi, metadata.name);
-                } else {
-                    query = 'select * limit 20'
-                }
-            }
-
-            this.queryExecuter.query(query).then(_.bind(this.onDataLoaded, this));
-        },
-
-        prepareMetadata: function (metadata) {
-            console.log('metadata loaded', metadata);
-            this.set('metadata', _.extend(this.get('metadata'), _.reduce(metadata.items, function (memo, value) {
-                memo[value.name] = _.extend(value, {belongTo: metadata.name});
-                return memo;
-            }, {})));
-        },
-
-        getColumnNames: function (metadata) {
-            return _.map(metadata.items, function (value) {
-                return metadata.name + '.' + value.name;
-            });
-        },
-
-        onDataLoaded: function (data) {
-            console.log('data loaded', data);
-            if (data.length) {
-                this.set('data', data);
-                this.set('columns', _.keys(data[0]));
-                this.trigger('loaded', this);
-            } else {
-                Tamanoir.showMessage('Table is empty');
-            }
+                    if (data.length) {
+                        this.set('data', data);
+                        this.trigger('loaded', this);
+                    } else {
+                        Tamanoir.showMessage('Table is empty');
+                    }
+                }, this));
+            }, this));
         },
 
         join: function (originTable, foreignTable, originKey, foreignKey) {
@@ -83,10 +46,18 @@ define(function (require) {
                 .replace(/{foreignTable}/gi, foreignTable)
                 .replace(/{foreignKey}/gi, foreignKey);
 
-            this.metadataExplorer.getMetadata(foreignTable).then(_.bind(function (metadata) {
-                this.prepareMetadata(metadata);
-                this.queryExecuter.query(query).then(_.bind(this.onDataLoaded, this));
-            }, this));
+            this.queryExecuter.query(query).then(function (data) {
+                console.log('data loaded', data);
+
+                this.get('metadata').prepareMetadata(data, foreignTable);
+
+                if (data.length) {
+                    this.set('data', data);
+                    this.trigger('loaded', this);
+                } else {
+                    Tamanoir.showMessage('Table is empty');
+                }
+            }.bind(this));
         }
     });
 });

@@ -15,12 +15,9 @@ define(function (require) {
             'click .foundicon-paper-clip': 'onReferenceClick',
             'click .foundicon-remove': 'onRemoveColumnClick'
         },
-        initialize: function (config) {
-            this.columnsCollection = config.columnsCollection;
-
+        initialize: function () {
             this.listenTo(this.model, 'loaded', this.render);
-            this.listenTo(this.model, 'change:columns', this.render);
-            this.listenTo(this.columnsCollection, 'change', this.onColumnsCollectionChange);
+            this.listenTo(this.model.get('metadata'), 'change', this.render);
         },
         render: function () {
             this.$el.html(_.template(TableViewTemplate)(this.model.toJSON()));
@@ -37,18 +34,9 @@ define(function (require) {
 
             this.model.join(originTable, foreignTable, originKey, foreignKey);
         },
-        onRemoveColumnClick: function () {
+        onRemoveColumnClick: function (event) {
             var name = $(event.target).parent().data('name');
-            this.columnsCollection.get(name).set('hidden', true);
-        },
-
-        onColumnsCollectionChange: function () {
-            this.model.set('columns', _.chain(this.columnsCollection.toJSON())
-                .filter(function (value) {
-                    return !value.hidden;
-                })
-                .pluck('name')
-                .value());
+            this.model.get('metadata').get(name).save('hidden', true);
         }
     });
 });

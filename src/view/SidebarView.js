@@ -17,7 +17,6 @@ define(function (require) {
             'click .foundicon-paper-clip': 'onPaperClipClick'
         },
         initialize: function () {
-            this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
             this.$el.html(this.template);

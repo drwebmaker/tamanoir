@@ -8,14 +8,27 @@ define(function (require) {
         idAttribute: 'name',
         defaults: {
             name: '',
+            fullName: '',
             hidden: false,
             belongTo: '',
             referenceTo: '',
-            type: ''
+            type: 'category'
+        },
+
+        getForeignTableName: function () {
+            var reference = this.get('referenceTo');
+
+            return reference.slice(reference.indexOf('.') + 1, reference.lastIndexOf('.'));
+        },
+
+        getForeignColumnName: function () {
+            var reference = this.get('referenceTo');
+
+            return reference.slice(reference.lastIndexOf('.') + 1);
         },
 
         toggleHidden: function () {
-            this.set('hidden', !this.get('hidden'));
+            this.save('hidden', !this.get('hidden'));
         }
     });
 });
