@@ -14,7 +14,9 @@ define(function (require) {
         className: 'sidebar',
         template: SidebarViewTemplate,
         events: {
-            'click .foundicon-paper-clip': 'onPaperClipClick'
+            'click .foundicon-paper-clip': 'onPaperClipClick',
+            'change .toggleCategories': 'onToggleCategories',
+            'change .toggleNumbers': 'onToggleNumbers'
         },
         initialize: function () {
         },
@@ -38,6 +40,20 @@ define(function (require) {
         onPaperClipClick: function (event) {
             var name = $(event.target).parent().text().trim();
             this.trigger('click:join', this.collection.get(name));
+        },
+
+        onToggleCategories: function (event) {
+            var value = $(event.target).is(':checked');
+            _.each(this.collection.getCategories(), function (model) {
+                model.save('hidden', !value);
+            });
+        },
+
+        onToggleNumbers: function (event) {
+            var value = $(event.target).is(':checked');
+            _.each(this.collection.getNumbers(), function (model) {
+                model.save('hidden', !value);
+            });
         }
     });
 });

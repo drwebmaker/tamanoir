@@ -44,3 +44,7 @@
     display: inline-block;
     height: 25px;
 }
+
+.sidebar .title input {
+    margin: 14px 6px 0 0;
+}
