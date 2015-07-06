@@ -42,7 +42,12 @@ define(function (require) {
         },
         onTableChange: function (event) {
             this.table = $(event.target).val();
-            Tamanoir.metadataExplorer.getMetadata('public.' + this.table).then(_.bind(this.onColumnsMetadataLoaded, this));
+            if (this.table) {
+                Tamanoir.metadataExplorer.getMetadata('public.' + this.table).then(_.bind(this.onColumnsMetadataLoaded, this));
+            } else {
+                this.column = '';
+                this.render();
+            }
         },
         onColumnChange: function (event) {
             this.column = $(event.target).val();
@@ -53,15 +58,12 @@ define(function (require) {
         },
         save: function () {
             console.log('save clicked', this.table, this.column);
+            var referenceTo = (this.table && this.column) ? 'public.' + this.table + '.' + this.column : '';
+
             this.model.save({
-                referenceTo: 'public.' + this.table + '.' + this.column
+                referenceTo: referenceTo
             });
-            this.columnsCollection.create({
-                name: this.column,
-                belongTo: 'public.' + this.table,
-                fullName: 'public.' + this.table + '.' + this.column,
-                referenceTo: this.model.get('belongTo') + '.' + this.model.get('name')
-            });
+
             this.remove();
         }
     });
