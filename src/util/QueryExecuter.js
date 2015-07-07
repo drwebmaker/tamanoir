@@ -3,7 +3,7 @@
  */
 define(function (require) {
     var $ = require('jquery'),
-        TamanoirConfig = require('json!/tamanoir.config.json'),
+        TamanoirConfig = require('json!root/tamanoir.config.json'),
         QueryRequestFactory = require('util/QueryRequestFactory');
 
     var QueryExecuter = function (domain) {

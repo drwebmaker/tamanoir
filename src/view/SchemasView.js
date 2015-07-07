@@ -7,8 +7,6 @@ define(function (require) {
         SchemaModel = require('model/SchemaModel'),
         SchemasViewTemplate = require('text!template/SchemasViewTemplate.html');
 
-    require('css!styles/domains');
-
     return Backbone.View.extend({
         initialize: function () {
             this.render();

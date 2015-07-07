@@ -17,9 +17,6 @@ define(function (require) {
         DomainsCollection = require('collection/DomainsCollection'),
         DesignerViewTemplate = require('text!template/DesignerViewTemplate.html');
 
-    require('css!styles/designer');
-    require('css!bower_components/c3/c3');
-
     return Backbone.View.extend({
         events: {
             'dragstart table th': 'onDragStart',

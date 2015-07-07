@@ -8,8 +8,6 @@ define(function (require) {
         ColumnsCollection = require('collection/ColumnsCollection'),
         EditColumnViewTemplate = require('text!template/EditColumnViewTemplate.html');
 
-    require('css!styles/editColumn');
-
     return Backbone.View.extend({
         className: 'editColumn',
         template: _.template(EditColumnViewTemplate),

@@ -4,8 +4,6 @@
 define(function (require) {
     var Backbone = require('backbone');
 
-    require('css!styles/list');
-
     return Backbone.View.extend({
         tagName: 'ul',
         className: 'list',

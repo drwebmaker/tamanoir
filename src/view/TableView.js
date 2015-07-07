@@ -7,8 +7,6 @@ define(function (require) {
         $ = require('jquery'),
         TableViewTemplate = require('text!template/TableViewTemplate.html');
 
-    require('css!styles/table');
-
     return Backbone.View.extend({
         className: 'tableView',
         events: {

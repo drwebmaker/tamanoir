@@ -8,8 +8,6 @@ define(function (require) {
         DomainsCollection = require('collection/DomainsCollection'),
         DomainsViewTemplate = require('text!template/DomainsViewTemplate.html');
 
-    require('css!styles/domains');
-
     return Backbone.View.extend({
         events: {
             'click .header .foundicon-plus': 'addNewDomain'

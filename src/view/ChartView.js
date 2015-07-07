@@ -7,8 +7,6 @@ define(function (require) {
         $ = require('jquery'),
         ChartTemplate = require('text!template/ChartViewTemplate.html');
 
-    require('css!styles/chart');
-
     return Backbone.View.extend({
         className: 'chart',
         template: ChartTemplate,

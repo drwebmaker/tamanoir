@@ -14,12 +14,6 @@ define(function (require) {
         SchemasView = require('view/SchemasView'),
         TablesView = require('view/TablesView');
 
-    require('css!bower_components/foundation/css/foundation.css');
-    require('css!bower_components/foundation-icons/foundation_icons_general/stylesheets/general_foundicons.css');
-    require('css!styles/base');
-    require('css!styles/layout');
-    require('css!styles/toolbar');
-
     return Backbone.Router.extend({
         routes: {
             '/': 'navigateToHome',

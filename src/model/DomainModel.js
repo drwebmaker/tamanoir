@@ -3,7 +3,7 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        TamanoirConfig = require('json!/tamanoir.config.json');
+        TamanoirConfig = require('json!root/tamanoir.config.json');
 
     return Backbone.Model.extend({
         urlRoot: TamanoirConfig.serverUrl + '/rest/domains',

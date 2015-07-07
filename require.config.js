@@ -9,12 +9,11 @@ require.config({
         jquery: 'bower_components/jquery/dist/jquery',
         underscore: 'bower_components/underscore/underscore',
         text: 'bower_components/requirejs-text/text',
-        css: 'bower_components/require-css/css',
         json: 'bower_components/requirejs-plugins/src/json',
-        styles: '../styles',
         foundation: 'bower_components/foundation/js/foundation',
         c3: 'bower_components/c3/c3',
-        d3: 'bower_components/d3/d3'
+        d3: 'bower_components/d3/d3',
+        root: '../'
     },
     shim: {
         jquery: {

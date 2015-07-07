@@ -8,8 +8,6 @@ define(function (require) {
         SidebarItemView = require('view/SidebarItemView'),
         SidebarViewTemplate = require('text!template/SidebarViewTemplate.html');
 
-    require('css!styles/sidebar');
-
     return Backbone.View.extend({
         className: 'sidebar',
         template: SidebarViewTemplate,

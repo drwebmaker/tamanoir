@@ -6,8 +6,6 @@ define(function (require) {
         $ = require('jquery'),
         DialogViewTemplate = require('text!template/DialogViewTemplate.html');
 
-    require('css!styles/dialog');
-
     return Backbone.View.extend({
         events: {
             'click button[data-action]': 'onActionButtonClick',
