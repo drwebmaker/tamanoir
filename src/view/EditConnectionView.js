@@ -43,6 +43,8 @@ define(function (require) {
             }));
 
             console.log('connect clicked', values);
+
+            Tamanoir.navigate('connection/' + encodeURIComponent(this.model.get('url')), {trigger: true});
         }
     });
 });

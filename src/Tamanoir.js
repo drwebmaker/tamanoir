@@ -24,6 +24,7 @@ define(function (require) {
             'library/:domainId': 'navigateToDomain',
             'library/:domainId/:schemaName': 'navigateToSchema',
             'library/:domainId/:schemaName/:tableName': 'navigateToTable',
+            'connection/:connectionId': 'navigateToDomainDesigner',
             '*otherwise': 'navigateToLibrary'
         },
         navigateToHome: function () {
@@ -57,6 +58,9 @@ define(function (require) {
                         break;
                 }
             });
+        },
+        navigateToDomainDesigner: function (connectionId) {
+            console.log(decodeURIComponent(connectionId));
         },
         navigateToSchema: function (domainId, schemaName) {
             var domain = new DomainModel({id: domainId});
