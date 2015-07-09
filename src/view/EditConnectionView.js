@@ -5,7 +5,8 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
-        EditConnectionViewTemplate = require('text!template/EditConnectionViewTemplate.html');
+        EditConnectionViewTemplate = require('text!template/EditConnectionViewTemplate.html'),
+        PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel');
 
     return Backbone.View.extend({
         className: 'edit-connection',
@@ -14,6 +15,7 @@ define(function (require) {
             'click .connect': 'onConnectClick'
         },
         initialize: function () {
+            this.model = new PostgreSQLConnectionModel();
             this.render();
         },
         render: function () {
@@ -35,6 +37,10 @@ define(function (require) {
             }, {});
 
             this.remove();
+
+            this.model.save(_.extend(values, {
+                url: 'jdbc:postgresql://' + values.server + ':' + values.port + '/' + values.database
+            }));
 
             console.log('connect clicked', values);
         }
