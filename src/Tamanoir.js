@@ -11,6 +11,7 @@ define(function (require) {
         MetadataExplorer = require('util/MetadataExplorer'),
         DialogView = require('view/DialogView'),
         HomeView = require('view/HomeView'),
+        DomainDesignerView = require('view/DomainDesignerView'),
         DesignerView = require('view/DesignerView'),
         SchemasView = require('view/SchemasView'),
         TablesView = require('view/TablesView');
@@ -61,6 +62,7 @@ define(function (require) {
         },
         navigateToDomainDesigner: function (connectionId) {
             console.log(decodeURIComponent(connectionId));
+            $('body').html(new DomainDesignerView({connectionId: connectionId}).$el);
         },
         navigateToSchema: function (domainId, schemaName) {
             var domain = new DomainModel({id: domainId});
