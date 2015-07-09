@@ -1,0 +1,19 @@
+.edit-connection {
+    background: #f1f1f1;
+    width: 300px;
+    border-right: 2px solid #008CBA;
+}
+
+.edit-connection .home-header {
+    height: 51px;
+    line-height: 51px;
+    background: #008CBA;
+}
+
+.edit-connection form {
+    margin: 10px;
+}
+
+.edit-connection button.connect {
+    margin-left: 10px;
+}

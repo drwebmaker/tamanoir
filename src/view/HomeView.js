@@ -4,7 +4,8 @@
 define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
-        HomeViewTemplate = require('text!template/HomeViewTemplate.html');
+        HomeViewTemplate = require('text!template/HomeViewTemplate.html'),
+        EditConnectionView = require('view/EditConnectionView');
 
     return Backbone.View.extend({
         className: 'home-view',
@@ -37,6 +38,7 @@ define(function (require) {
         onDatasourceTypeClick: function (event) {
             var type = $(event.target).data('datasource-type');
             console.log(type, 'datasource type clicked');
+            this.$('.home-datasource-settings').html(new EditConnectionView().$el);
         }
     });
 });
