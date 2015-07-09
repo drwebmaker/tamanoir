@@ -1,0 +1,65 @@
+.home-view .home-header {
+    height: 40px;
+    background: #333333;
+    color: #ffffff;
+}
+
+.home-view .home-title {
+    display: inline-block;
+    height: 40px;
+    cursor: pointer;
+    line-height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.home-view .home-user-profile {
+    height: 40px;
+    cursor: pointer;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+}
+
+.home-view .home-user-profile:hover {
+    background: #222222;
+}
+
+.home-view .home-sidebar {
+    min-width: 200px;
+    background: #007095;
+}
+
+.home-view .home-sidebar .button {
+    width: 100%;
+    background: #007095;
+}
+
+.home-view .home-sidebar .button.active {
+    background: #008CBA;
+}
+
+.home-view .home-sidebar .button:hover {
+    background: #008CBA;
+}
+
+.home-datasource-types {
+    background: #008CBA;
+    min-width: 300px;
+    color: white;
+}
+
+.home-datasource-types .home-header {
+    height: 51px;
+    line-height: 51px;
+    margin-bottom: 10px;
+    background: #008CBA;
+}
+
+.home-datasource-types li {
+    cursor: pointer;
+}
+
+.home-datasource-types li:hover {
+    text-decoration: underline;
+}

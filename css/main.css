@@ -3,6 +3,7 @@
 @import "../src/bower_components/c3/c3.css";
 
 @import "base.css";
+@import "home.css";
 @import "chart.css";
 @import "designer.css";
 @import "dialog.css";

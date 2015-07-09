@@ -10,13 +10,14 @@ define(function (require) {
         DomainModel = require('model/DomainModel'),
         MetadataExplorer = require('util/MetadataExplorer'),
         DialogView = require('view/DialogView'),
+        HomeView = require('view/HomeView'),
         DesignerView = require('view/DesignerView'),
         SchemasView = require('view/SchemasView'),
         TablesView = require('view/TablesView');
 
     return Backbone.Router.extend({
         routes: {
-            '/': 'navigateToHome',
+            '(/)': 'navigateToHome',
             'library': 'navigateToLibrary',
             'library/new': 'navigateToAddDomain',
             'library/:domainId/edit': 'navigateToEditDomain',
@@ -26,7 +27,7 @@ define(function (require) {
             '*otherwise': 'navigateToLibrary'
         },
         navigateToHome: function () {
-            this.navigate('library', {trigger: true});
+            $('body').html(new HomeView().$el);
         },
         navigateToLibrary: function () {
             $('body').html(new DomainsView().$el);
