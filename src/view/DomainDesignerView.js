@@ -7,6 +7,7 @@ define(function (require) {
         $ = require('jquery'),
         ConnectionsCollection = require('collection/ConnectionsCollection'),
         TablesView = require('view/TablesView'),
+        TableView = require('view/TableView'),
         DomainDesignerViewTemplate = require('text!template/DomainDesignerViewTemplate.html');
 
     return Backbone.View.extend({
@@ -20,8 +21,10 @@ define(function (require) {
             this.connectionModel = null;
             this.connectionsCollection = new ConnectionsCollection();
             this.tablesCollection = new Backbone.Collection();
+            this.tableDataCollection = new Backbone.Collection();
 
             this.listenTo(this.connectionsCollection, 'sync', this.onConnectionsSync);
+            this.listenTo(Tamanoir, 'tables:table:click', this.onSidebarTableClick);
 
             this.connectionsCollection.fetch();
         },
@@ -33,6 +36,9 @@ define(function (require) {
                 database: this.connectionModel.get('database'),
                 collection: this.tablesCollection
             }).$el);
+
+            this.$('.bottom-section .table-holder').html(new TableView({collection: this.tableDataCollection}).$el);
+
             return this;
         },
         onConnectionsSync: function () {
@@ -57,6 +63,12 @@ define(function (require) {
         },
         onProductTitleClick: function () {
             Tamanoir.navigate('/', {trigger: true});
+        },
+        onSidebarTableClick: function (table) {
+            console.log('table clicked', table);
+            this.connectionModel.query('SELECT * FROM ' + table.get('name') + ' LIMIT 1000').then(function (data) {
+                this.tableDataCollection.reset(data);
+            }.bind(this));
         }
     });
 });

@@ -1,26 +1,22 @@
-.tableView tbody tr:nth-child(even){
+.table-view {
+    background: #e1e1e1;
+    overflow: auto;
+    position: relative;
+}
+
+.table-view tbody tr:nth-child(even){
     background: #F1F1F1;
 }
 
-.tableView thead tr th{
-    background: #e1e1e1;
-    cursor: move;
-}
-
-.tableView {
-    overflow: auto;
-}
-
-.tableView {
+.table-view thead tr th{
     background: #e1e1e1;
 }
 
-.tableView .title {
-    font-weight: bold;
-    line-height: 1.5em;
-    padding-left: 20px;
+.table-view table {
+    width: 100%;
 }
 
-.tableView th i {
-    margin-left: 10px;
+.table-view table th div{
+    position: absolute;
+    top: 0;
 }

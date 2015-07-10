@@ -8,33 +8,29 @@ define(function (require) {
         TableViewTemplate = require('text!template/TableViewTemplate.html');
 
     return Backbone.View.extend({
-        className: 'tableView',
+        className: 'table-view',
+        template: _.template(TableViewTemplate),
         events: {
-            'click .foundicon-paper-clip': 'onReferenceClick',
-            'click .foundicon-remove': 'onRemoveColumnClick'
         },
         initialize: function () {
-            this.listenTo(this.model, 'loaded', this.render);
-            this.listenTo(this.model.get('metadata'), 'change', this.render);
+            this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
-            this.$el.html(_.template(TableViewTemplate)(this.model.toJSON()));
+            this.calculateHeight();
+
+            this.$el.html(this.template({
+                data: this.collection.toJSON()
+            }));
+
             return this;
         },
-        load: function (table) {
-            this.model.load(table);
-        },
-        onReferenceClick: function (event) {
-            var foreignKey = $(event.target).parent().data('referenceTo'),
-                originTable = $(event.target).parent().data('belongTo'),
-                originKey = originTable + '.' + $(event.target).parent().data('name'),
-                foreignTable = foreignKey.slice(0, foreignKey.lastIndexOf('.'));
+        calculateHeight: function () {
+            setTimeout(function () {
+                var topSectionHeight = $('.bottom-section').height(),
+                    titleHeight =  $('.bottom-section .title').height();
 
-            this.model.join(originTable, foreignTable, originKey, foreignKey);
-        },
-        onRemoveColumnClick: function (event) {
-            var name = $(event.target).parent().data('name');
-            this.model.get('metadata').get(name).save('hidden', true);
+                this.$el.height(topSectionHeight - titleHeight);
+            }.bind(this), 0);
         }
     });
 });

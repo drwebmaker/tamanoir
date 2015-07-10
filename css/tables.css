@@ -10,10 +10,6 @@
     overflow: auto;
 }
 
-.tables-view ul li {
-    padding-left: 0;
-}
-
 .tables-view ul li span {
     padding-left: 10px;
 }

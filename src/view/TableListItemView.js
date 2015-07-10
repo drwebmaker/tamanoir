@@ -16,7 +16,7 @@ define(function (require) {
             return this;
         },
         onTableClick: function () {
-            console.log('table clicked', this.model);
+            Tamanoir.trigger('tables:table:click', this.model);
         }
     });
 });
