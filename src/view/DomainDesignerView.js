@@ -54,11 +54,10 @@ define(function (require) {
         calculateHeight: function () {
             setTimeout(function () {
                 var bodyHeight = $('body').height(),
-                    sectionHeight = Math.round((bodyHeight - 40) / 3);
+                    sectionHeight = Math.round((bodyHeight - 40) / 2);
 
                 this.$('.top-section').height(sectionHeight);
-                this.$('.middle-section').height(sectionHeight);
-                this.$('.bottom-section').height(bodyHeight - sectionHeight * 2 - 40);
+                this.$('.bottom-section').height(bodyHeight - sectionHeight - 40);
             }.bind(this), 0);
         },
         onProductTitleClick: function () {
