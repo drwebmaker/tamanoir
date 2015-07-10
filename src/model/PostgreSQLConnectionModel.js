@@ -10,11 +10,10 @@ define(function (require) {
     require('backbone.localStorage');
 
     return Backbone.Model.extend({
-        idAttribute: 'url',
         localStorage: new Backbone.LocalStorage('connections'),
         defaults: {
             url: '',
-            type: '',
+            database: '',
             server: '',
             port: '',
             user: '',

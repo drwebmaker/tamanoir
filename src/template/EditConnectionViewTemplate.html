@@ -1,11 +1,14 @@
 <div class="home-header text-center">PostgreSQL</div>
 <form>
-    <input type="text" placeholder="name" name="name"/>
-    <input type="text" placeholder="server" name="server"/>
-    <input type="text" placeholder="port" name="port" value="5432"/>
-    <input type="text" placeholder="database" name="database"/>
-    <input type="text" placeholder="user" name="user"/>
-    <input type="password" placeholder="password" name="password"/>
-    <input type="hidden" name="type" value="postgresql"/>
+    <input type="text" placeholder="name" name="name" value="{{- name }}"/>
+    <input type="text" placeholder="server" name="server" value="{{- server }}"/>
+    <input type="text" placeholder="port" name="port" value="{{- port }}"/>
+    <input type="text" placeholder="database" name="database" value="{{- database }}"/>
+    <input type="text" placeholder="user" name="user" value="{{- user }}"/>
+    <input type="password" placeholder="password" name="password" value="{{- password }}"/>
 </form>
+{{ if (this.model.isNew()) { }}
 <button class="connect">connect</button>
+{{ } else { }}
+<button class="save">save</button>
+{{ } }}

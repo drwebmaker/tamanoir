@@ -11,9 +11,12 @@ define(function (require) {
         tagName: 'li',
         template: _.template(ConnectionListItemViewTemplate),
         events: {
-            'click span': 'onConnectionClick'
+            'click .connection': 'onConnectionClick',
+            'click .edit': 'onEditConnectionClick',
+            'click .delete': 'onDeleteConnectionClick'
         },
         initialize: function () {
+            this.listenTo(this.model, 'destroy', this.remove);
             this.render();
         },
         render: function () {
@@ -21,7 +24,13 @@ define(function (require) {
             return this;
         },
         onConnectionClick: function () {
-            console.log(this.model)
+            Tamanoir.navigate('connection/' + this.model.get('id'), {trigger: true});
+        },
+        onDeleteConnectionClick: function () {
+            this.model.destroy();
+        },
+        onEditConnectionClick: function () {
+            Tamanoir.trigger('connectionsList:connection:edit', this.model);
         }
     });
 });

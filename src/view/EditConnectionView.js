@@ -5,21 +5,20 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
-        EditConnectionViewTemplate = require('text!template/EditConnectionViewTemplate.html'),
-        PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel');
+        EditConnectionViewTemplate = require('text!template/EditConnectionViewTemplate.html');
 
     return Backbone.View.extend({
         className: 'edit-connection',
-        template: EditConnectionViewTemplate,
+        template: _.template(EditConnectionViewTemplate),
         events: {
-            'click .connect': 'onConnectClick'
+            'click .connect': 'onConnectClick',
+            'click .save': 'onSaveClick'
         },
         initialize: function () {
-            this.model = new PostgreSQLConnectionModel();
             this.render();
         },
         render: function () {
-            this.$el.html(this.template);
+            this.$el.html(this.template(this.model.toJSON()));
             this.calculateHeight();
             return this;
         },
@@ -40,11 +39,23 @@ define(function (require) {
 
             this.model.save(_.extend(values, {
                 url: 'jdbc:postgresql://' + values.server + ':' + values.port + '/' + values.database
-            }));
+            })).done(function () {
+                Tamanoir.navigate('connection/' + this.model.get('id'), {trigger: true});
+            }.bind(this));
 
             console.log('connect clicked', values);
+        },
+        onSaveClick: function () {
+            var values = _.reduce(this.$('form').serializeArray(), function (memo, value) {
+                memo[value.name] = value.value;
+                return memo;
+            }, {});
 
-            Tamanoir.navigate('connection/' + encodeURIComponent(this.model.get('url')), {trigger: true});
+            this.remove();
+
+            this.model.save(_.extend(values, {
+                url: 'jdbc:postgresql://' + values.server + ':' + values.port + '/' + values.database
+            }));
         }
     });
 });

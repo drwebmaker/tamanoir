@@ -6,6 +6,7 @@ define(function (require) {
         $ = require('jquery'),
         HomeViewTemplate = require('text!template/HomeViewTemplate.html'),
         ConnectionsListView = require('view/ConnectionsListView'),
+        PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel'),
         EditConnectionView = require('view/EditConnectionView');
 
     return Backbone.View.extend({
@@ -16,6 +17,7 @@ define(function (require) {
             'click [data-datasource-type]': 'onDatasourceTypeClick'
         },
         initialize: function () {
+            this.listenTo(Tamanoir, 'connectionsList:connection:edit', this.onEditConnectionClick);
             this.render();
         },
         render: function () {
@@ -37,11 +39,20 @@ define(function (require) {
         onNewConnectionClick: function (event) {
             $(event.target).toggleClass('active');
             this.$('.home-datasources').toggleClass('hide');
+
+            this.editConnectionView && this.editConnectionView.remove();
         },
         onDatasourceTypeClick: function (event) {
             var type = $(event.target).data('datasource-type');
             console.log(type, 'datasource type clicked');
-            this.$('.home-datasource-settings').html(new EditConnectionView().$el);
+
+            this.editConnectionView = new EditConnectionView({model: new PostgreSQLConnectionModel()});
+            this.$('.home-datasource-settings').html(this.editConnectionView.$el);
+        },
+        onEditConnectionClick: function (model) {
+            console.log(model);
+            this.editConnectionView = new EditConnectionView({model: model});
+            this.$('.home-datasource-settings').html(this.editConnectionView.$el);
         }
     });
 });
