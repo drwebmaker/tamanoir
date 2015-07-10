@@ -1,9 +1,10 @@
 .tables-view {
-    border-right: 2px solid #008CBA;
+    border-right: 1px solid #007095;
 }
 
 .tables-view .title {
     line-height: initial;
+    background: #007095;
 }
 
 .tables-view ul {

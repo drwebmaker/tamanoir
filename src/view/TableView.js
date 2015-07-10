@@ -26,10 +26,7 @@ define(function (require) {
         },
         calculateHeight: function () {
             setTimeout(function () {
-                var topSectionHeight = $('.bottom-section').height(),
-                    titleHeight =  $('.bottom-section .title').height();
-
-                this.$el.height(topSectionHeight - titleHeight);
+                this.$el.height($('.bottom-section').height());
             }.bind(this), 0);
         }
     });
