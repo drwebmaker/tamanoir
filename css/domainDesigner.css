@@ -1,0 +1,22 @@
+.domain-designer-view .domain-designer-header {
+    height: 40px;
+    background: #333333;
+    color: #ffffff;
+}
+
+.domain-designer-view .domain-designer-title {
+    display: inline-block;
+    height: 40px;
+    cursor: pointer;
+    line-height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.domain-designer-view .domain-designer-user-profile {
+    height: 40px;
+    cursor: pointer;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+}
