@@ -1,0 +1,40 @@
+.connections-list-view {
+    margin-left: 20px;
+    color: #008CBA;
+}
+
+.connections-list-view .title {
+    line-height: 51px;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+.connections-list-item-view {
+    position: relative;
+    padding-left: 50px;
+}
+
+.connections-list-item-view .connection {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.connections-list-item-view .connection:hover {
+    text-decoration: underline;
+}
+
+.connections-list-item-view .actions {
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+}
+
+.connections-list-item-view .actions i {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.connections-list-item-view:hover .actions {
+    display: block;
+}

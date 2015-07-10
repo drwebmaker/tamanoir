@@ -5,6 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         HomeViewTemplate = require('text!template/HomeViewTemplate.html'),
+        ConnectionsListView = require('view/ConnectionsListView'),
         EditConnectionView = require('view/EditConnectionView');
 
     return Backbone.View.extend({
@@ -20,6 +21,7 @@ define(function (require) {
         render: function () {
             this.$el.html(this.template);
             this.calculateHeight();
+            this.$('.home-connections').html(new ConnectionsListView().$el);
             return this;
         },
         calculateHeight: function () {
@@ -29,6 +31,7 @@ define(function (require) {
                 this.$('.home-sidebar').height(bodyHeight - 40);
                 this.$('.home-datasources').height(bodyHeight - 40);
                 this.$('.home-datasource-types').height(bodyHeight - 40);
+                this.$('.home-connections').height(bodyHeight - 40);
             }.bind(this), 0);
         },
         onNewConnectionClick: function (event) {
