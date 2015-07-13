@@ -1,0 +1,25 @@
+.table-settings-view {
+    border-left: 1px solid #007095;
+    min-width: 200px;
+}
+
+.table-settings-view .title,
+.table-settings-view .subtitle {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.table-settings-view .subtitle {
+    background: #008CBA;
+    color: white;
+}
+
+.table-settings-view li label{
+    color: #008CBA;
+}
+
+.table-settings-view li input {
+    margin: 0 5px 0 0;
+    position: relative;
+    top: 2px;
+}

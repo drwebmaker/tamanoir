@@ -14,6 +14,7 @@ define(function (require) {
         },
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
+            this.render();
         },
         render: function () {
             this.calculateHeight();

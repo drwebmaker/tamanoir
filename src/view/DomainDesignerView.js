@@ -7,6 +7,7 @@ define(function (require) {
         $ = require('jquery'),
         ConnectionsCollection = require('collection/ConnectionsCollection'),
         TablesView = require('view/TablesView'),
+        DataCanvasView = require('view/DataCanvasView'),
         TableView = require('view/TableView'),
         DomainDesignerViewTemplate = require('text!template/DomainDesignerViewTemplate.html');
 
@@ -37,6 +38,7 @@ define(function (require) {
                 collection: this.tablesCollection
             }).$el);
 
+            this.$('.data-canvas-holder').html(new DataCanvasView().$el);
             this.$('.bottom-section .table-holder').html(new TableView({collection: this.tableDataCollection}).$el);
 
             return this;

@@ -9,7 +9,8 @@ define(function (require) {
     return Backbone.View.extend({
         tagName: 'li',
         events: {
-            'click': 'onTableClick'
+            'click': 'onTableClick',
+            'dragstart': 'onDragStart'
         },
         render: function () {
             this.$el.html(_.template(TableListItemViewTemplate)(this.model.toJSON()));
@@ -17,6 +18,9 @@ define(function (require) {
         },
         onTableClick: function () {
             Tamanoir.trigger('tables:table:click', this.model);
+        },
+        onDragStart: function () {
+            Tamanoir.trigger('tables:table:dragstart', this.model);
         }
     });
 });

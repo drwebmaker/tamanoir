@@ -1,0 +1,22 @@
+.data-canvas-view .data-canvas-item-view {
+    display: inline-block;
+    background: #008CBA;
+    color: white;
+    width: 200px;
+    position: relative;
+    padding: 6px 20px 6px 30px;
+    margin: 30px 30px 0 30px;
+}
+
+.data-canvas-view .data-canvas-item-view i.remove {
+    position: absolute;
+    left: 10px;
+    cursor: pointer;
+}
+
+.data-canvas-view .data-canvas-item-view .table-name {
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+}

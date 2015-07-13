@@ -9,7 +9,8 @@
 }
 
 .table-view thead tr th{
-    background: #e1e1e1;
+    background: #007095;
+    color: white;
 }
 
 .table-view table {
@@ -21,4 +22,11 @@
 .table-view table th div{
     position: absolute;
     top: 0;
+}
+
+.table-view .empty-table {
+    height: 36px;
+    background: #007095;
+    padding-left: 20px;
+    color: white;
 }
