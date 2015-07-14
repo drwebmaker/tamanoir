@@ -6,7 +6,6 @@ define(function (require) {
         $ = require('jquery'),
         _ = require('underscore'),
         TableSettingsView = require('view/TableSettingsView'),
-        DataCanvasItemsCollection = require('collection/DataCanvasItemsCollection'),
         DataCanvasViewTemplate = require('text!template/DataCanvasViewTemplate.html'),
         DataCanvasItemView = require('view/DataCanvasItemView');
 
@@ -15,17 +14,13 @@ define(function (require) {
         template: DataCanvasViewTemplate,
         events: {
             'dragover': 'onDragOver',
-            'drop': 'onDrop',
-            'click': 'onCanvasClick'
+            'drop': 'onDrop'
         },
         initialize: function () {
-            this.collection = new DataCanvasItemsCollection();
-
             this.listenTo(Tamanoir, 'tables:table:dragstart', this.onSidebarTableDragStart);
             this.listenTo(Tamanoir, 'datacanvasitem:table:click', this.onDataCanvasItemClick);
             this.listenTo(this.collection, 'update', this.render);
             this.listenTo(this.collection, 'reset', this.render);
-            this.listenTo(this.collection, 'change', this.onDataCanvasItemsChange);
 
             this.render();
         },
@@ -73,16 +68,6 @@ define(function (require) {
         onDataCanvasItemClick: function (table) {
             console.log('canvas item clicked', table);
             this.$('.table-settings-holder').html(new TableSettingsView({model: table}).$el);
-        },
-        onCanvasClick: function (event) {
-            if (event.target === this.el) {
-                console.log('canvas clicked', event);
-                this.trigger('canvasitems:change');
-            }
-        },
-        onDataCanvasItemsChange: function () {
-            console.log('data canvas items change');
-            this.trigger('canvasitems:change');
         }
     });
 });

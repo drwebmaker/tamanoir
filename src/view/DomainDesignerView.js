@@ -8,6 +8,7 @@ define(function (require) {
         PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel'),
         TablesView = require('view/TablesView'),
         DataCanvasView = require('view/DataCanvasView'),
+        DataCanvasItemsCollection = require('collection/DataCanvasItemsCollection'),
         TableView = require('view/TableView'),
         DomainDesignerViewTemplate = require('text!template/DomainDesignerViewTemplate.html');
 
@@ -23,8 +24,10 @@ define(function (require) {
             this.connectionModel = new PostgreSQLConnectionModel({id: config.connectionId});
             this.tablesCollection = new Backbone.Collection();
             this.tableDataCollection = new Backbone.Collection();
+            this.dataCanvasItemsCollection = new DataCanvasItemsCollection();
 
             this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
+            this.listenTo(this.dataCanvasItemsCollection, 'change update reset', this.onCanvasItemsChange);
             this.listenTo(Tamanoir, 'tables:table:click', this.onSidebarTableClick);
 
             this.connectionModel.fetch();
@@ -39,14 +42,12 @@ define(function (require) {
             }).$el);
 
 
-            this.dataCanvas= new DataCanvasView();
+            this.dataCanvas= new DataCanvasView({collection: this.dataCanvasItemsCollection});
 
             this.dataCanvas.deserialize(this.config.domainId);
 
             this.$('.data-canvas-holder').html(this.dataCanvas.$el);
             this.$('.bottom-section .table-holder').html(new TableView({collection: this.tableDataCollection}).$el);
-
-            this.listenTo(this.dataCanvas, 'canvasitems:change', this.onCanvasItemsChange);
 
             return this;
         },
