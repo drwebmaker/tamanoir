@@ -8,6 +8,7 @@ define(function (require) {
         PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel'),
         TablesView = require('view/TablesView'),
         DataCanvasView = require('view/DataCanvasView'),
+        DialogView = require('view/DialogView'),
         DomainsCollection = require('collection/DomainsCollection'),
         DataCanvasItemsCollection = require('collection/DataCanvasItemsCollection'),
         TableView = require('view/TableView'),
@@ -101,6 +102,9 @@ define(function (require) {
             this.connectionModel.query(this.dataCanvas.getQuery()).then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
+
+            this.$('.saveDomain').removeClass('foundicon-checkmark');
+            this.$('.saveDomain').addClass('foundicon-star');
         },
         onAnalysisClick: function () {
             console.log('analysis button click');
@@ -113,20 +117,35 @@ define(function (require) {
             }
         },
         onSaveDomainClick: function (event) {
-            var name;
             if (this.model.isNew()) {
-                name = prompt('input domain name');
+                var dialogView = new DialogView({
+                    title: 'Save domain',
+                    content: $('<input type="text" placeholder="name" name="name"/>'),
+                    buttons: [{label: 'save', action: 'save'}]
+                }).render();
+                this.listenToOnce(dialogView, 'action:save', function () {
+                    var name = dialogView.$('input').val();
+                    if (name) {
+                        this.model.save({
+                            name: name,
+                            data: this.dataCanvasItemsCollection.toJSON()
+                        }, {
+                            success: function (model) {
+                                Tamanoir.navigate('connection/' + model.get('connectionId') + '/' + model.get('id'));
+                                this.$('.saveDomain').removeClass('foundicon-star');
+                                this.$('.saveDomain').addClass('foundicon-checkmark');
+                            }
+                        });
+                    }
+                    dialogView.remove();
+                }.bind(this));
             } else {
-                name = this.model.get('name');
+                this.model.save({
+                    data: this.dataCanvasItemsCollection.toJSON()
+                });
+                this.$('.saveDomain').removeClass('foundicon-star');
+                this.$('.saveDomain').addClass('foundicon-checkmark');
             }
-            this.model.save({
-                name: name,
-                data: this.dataCanvasItemsCollection.toJSON()
-            }, {
-                success: function (model) {
-                    Tamanoir.navigate('connection/' + model.get('connectionId') + '/' + model.get('id'));
-                }
-            })
         }
     });
 });

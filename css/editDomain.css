@@ -1,0 +1,19 @@
+.edit-domain {
+    background: #f1f1f1;
+    width: 300px;
+    border-right: 1px solid #008CBA;
+}
+
+.edit-domain .home-header {
+    height: 51px;
+    line-height: 51px;
+    background: #008CBA;
+}
+
+.edit-domain form {
+    margin: 10px;
+}
+
+.edit-domain button {
+    margin-left: 10px;
+}

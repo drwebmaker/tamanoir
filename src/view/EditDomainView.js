@@ -3,60 +3,40 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        _ = require('underscore'),
         $ = require('jquery'),
-        DomainsCollection = require('collection/DomainsCollection'),
+        _ = require('underscore'),
         EditDomainViewTemplate = require('text!template/EditDomainViewTemplate.html');
 
     return Backbone.View.extend({
+        className: 'edit-domain',
+        template: _.template(EditDomainViewTemplate),
         events: {
-            'click button.save': 'onSaveButtonClick',
-            'change select[name="type"]': 'toggleControls'
+            'click .save': 'onSaveClick'
         },
         initialize: function () {
-            if (this.model.isNew()) {
-                this.render();
-            } else {
-                this.model.fetch().done(_.bind(this.render, this));
-            }
+            this.render();
         },
-
         render: function () {
-            this.$el.html(_.template(EditDomainViewTemplate)(this.model.toJSON()));
-            this.toggleControls();
+            this.$el.html(this.template(this.model.toJSON()));
+            this.calculateHeight();
             return this;
         },
+        calculateHeight: function () {
+            setTimeout(function () {
+                var bodyHeight = $('body').height();
 
-        toggleControls: function () {
-            if ($('select[name="type"]').val() === 'csv') {
-                $('.jdbc-controls').hide();
-            } else {
-                $('.jdbc-controls').show();
-            }
+                this.$el.height(bodyHeight - 40);
+            }.bind(this), 0);
         },
-
-        onSaveButtonClick: function () {
-            var values = this.$el.find('form').serializeArray().reduce(function(obj, item) {
-                obj[item.name] = item.value;
-                return obj;
+        onSaveClick: function () {
+            var values = _.reduce(this.$('form').serializeArray(), function (memo, value) {
+                memo[value.name] = value.value;
+                return memo;
             }, {});
 
-            this.model.save({
-                type: values.type,
-                name: values.name,
-                url: values.url,
-                nativeQuery: values.nativeQuery,
-                properties: {
-                    user: values.user,
-                    password: values.password
-                }
-            }).done(function () {
-                Tamanoir.navigate('library', {trigger: true});
-            }).error(function (res) {
-                if (res.status === 201) {
-                    Tamanoir.navigate('library', {trigger: true});
-                }
-            });
+            this.remove();
+
+            this.model.save(values);
         }
     });
 });

@@ -8,6 +8,7 @@ define(function (require) {
         ConnectionsListView = require('view/ConnectionsListView'),
         DomainsListView = require('view/DomainsListView'),
         PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel'),
+        EditDomainView = require('view/EditDomainView'),
         EditConnectionView = require('view/EditConnectionView');
 
     return Backbone.View.extend({
@@ -19,6 +20,7 @@ define(function (require) {
         },
         initialize: function () {
             this.listenTo(Tamanoir, 'connectionsList:connection:edit', this.onEditConnectionClick);
+            this.listenTo(Tamanoir, 'domainsList:domain:edit', this.onEditDomainClick);
             this.render();
         },
         render: function () {
@@ -54,6 +56,11 @@ define(function (require) {
             console.log(model);
             this.editConnectionView = new EditConnectionView({model: model});
             this.$('.home-datasource-settings').html(this.editConnectionView.$el);
+        },
+        onEditDomainClick: function (model) {
+            console.log(model);
+            this.editDomainView = new EditDomainView({model: model});
+            this.$('.home-datasource-settings').html(this.editDomainView.$el);
         }
     });
 });
