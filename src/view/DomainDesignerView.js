@@ -17,7 +17,8 @@ define(function (require) {
         template: DomainDesignerViewTemplate,
         events: {
             'click .domain-designer-title': 'onProductTitleClick',
-            'click .analysis': 'onAnalysisClick'
+            'click .analysis': 'onAnalysisClick',
+            'click .data-canvas-view': 'onDataCanvasClick'
         },
         initialize: function (config) {
             this.config = config || {};
@@ -91,6 +92,12 @@ define(function (require) {
         onAnalysisClick: function () {
             console.log('analysis button click');
             Tamanoir.navigate('connection/' + this.config.connectionId + '/' + this.dataCanvas.serialize());
+        },
+        onDataCanvasClick: function (event) {
+            if (event.target === this.dataCanvas.el) {
+                console.log('data canvas click');
+                this.onCanvasItemsChange();
+            }
         }
     });
 });
