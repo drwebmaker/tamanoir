@@ -23,11 +23,11 @@ define(function (require) {
                 if (conditions) {
                     conditions += ' AND ' + value;
                 } else {
-                    conditions = ' WHERE ' + value;
+                    conditions = '\nWHERE\n\t' + value;
                 }
             });
 
-            return 'SELECT ' + columns + ' FROM ' + tables + conditions + ' LIMIT 1000';
+            return 'SELECT\n\t' + columns + '\nFROM\n\t' + tables + conditions + '\nLIMIT 1000';
         },
         getColumnMatches: function () {
             var matches = {};
