@@ -15,7 +15,8 @@ define(function (require) {
         className: 'domain-designer-view',
         template: DomainDesignerViewTemplate,
         events: {
-            'click .domain-designer-title': 'onProductTitleClick'
+            'click .domain-designer-title': 'onProductTitleClick',
+            'click .analysis': 'onAnalysisClick'
         },
         initialize: function (config) {
             this.config = config || {};
@@ -40,6 +41,8 @@ define(function (require) {
 
 
             this.dataCanvas= new DataCanvasView();
+
+            this.dataCanvas.deserialize(this.config.domainId);
 
             this.$('.data-canvas-holder').html(this.dataCanvas.$el);
             this.$('.bottom-section .table-holder').html(new TableView({collection: this.tableDataCollection}).$el);
@@ -81,6 +84,10 @@ define(function (require) {
             this.connectionModel.query(this.dataCanvas.getQuery()).then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
+        },
+        onAnalysisClick: function () {
+            console.log('analysis button click');
+            Tamanoir.navigate('connection/' + this.config.connectionId + '/' + this.dataCanvas.serialize());
         }
     });
 });

@@ -26,6 +26,7 @@ define(function (require) {
             'library/:domainId/:schemaName': 'navigateToSchema',
             'library/:domainId/:schemaName/:tableName': 'navigateToTable',
             'connection/:connectionId': 'navigateToDomainDesigner',
+            'connection/:connectionId/:domainId': 'navigateToDomainDesigner',
             '*otherwise': 'navigateToLibrary'
         },
         navigateToHome: function () {
@@ -60,9 +61,10 @@ define(function (require) {
                 }
             });
         },
-        navigateToDomainDesigner: function (connectionId) {
+        navigateToDomainDesigner: function (connectionId, domainId) {
             console.log(decodeURIComponent(connectionId));
-            $('body').html(new DomainDesignerView({connectionId: connectionId}).$el);
+            console.log(decodeURIComponent(domainId));
+            $('body').html(new DomainDesignerView({connectionId: connectionId, domainId: domainId}).$el);
         },
         navigateToSchema: function (domainId, schemaName) {
             var domain = new DomainModel({id: domainId});

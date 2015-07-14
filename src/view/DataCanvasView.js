@@ -24,6 +24,7 @@ define(function (require) {
             this.listenTo(Tamanoir, 'tables:table:dragstart', this.onSidebarTableDragStart);
             this.listenTo(Tamanoir, 'datacanvasitem:table:click', this.onDataCanvasItemClick);
             this.listenTo(this.collection, 'update', this.render);
+            this.listenTo(this.collection, 'reset', this.render);
             this.listenTo(this.collection, 'change', this.onDataCanvasItemsChange);
 
             this.render();
@@ -42,6 +43,12 @@ define(function (require) {
             this.$('.table-settings-holder').html(new TableSettingsView({model: model}).$el);
 
             return this;
+        },
+        serialize: function () {
+            return this.collection.serialize();
+        },
+        deserialize: function (str) {
+            this.collection.deserialize(str);
         },
         getQuery: function () {
             return this.collection.getQuery();
@@ -70,6 +77,7 @@ define(function (require) {
         onCanvasClick: function (event) {
             if (event.target === this.el) {
                 console.log('canvas clicked', event);
+                this.trigger('canvasitems:change');
             }
         },
         onDataCanvasItemsChange: function () {

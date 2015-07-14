@@ -13,12 +13,17 @@
     padding-right: 20px;
 }
 
-.domain-designer-view .domain-designer-user-profile {
+.domain-designer-view .foundicon-graph {
     height: 40px;
     cursor: pointer;
+    font-size: 20px;
     line-height: 40px;
     text-align: center;
     width: 40px;
+}
+
+.domain-designer-view .foundicon-graph:hover {
+    background: #222222;
 }
 
 .domain-designer-view .title {
