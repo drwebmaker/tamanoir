@@ -11,7 +11,7 @@ define(function (require) {
         model: DataCanvasItemModel,
         getQuery: function () {
             var columns = _.reduce(this.toJSON(), function (memo, value) {
-                    memo.concat(value.selected);
+                    memo = memo.concat(value.selected);
                     return memo;
                 }.bind(this), []),
                 tables = _.map(this.toJSON(), function (value) { return value.name; }),
@@ -27,7 +27,7 @@ define(function (require) {
                 }
             });
 
-            return 'SELECT ' + columns + ' FROM ' + tables + conditions;
+            return 'SELECT ' + columns + ' FROM ' + tables + conditions + ' LIMIT 1000';
         },
         getColumnMatches: function () {
             var matches = {};

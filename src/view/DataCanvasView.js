@@ -43,6 +43,9 @@ define(function (require) {
 
             return this;
         },
+        getQuery: function () {
+            return this.collection.getQuery();
+        },
         calculateHeight: function () {
             setTimeout(function () {
                 console.log('data canvas rendered');
@@ -71,7 +74,7 @@ define(function (require) {
         },
         onDataCanvasItemsChange: function () {
             console.log('data canvas items change');
-            console.log(this.collection.getQuery());
+            this.trigger('canvasitems:change');
         }
     });
 });

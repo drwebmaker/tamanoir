@@ -38,8 +38,13 @@ define(function (require) {
                 collection: this.tablesCollection
             }).$el);
 
-            this.$('.data-canvas-holder').html(new DataCanvasView().$el);
+
+            this.dataCanvas= new DataCanvasView();
+
+            this.$('.data-canvas-holder').html(this.dataCanvas.$el);
             this.$('.bottom-section .table-holder').html(new TableView({collection: this.tableDataCollection}).$el);
+
+            this.listenTo(this.dataCanvas, 'canvasitems:change', this.onCanvasItemsChange);
 
             return this;
         },
@@ -68,6 +73,12 @@ define(function (require) {
         onSidebarTableClick: function (table) {
             console.log('table clicked', table);
             this.connectionModel.query('SELECT * FROM ' + table.get('name') + ' LIMIT 1000').then(function (data) {
+                this.tableDataCollection.reset(data);
+            }.bind(this));
+        },
+        onCanvasItemsChange: function () {
+            console.log(this.dataCanvas.getQuery());
+            this.connectionModel.query(this.dataCanvas.getQuery()).then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
         }
