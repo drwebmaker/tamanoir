@@ -50,16 +50,29 @@ define(function (require) {
         },
         getConditions: function () {
             var matches = {},
+                alreadyMathed = {},
                 conditions = [];
             _.each(this.toJSON(), function (canvasItem) {
                 _.each(canvasItem.columns, function (columnName) {
                     if (matches[columnName]) {
-                        conditions.push(canvasItem.name + '.' + columnName + ' = ' + matches[columnName][0] + '.' + columnName);
+                        var t1 = canvasItem.name,
+                            t2 = matches[columnName][0];
+
+                        if (!alreadyMathed[t1]) {
+                            alreadyMathed[t1] = {};
+                        }
+
+                        alreadyMathed[t1][t2] = columnName;
                     } else {
                         matches[columnName] = [canvasItem.name];
                     }
                 }.bind(this));
             }.bind(this));
+
+            _.each(alreadyMathed, function (value, key) {
+                conditions.push(key + '.' + _.values(value)[0] + ' = ' + _.keys(value)[0] + '.' +  _.values(value)[0]);
+            }.bind(this));
+
             return conditions;
         }
     });

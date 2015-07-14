@@ -1,6 +1,6 @@
 <div class="title">{{- name }}</div>
 <ul>
     {{ _.each(columns, function (column) { }}
-    <li><label><input type="checkbox" {{= _.contains(selected, column) ? 'checked' : ''}}/>{{- column }}</label></li>
+    <li><label><input type="checkbox" {{= _.contains(selected, name + '.' + column) ? 'checked' : ''}}/>{{- column }}</label></li>
     {{ }) }}
 </ul>

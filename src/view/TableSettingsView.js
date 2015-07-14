@@ -34,13 +34,14 @@ define(function (require) {
         },
         onColumnClick: function (event) {
             var value = $(event.target).is(':checked'),
+                table = this.model.get('name'),
                 name = $(event.target).parent().text();
             console.log('columns click', value, this.model);
 
             if (value) {
-                this.model.set('selected', this.model.get('selected').concat(name));
+                this.model.set('selected', this.model.get('selected').concat(table + '.' + name));
             } else {
-                this.model.set('selected', _.without(this.model.get('selected'), name));
+                this.model.set('selected', _.without(this.model.get('selected'), table + '.' + name));
             }
 
             console.log('selected', this.model.get('selected'));
