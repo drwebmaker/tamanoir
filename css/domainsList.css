@@ -1,0 +1,40 @@
+.domains-list-view {
+    margin-left: 20px;
+    color: #008CBA;
+}
+
+.domains-list-view .title {
+    line-height: 51px;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+.domains-list-item-view {
+    position: relative;
+    padding-left: 50px;
+}
+
+.domains-list-item-view .domain {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.domains-list-item-view .domain:hover {
+    text-decoration: underline;
+}
+
+.domains-list-item-view .actions {
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+}
+
+.domains-list-item-view .actions i {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.domains-list-item-view:hover .actions {
+    display: block;
+}

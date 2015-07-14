@@ -13,7 +13,7 @@
     padding-right: 20px;
 }
 
-.domain-designer-view .foundicon-graph {
+.domain-designer-view .domain-designer-header [class*='foundicon-'] {
     height: 40px;
     cursor: pointer;
     font-size: 20px;
@@ -22,7 +22,7 @@
     width: 40px;
 }
 
-.domain-designer-view .foundicon-graph:hover {
+.domain-designer-view .domain-designer-header [class*='foundicon-']:hover {
     background: #222222;
 }
 

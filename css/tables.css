@@ -1,5 +1,6 @@
 .tables-view {
     border-right: 1px solid #007095;
+    width: 200px;
 }
 
 .tables-view .title {
@@ -18,4 +19,9 @@
 .tables-view ul li i {
     position: relative;
     top: 3px;
+}
+
+.tables-view ul li > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

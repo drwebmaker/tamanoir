@@ -42,9 +42,6 @@ define(function (require) {
         serialize: function () {
             return this.collection.serialize();
         },
-        deserialize: function (str) {
-            this.collection.deserialize(str);
-        },
         getQuery: function () {
             return this.collection.getQuery();
         },

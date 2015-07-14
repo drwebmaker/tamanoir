@@ -8,6 +8,7 @@ define(function (require) {
         PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel'),
         TablesView = require('view/TablesView'),
         DataCanvasView = require('view/DataCanvasView'),
+        DomainsCollection = require('collection/DomainsCollection'),
         DataCanvasItemsCollection = require('collection/DataCanvasItemsCollection'),
         TableView = require('view/TableView'),
         DomainDesignerViewTemplate = require('text!template/DomainDesignerViewTemplate.html');
@@ -18,20 +19,26 @@ define(function (require) {
         events: {
             'click .domain-designer-title': 'onProductTitleClick',
             'click .analysis': 'onAnalysisClick',
+            'click .saveDomain': 'onSaveDomainClick',
             'click .data-canvas-view': 'onDataCanvasClick'
         },
-        initialize: function (config) {
-            this.config = config || {};
-            this.connectionModel = new PostgreSQLConnectionModel({id: config.connectionId});
+        initialize: function () {
+            this.domainsCollection = new DomainsCollection();
             this.tablesCollection = new Backbone.Collection();
             this.tableDataCollection = new Backbone.Collection();
             this.dataCanvasItemsCollection = new DataCanvasItemsCollection();
 
-            this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
             this.listenTo(this.dataCanvasItemsCollection, 'change update reset', this.onCanvasItemsChange);
             this.listenTo(Tamanoir, 'tables:table:click', this.onSidebarTableClick);
 
-            this.connectionModel.fetch();
+            if (this.model.isNew()) {
+                this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
+                this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
+                this.connectionModel.fetch();
+            } else {
+                this.listenToOnce(this.model, 'sync', this.onDomainModelSync);
+                this.model.fetch();
+            }
         },
         render: function () {
             this.$el.html(this.template);
@@ -43,9 +50,8 @@ define(function (require) {
             }).$el);
 
 
-            this.dataCanvas= new DataCanvasView({collection: this.dataCanvasItemsCollection});
-
-            this.dataCanvas.deserialize(this.config.domainId);
+            this.dataCanvas = new DataCanvasView({collection: this.dataCanvasItemsCollection});
+            this.dataCanvasItemsCollection.reset(this.model.get('data'));
 
             this.$('.data-canvas-holder').html(this.dataCanvas.$el);
             this.$('.bottom-section .table-holder').html(new TableView({collection: this.tableDataCollection}).$el);
@@ -61,6 +67,11 @@ define(function (require) {
 
             this.render();
         },
+        onDomainModelSync: function () {
+            this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
+            this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
+            this.connectionModel.fetch();
+        },
         calculateHeight: function () {
             setTimeout(function () {
                 var bodyHeight = $('body').height(),
@@ -75,29 +86,47 @@ define(function (require) {
         },
         onSidebarTableClick: function (table) {
             console.log('table clicked', table);
-            this.connectionModel.query('SELECT * FROM ' + table.get('name') + ' LIMIT 1000').then(function (data) {
+            this.connectionModel.query('SELECT * FROM ' + table.get('name') + ' LIMIT 100').then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
         },
         onCanvasItemsChange: function () {
             console.log(this.dataCanvas.getQuery());
+
             if (this.dataCanvasItemsCollection.size() === 0) {
                 this.tableDataCollection.reset([]);
                 return;
-            };
+            }
+
             this.connectionModel.query(this.dataCanvas.getQuery()).then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
         },
         onAnalysisClick: function () {
             console.log('analysis button click');
-            Tamanoir.navigate('connection/' + this.config.connectionId + '/' + this.dataCanvas.serialize());
+            Tamanoir.navigate('connection/' + this.model.get('connectionId') + '/' + this.dataCanvas.serialize());
         },
         onDataCanvasClick: function (event) {
             if (event.target === this.dataCanvas.el) {
                 console.log('data canvas click');
                 this.onCanvasItemsChange();
             }
+        },
+        onSaveDomainClick: function (event) {
+            var name;
+            if (this.model.isNew()) {
+                name = prompt('input domain name');
+            } else {
+                name = this.model.get('name');
+            }
+            this.model.save({
+                name: name,
+                data: this.dataCanvasItemsCollection.toJSON()
+            }, {
+                success: function (model) {
+                    Tamanoir.navigate('connection/' + model.get('connectionId') + '/' + model.get('id'));
+                }
+            })
         }
     });
 });

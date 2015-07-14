@@ -3,17 +3,12 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        DomainModel = require('model/DomainModel'),
-        TamanoirConfig = require('json!root/tamanoir.config.json');
+        DomainModel = require('model/DomainModel');
+
+    require('backbone.localStorage');
 
     return Backbone.Collection.extend({
-        url: TamanoirConfig.serverUrl + '/rest/domains',
         model: DomainModel,
-        initialize: function () {
-            this.on('error', this.showError);
-        },
-        showError: function () {
-            Tamanoir.showError('Internal Server Error');
-        }
+        localStorage: new Backbone.LocalStorage('domains')
     });
 });
