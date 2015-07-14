@@ -5,7 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        ConnectionsCollection = require('collection/ConnectionsCollection'),
+        PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel'),
         TablesView = require('view/TablesView'),
         DataCanvasView = require('view/DataCanvasView'),
         TableView = require('view/TableView'),
@@ -20,15 +20,14 @@ define(function (require) {
         },
         initialize: function (config) {
             this.config = config || {};
-            this.connectionModel = null;
-            this.connectionsCollection = new ConnectionsCollection();
+            this.connectionModel = new PostgreSQLConnectionModel({id: config.connectionId});
             this.tablesCollection = new Backbone.Collection();
             this.tableDataCollection = new Backbone.Collection();
 
-            this.listenTo(this.connectionsCollection, 'sync', this.onConnectionsSync);
+            this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
             this.listenTo(Tamanoir, 'tables:table:click', this.onSidebarTableClick);
 
-            this.connectionsCollection.fetch();
+            this.connectionModel.fetch();
         },
         render: function () {
             this.$el.html(this.template);
@@ -51,8 +50,7 @@ define(function (require) {
 
             return this;
         },
-        onConnectionsSync: function () {
-            this.connectionModel = this.connectionsCollection.get(this.config.connectionId);
+        onConnectionSync: function () {
             Tamanoir.connecion = this.connectionModel; //Just for debug
 
             this.connectionModel.getTables().then(function (tables) {
