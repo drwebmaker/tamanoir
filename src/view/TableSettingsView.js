@@ -25,9 +25,11 @@ define(function (require) {
         },
         calculateHeight: function () {
             setTimeout(function () {
-                var topSectionHeight = $('.top-section').height();
+                var topSectionHeight = $('.top-section').height(),
+                    titleHeight = this.$('.title').height();
 
                 this.$el.height(topSectionHeight);
+                this.$('ul').height(topSectionHeight - titleHeight);
             }.bind(this), 0);
         },
         onColumnClick: function (event) {

@@ -14,8 +14,18 @@
     color: white;
 }
 
+.table-settings-view ul {
+    overflow: auto;
+}
+
+.table-settings-view ul li {
+    white-space: nowrap;
+}
+
 .table-settings-view li label{
     color: #008CBA;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .table-settings-view li input {
