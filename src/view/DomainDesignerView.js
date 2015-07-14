@@ -80,6 +80,10 @@ define(function (require) {
         },
         onCanvasItemsChange: function () {
             console.log(this.dataCanvas.getQuery());
+            if (this.dataCanvasItemsCollection.size() === 0) {
+                this.tableDataCollection.reset([]);
+                return;
+            };
             this.connectionModel.query(this.dataCanvas.getQuery()).then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
