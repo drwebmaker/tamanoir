@@ -9,13 +9,13 @@
 @import "editDomain.css";
 @import "domainDesigner.css";
 @import "analysis.css";
+@import "analysisSidebar.css";
 @import "connectionsList.css";
 @import "domainsList.css";
 @import "dataCanvas.css";
 @import "dataCanvas.css";
 @import "tableSettings.css";
 @import "tables.css";
-@import "designer.css";
 @import "dialog.css";
 @import "domains.css";
 @import "domainSettings.css";

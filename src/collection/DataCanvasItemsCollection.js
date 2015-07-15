@@ -29,12 +29,6 @@ define(function (require) {
 
             return 'SELECT\n\t' + columns + '\nFROM\n\t' + tables + conditions + '\nLIMIT 100';
         },
-        serialize: function () {
-            return encodeURIComponent(JSON.stringify(this.toJSON()));
-        },
-        deserialize: function (str) {
-            this.reset(JSON.parse(decodeURIComponent(str)));
-        },
         getColumnMatches: function () {
             var matches = {};
             _.each(this.toJSON(), function (canvasItem) {

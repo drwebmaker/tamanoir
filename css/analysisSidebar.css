@@ -1,20 +1,20 @@
-.sidebar {
+.analysis-sidebar-view {
     line-height: 40px;
     border-right: 1px solid #007095;
     width: 250px;
 }
 
-.sidebar .title {
+.analysis-sidebar-view .title {
     padding-left: 20px;
     color: white;
 }
 
-.sidebar ul {
+.analysis-sidebar-view ul {
     list-style: none;
     margin: 0;
 }
 
-.sidebar li {
+.analysis-sidebar-view li {
     background: white;
     padding-left: 20px;
     color: #008CBA;
@@ -23,10 +23,10 @@
     text-overflow: ellipsis;
 }
 
-.sidebar li:last-child {
+.analysis-sidebar-view li:last-child {
     border-bottom: 0;
 }
 
-.sidebar ul {
+.analysis-sidebar-view ul {
     overflow: auto;
 }
