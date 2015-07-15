@@ -46,17 +46,19 @@ define(function (require) {
         render: function () {
             this.$el.html(this.template);
             this.calculateHeight();
-
-            this.$('.sidebar').html(new TablesView({
+            
+            this.tablesView = new TablesView({
                 database: this.connectionModel.get('database'),
                 collection: this.tablesCollection
-            }).$el);
+            });
+
+            this.$('.sidebar').html(this.tablesView.$el);
 
 
-            this.dataCanvas = new DataCanvasView({collection: this.dataCanvasItemsCollection});
+            this.dataCanvasView = new DataCanvasView({collection: this.dataCanvasItemsCollection});
             this.dataCanvasItemsCollection.reset(this.model.get('data'));
 
-            this.$('.data-canvas-holder').html(this.dataCanvas.$el);
+            this.$('.data-canvas-holder').html(this.dataCanvasView.$el);
             this.$('.bottom-section .table-holder').html(new TableView({collection: this.tableDataCollection}).$el);
 
             return this;
@@ -96,14 +98,14 @@ define(function (require) {
             }.bind(this));
         },
         onCanvasItemsChange: function () {
-            console.log(this.dataCanvas.getQuery());
+            console.log(this.dataCanvasView.getQuery());
 
             if (this.dataCanvasItemsCollection.size() === 0) {
                 this.tableDataCollection.reset([]);
                 return;
             }
 
-            this.connectionModel.query(this.dataCanvas.getQuery()).then(function (data) {
+            this.connectionModel.query(this.dataCanvasView.getQuery()).then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
 
@@ -112,10 +114,10 @@ define(function (require) {
         },
         onAnalysisClick: function () {
             console.log('analysis button click');
-            Tamanoir.navigate('connection/' + this.model.get('connectionId') + '/' + this.dataCanvas.serialize());
+            Tamanoir.navigate('connection/' + this.model.get('connectionId') + '/' + this.dataCanvasView.serialize());
         },
         onDataCanvasClick: function (event) {
-            if (event.target === this.dataCanvas.el) {
+            if (event.target === this.dataCanvasView.el) {
                 console.log('data canvas click');
                 this.onCanvasItemsChange();
             }
