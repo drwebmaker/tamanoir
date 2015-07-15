@@ -13,6 +13,7 @@ define(function (require) {
         template: _.template(TablesViewTemplate),
         initialize: function (config) {
             this.config = config || {};
+            this._subviews = [];
             this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
@@ -22,7 +23,9 @@ define(function (require) {
             return this;
         },
         addTable: function (tableModel) {
-            this.$el.find('ul').append(new TableListItemView({model: tableModel}).render().$el);
+            var view = new TableListItemView({model: tableModel})
+            this._subviews.push(view);
+            this.$el.find('ul').append(view.render().$el);
         },
         calculateHeight: function () {
             setTimeout(function () {
@@ -31,6 +34,10 @@ define(function (require) {
 
                 this.$('ul').height(topSectionHeight - titleHeight);
             }.bind(this), 0);
+        },
+        remove: function () {
+            _.invoke(this._subviews, 'remove');
+            Backbone.View.prototype.remove.apply(this, arguments);
         }
     });
 });

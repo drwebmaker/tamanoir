@@ -18,7 +18,9 @@ define(function (require) {
             '*otherwise': 'navigateToLibrary'
         },
         navigateToHome: function () {
-            $('body').html(new HomeView().$el);
+            this.current && this.current.remove();
+            this.current = new HomeView();
+            $('body').html(this.current.$el);
         },
         navigateToDomainDesigner: function (connectionId, domainId) {
             console.log('connectionId', connectionId);
@@ -31,7 +33,9 @@ define(function (require) {
                 domainModel = new DomainModel({connectionId: connectionId});
             }
 
-            $('body').html(new DomainDesignerView({ model: domainModel }).$el);
+            this.current && this.current.remove();
+            this.current = new DomainDesignerView({ model: domainModel });
+            $('body').html(this.current.$el);
         },
 
         /**

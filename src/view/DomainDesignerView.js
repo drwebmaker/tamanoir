@@ -20,11 +20,12 @@ define(function (require) {
         template: DomainDesignerViewTemplate,
         events: {
             'click .domain-designer-title': 'onProductTitleClick',
-            'click .analysis': 'onAnalysisClick',
             'click .saveDomain': 'onSaveDomainClick',
             'click .data-canvas-view': 'onDataCanvasClick'
         },
         initialize: function () {
+            this._subviews = [];
+
             this.model.collection = new DomainsCollection();
             this.tablesCollection = new Backbone.Collection();
             this.tableDataCollection = new Backbone.Collection();
@@ -57,6 +58,9 @@ define(function (require) {
 
             this.dataCanvasView = new DataCanvasView({collection: this.dataCanvasItemsCollection});
             this.dataCanvasItemsCollection.reset(this.model.get('data'));
+
+            this._subviews.push(this.tablesView);
+            this._subviews.push(this.dataCanvasView);
 
             this.$('.data-canvas-holder').html(this.dataCanvasView.$el);
             this.$('.bottom-section .table-holder').html(new TableView({collection: this.tableDataCollection}).$el);
@@ -112,10 +116,6 @@ define(function (require) {
             this.$('.saveDomain').removeClass('foundicon-checkmark');
             this.$('.saveDomain').addClass('foundicon-star');
         },
-        onAnalysisClick: function () {
-            console.log('analysis button click');
-
-        },
         onDataCanvasClick: function (event) {
             if (event.target === this.dataCanvasView.el) {
                 console.log('data canvas click');
@@ -152,6 +152,10 @@ define(function (require) {
                 this.$('.saveDomain').removeClass('foundicon-star');
                 this.$('.saveDomain').addClass('foundicon-checkmark');
             }
+        },
+        remove: function () {
+            _.invoke(this._subviews, 'remove');
+            Backbone.View.prototype.remove.apply(this, arguments);
         }
     });
 });
