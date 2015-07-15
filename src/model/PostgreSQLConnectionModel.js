@@ -36,7 +36,7 @@ define(function (require) {
                 })
             }).then(function (data) {
                 deferred.resolve(data.items);
-            });
+            }).fail(this.showError);
 
             return deferred;
         },
@@ -65,7 +65,7 @@ define(function (require) {
                 })
             }).then(function (data) {
                 deferred.resolve(data.items);
-            });
+            }).fail(this.showError);
 
             return deferred;
         },
@@ -95,7 +95,7 @@ define(function (require) {
                 })
             }).then(function (data) {
                 deferred.resolve(data);
-            });
+            }).fail(this.showError);
 
             return deferred;
         },
@@ -103,6 +103,9 @@ define(function (require) {
             this.query(query).then(function (data) {
                 console.log(data);
             });
-        }
+        },
+        showError: _.debounce(function (error) {
+            Tamanoir.showError(error.responseJSON.message);
+        }, 1000, true)
     });
 });

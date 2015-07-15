@@ -114,7 +114,7 @@ define(function (require) {
         },
         onAnalysisClick: function () {
             console.log('analysis button click');
-            Tamanoir.navigate('connection/' + this.model.get('connectionId') + '/' + this.dataCanvasView.serialize());
+
         },
         onDataCanvasClick: function (event) {
             if (event.target === this.dataCanvasView.el) {
