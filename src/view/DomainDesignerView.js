@@ -134,6 +134,7 @@ define(function (require) {
                     if (name) {
                         this.model.save({
                             name: name,
+                            connectionId: this.connectionModel.get('id'),
                             data: this.dataCanvasItemsCollection.toJSON()
                         }, {
                             success: function (model) {
