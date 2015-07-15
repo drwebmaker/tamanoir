@@ -7,10 +7,7 @@ define(function (require) {
         $ = require('jquery'),
         tamanoirConfig = require('json!root/tamanoir.config.json');
 
-    require('backbone.localStorage');
-
     return Backbone.Model.extend({
-        localStorage: new Backbone.LocalStorage('connections'),
         defaults: {
             url: '',
             database: '',

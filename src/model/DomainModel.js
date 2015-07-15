@@ -4,10 +4,7 @@
 define(function (require) {
     var Backbone = require('backbone');
 
-    require('backbone.localStorage');
-
     return Backbone.Model.extend({
-        localStorage: new Backbone.LocalStorage('domains'),
         defaults: {
             name: '',
             connectionId: '',

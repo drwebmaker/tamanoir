@@ -9,6 +9,7 @@ define(function (require) {
         TablesView = require('view/TablesView'),
         DataCanvasView = require('view/DataCanvasView'),
         DialogView = require('view/DialogView'),
+        ConnectionsCollection = require('collection/ConnectionsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
         DataCanvasItemsCollection = require('collection/DataCanvasItemsCollection'),
         TableView = require('view/TableView'),
@@ -24,7 +25,7 @@ define(function (require) {
             'click .data-canvas-view': 'onDataCanvasClick'
         },
         initialize: function () {
-            this.domainsCollection = new DomainsCollection();
+            this.model.collection = new DomainsCollection();
             this.tablesCollection = new Backbone.Collection();
             this.tableDataCollection = new Backbone.Collection();
             this.dataCanvasItemsCollection = new DataCanvasItemsCollection();
@@ -34,6 +35,7 @@ define(function (require) {
 
             if (this.model.isNew()) {
                 this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
+                this.connectionModel.collection = new ConnectionsCollection();
                 this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
                 this.connectionModel.fetch();
             } else {
@@ -70,6 +72,7 @@ define(function (require) {
         },
         onDomainModelSync: function () {
             this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
+            this.connectionModel.collection = new ConnectionsCollection();
             this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
             this.connectionModel.fetch();
         },
@@ -79,6 +82,7 @@ define(function (require) {
                     sectionHeight = Math.round((bodyHeight - 40) / 2);
 
                 this.$('.top-section').height(sectionHeight);
+                this.$('.sidebar').height(sectionHeight);
                 this.$('.bottom-section').height(bodyHeight - sectionHeight - 40);
             }.bind(this), 0);
         },
@@ -134,7 +138,7 @@ define(function (require) {
                                 Tamanoir.navigate('connection/' + model.get('connectionId') + '/' + model.get('id'));
                                 this.$('.saveDomain').removeClass('foundicon-star');
                                 this.$('.saveDomain').addClass('foundicon-checkmark');
-                            }
+                            }.bind(this)
                         });
                     }
                     dialogView.remove();

@@ -5,6 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
+        ConnectionsCollection = require('collection/ConnectionsCollection'),
         EditConnectionViewTemplate = require('text!template/EditConnectionViewTemplate.html');
 
     return Backbone.View.extend({
@@ -15,6 +16,7 @@ define(function (require) {
             'click .save': 'onSaveClick'
         },
         initialize: function () {
+            this.model.collection = new ConnectionsCollection();
             this.render();
         },
         render: function () {
