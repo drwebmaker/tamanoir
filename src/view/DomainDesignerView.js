@@ -21,6 +21,7 @@ define(function (require) {
         events: {
             'click .domain-designer-title': 'onProductTitleClick',
             'click .saveDomain': 'onSaveDomainClick',
+            'click .analysis': 'onAnalysisClick',
             'click .data-canvas-view': 'onDataCanvasClick'
         },
         initialize: function () {
@@ -152,6 +153,13 @@ define(function (require) {
                 });
                 this.$('.saveDomain').removeClass('foundicon-star');
                 this.$('.saveDomain').addClass('foundicon-checkmark');
+            }
+        },
+        onAnalysisClick: function () {
+            if (this.model.get('id')) {
+                Tamanoir.navigate('analysis/' + this.model.get('connectionId') + '/' + this.model.get('id'), {trigger: true});
+            } else {
+                Tamanoir.navigate('analysis/' + this.model.get('connectionId'), {trigger: true});
             }
         },
         remove: function () {

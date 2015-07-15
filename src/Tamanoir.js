@@ -7,6 +7,7 @@ define(function (require) {
         DomainModel = require('model/DomainModel'),
         MetadataExplorer = require('util/MetadataExplorer'),
         DialogView = require('view/DialogView'),
+        AnalysisView = require('view/AnalysisView'),
         HomeView = require('view/HomeView'),
         DomainDesignerView = require('view/DomainDesignerView');
 
@@ -15,6 +16,8 @@ define(function (require) {
             '(/)': 'navigateToHome',
             'connection/:connectionId': 'navigateToDomainDesigner',
             'connection/:connectionId/:domainId': 'navigateToDomainDesigner',
+            'analysis/:connectionId': 'navigateToAnalysisDomain',
+            'analysis/:connectionId/:domainId': 'navigateToAnalysisDomain',
             '*otherwise': 'navigateToLibrary'
         },
         navigateToHome: function () {
@@ -25,16 +28,18 @@ define(function (require) {
         navigateToDomainDesigner: function (connectionId, domainId) {
             console.log('connectionId', connectionId);
             console.log('domainId', domainId);
-            var domainModel;
-
-            if (domainId) {
-                domainModel = new DomainModel({id: domainId});
-            } else {
-                domainModel = new DomainModel({connectionId: connectionId});
-            }
 
             this.current && this.current.remove();
-            this.current = new DomainDesignerView({ model: domainModel });
+            this.current = new DomainDesignerView({ model: new DomainModel({id: domainId, connectionId: connectionId})});
+            $('body').html(this.current.$el);
+        },
+
+        navigateToAnalysisDomain: function (connectionId, domainId) {
+            console.log('connectionId', connectionId);
+            console.log('domainId', domainId);
+
+            this.current && this.current.remove();
+            this.current = new AnalysisView({ model: new DomainModel({id: domainId, connectionId: connectionId})});
             $('body').html(this.current.$el);
         },
 

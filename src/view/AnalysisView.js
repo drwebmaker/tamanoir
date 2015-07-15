@@ -9,6 +9,8 @@ define(function (require) {
         className: 'analysis-view',
         template: AnalysisViewTemplate,
         events: {
+            'click .editDomain': 'onEditDomainClick',
+            'click .domain-designer-title': 'onProductTitleClick'
         },
         initialize: function () {
             this.render();
@@ -16,6 +18,16 @@ define(function (require) {
         render: function () {
             this.$el.html(this.template);
             return this;
+        },
+        onEditDomainClick: function () {
+            if (this.model.get('id')) {
+                Tamanoir.navigate('connection/' + this.model.get('connectionId') + '/' + this.model.get('id'), {trigger: true});
+            } else {
+                Tamanoir.navigate('connection/' + this.model.get('connectionId'), {trigger: true});
+            }
+        },
+        onProductTitleClick: function () {
+            Tamanoir.navigate('/', {trigger: true});
         }
     });
 });
