@@ -38,3 +38,8 @@
     color: white;
     cursor: pointer;
 }
+
+.analysis-view .filters-holder {
+    width: 250px;
+    border-left: 1px solid #007095;
+}

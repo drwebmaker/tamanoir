@@ -27,7 +27,7 @@ define(function (require) {
                 }
             });
 
-            return 'SELECT\n\t' + columns + '\nFROM\n\t' + tables + conditions + '\nLIMIT 100';
+            return 'SELECT\n\t' + columns + '\nFROM\n\t' + tables + conditions;
         },
         getColumnMatches: function () {
             var matches = {};

@@ -110,7 +110,7 @@ define(function (require) {
                 return;
             }
 
-            this.connectionModel.query(this.dataCanvasView.getQuery()).then(function (data) {
+            this.connectionModel.query(this.dataCanvasView.getQuery() + ' LIMIT 100').then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
 

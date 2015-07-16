@@ -1,0 +1,21 @@
+.filters-view ul {
+    margin: 0;
+}
+
+.filters-view .filter-view {
+    border-bottom: 1px solid #008CBA;
+}
+
+.filters-view .filter-view .title {
+    background: #008CBA;
+}
+
+.filters-view .filter-view .title i {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.filters-view .filter-view .value {
+    padding-left: 20px;
+    color: #008CBA;
+}
