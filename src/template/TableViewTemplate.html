@@ -1,21 +1,25 @@
-{{= data.length ? '' : '<div class="empty-table"></div>' }}
-<table>
-    <thead>
-    <tr>
-        {{ _.each(data[0], function (value, key) { }}
-        <th>
-            {{- key }}
-        </th>
-        {{ }) }}
-    </tr>
-    </thead>
-    <tbody>
-    {{ _.each(data, function (item) { }}
-    <tr>
-        {{ _.each(item, function (value, key) { }}
-        <td>{{- value }}</td>
-        {{ }) }}
-    </tr>
-    {{ }) }}
-    </tbody>
-</table>
+<div class="outer">
+    <div class="inner">
+        <table>
+            <thead>
+            <tr>
+                {{ _.each(data[0], function (value, key) { }}
+                <th>
+                    {{- key }}
+                    <div>{{- key }}</div>
+                </th>
+                {{ }) }}
+            </tr>
+            </thead>
+            <tbody>
+            {{ _.each(data, function (item) { }}
+            <tr>
+                {{ _.each(item, function (value, key) { }}
+                <td>{{- value }}</td>
+                {{ }) }}
+            </tr>
+            {{ }) }}
+            </tbody>
+        </table>
+    </div>
+</div>

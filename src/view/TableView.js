@@ -27,7 +27,7 @@ define(function (require) {
         },
         calculateHeight: function () {
             setTimeout(function () {
-                this.$el.height($('.bottom-section').height());
+                this.$('.inner').height($('.bottom-section').height() - 30);
             }.bind(this), 0);
         }
     });

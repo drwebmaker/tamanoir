@@ -32,3 +32,9 @@
     padding-left: 20px;
     line-height: initial;
 }
+
+.analysis-view table td:hover {
+    background: #008CBA;
+    color: white;
+    cursor: pointer;
+}
