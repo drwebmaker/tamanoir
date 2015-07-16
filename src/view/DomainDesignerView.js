@@ -21,8 +21,7 @@ define(function (require) {
         events: {
             'click .domain-designer-title': 'onProductTitleClick',
             'click .saveDomain': 'onSaveDomainClick',
-            'click .analysis': 'onAnalysisClick',
-            'click .data-canvas-view': 'onDataCanvasClick'
+            'click .analysis': 'onAnalysisClick'
         },
         initialize: function () {
             this._subviews = [];
@@ -116,12 +115,6 @@ define(function (require) {
 
             this.$('.saveDomain').removeClass('foundicon-checkmark');
             this.$('.saveDomain').addClass('foundicon-star');
-        },
-        onDataCanvasClick: function (event) {
-            if (event.target === this.dataCanvasView.el) {
-                console.log('data canvas click');
-                this.onCanvasItemsChange();
-            }
         },
         onSaveDomainClick: function (event) {
             if (this.model.isNew()) {
