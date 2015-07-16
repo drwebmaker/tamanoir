@@ -11,6 +11,7 @@
 @import "analysis.css";
 @import "analysisSidebar.css";
 @import "filters.css";
+@import "groups.css";
 @import "connectionsList.css";
 @import "domainsList.css";
 @import "dataCanvas.css";

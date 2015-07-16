@@ -39,7 +39,12 @@
     cursor: pointer;
 }
 
-.analysis-view .filters-holder {
+.analysis-view table th div:hover {
+    cursor: pointer;
+    color: #008CBA;
+}
+
+.analysis-view .conditions-holder {
     width: 250px;
     border-left: 1px solid #007095;
 }

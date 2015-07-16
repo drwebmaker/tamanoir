@@ -10,9 +10,14 @@
     background: #008CBA;
 }
 
-.filters-view .filter-view .title i {
+.filters-view .filter-view .value i {
     cursor: pointer;
+    display: none;
     margin-right: 10px;
+}
+
+.filters-view .filter-view:hover .value i {
+    display: inherit;
 }
 
 .filters-view .filter-view .value {

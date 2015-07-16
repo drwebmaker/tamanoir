@@ -1,0 +1,20 @@
+.groups-view ul {
+    margin: 0;
+}
+
+.groups-view .group-view {
+    color: #008CBA;
+    padding-left: 10px;
+    border-bottom: 1px solid #008CBA;
+}
+
+.groups-view .group-view i {
+    display: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+
+.groups-view .group-view:hover i {
+    display: inherit;
+}
