@@ -7,6 +7,7 @@ define(function (require) {
         tagName: 'li',
         template: _.template('{{- name }}'),
         events: {
+            'click': 'onColumnNameClick'
         },
         initialize: function () {
             this._subviews = [];
@@ -20,6 +21,9 @@ define(function (require) {
         remove: function () {
             _.invoke(this._subviews, 'remove');
             Backbone.View.prototype.remove.apply(this, arguments);
+        },
+        onColumnNameClick: function () {
+            Tamanoir.trigger('analysisSidebar:column:click', this.model);
         }
     });
 });

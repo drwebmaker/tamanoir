@@ -22,8 +22,7 @@ define(function (require) {
         events: {
             'click .editDomain': 'onEditDomainClick',
             'click .analysis-title': 'onProductTitleClick',
-            'click .table-view td': 'onCellClick',
-            'click .analysis-sidebar-column-view': 'onSidebarItemClick'
+            'click .table-view td': 'onCellClick'
         },
         initialize: function () {
             this._subviews = [];
@@ -40,6 +39,7 @@ define(function (require) {
             this.listenTo(this.model, 'sync', this.onDomainSync);
             this.listenTo(this.filtersCollection, 'update', this.onConditionsUpdate);
             this.listenTo(this.groupsCollection, 'update reset', this.onConditionsUpdate);
+            this.listenTo(Tamanoir, 'analysisSidebar:column:click', this.onColumnClick);
 
             this.model.fetch();
 
@@ -114,11 +114,8 @@ define(function (require) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
         },
-        onSidebarItemClick: function (event) {
-            var value = $(event.target).text().trim();
-            console.log('sidebar item click', value);
-
-            this.groupsCollection.reset({value: value});
+        onColumnClick: function (model) {
+            this.groupsCollection.reset({value: model.get('name')});
         },
         buildQuery: function () {
             var columns = this.dataCanvasItemsCollection.getColumns(),
