@@ -1,8 +1,21 @@
 .axis-view {
-    border-bottom: 1px solid lightslategrey;
+    border-bottom: 1px solid #007095;
+    color: #008CBA;
 }
 .axis-view .rows-holder,
 .axis-view .columns-holder {
-    height: 24px;
-    border: 1px solid lightslategrey;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #007095;
+}
+
+.axis-item-view {
+    background: #008CBA;
+    color: white;
+    display: inline-block;
+    border-radius: 3px;
+    padding-left: 10px;
+    line-height: 20px;
+    padding-right: 10px;
+    margin-right: 5px;
 }

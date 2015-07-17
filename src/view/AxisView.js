@@ -5,15 +5,21 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
+        AxisItemView = require('view/AxisItemView'),
+        AxisItemModel = require('model/AxisItemModel'),
         AxisViewTemplate = require('text!template/AxisViewTemplate.html');
 
     return Backbone.View.extend({
         className: 'axis-view',
         template: _.template(AxisViewTemplate),
         events: {
+            'dragover [class$=holder]': 'onHolderDragOver',
+            'drop .rows-holder': 'onRowsHolderDrop'
         },
         initialize: function () {
             this._subviews = [];
+
+            this.listenTo(Tamanoir, 'table:header:dragstart', this.onTableHeaderDragStart);
 
             this.render();
         },
@@ -32,6 +38,19 @@ define(function (require) {
         remove: function () {
             _.invoke(this._subviews, 'remove');
             Backbone.View.prototype.remove.apply(this, arguments);
+        },
+        onHolderDragOver: function (event) {
+            event.preventDefault();
+        },
+        onRowsHolderDrop: function (event) {
+            console.log('drop', this.draggedData.name);
+            var view = new AxisItemView({model: new AxisItemModel(this.draggedData)})
+            this._subviews.push(view);
+            this.$('.rows-holder').append(view.$el);
+            Tamanoir.trigger('axis:row:drop', this.draggedData.name, this.draggedData.data);
+        },
+        onTableHeaderDragStart: function (name, data) {
+            this.draggedData = {name: name, data: data};
         }
     });
 });

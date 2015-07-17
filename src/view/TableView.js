@@ -11,7 +11,8 @@ define(function (require) {
         className: 'table-view',
         template: _.template(TableViewTemplate),
         events: {
-            'click th div': 'onTableHeaderClick'
+            'click th div': 'onTableHeaderClick',
+            'dragstart th div': 'onTableHeaderDragStart'
         },
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
@@ -41,6 +42,14 @@ define(function (require) {
                 this.collection.reset(this.collection.sortBy(value));
                 this.reverse = true;
             }
+        },
+        onTableHeaderDragStart: function (event) {
+            var name = $(event.target).text().trim(),
+                data = this.collection.map(function (model) {
+                    return model.get(name);
+                });
+            console.log('dragstart', name, data);
+            Tamanoir.trigger('table:header:dragstart', name, data);
         }
     });
 });

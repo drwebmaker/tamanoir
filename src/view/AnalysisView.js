@@ -11,6 +11,7 @@ define(function (require) {
         ColumnsCollection = require('collection/ColumnsCollection'),
         FiltersView = require('view/FiltersView'),
         AxisView = require('view/AxisView'),
+        ChartView = require('view/ChartView'),
         FiltersCollection = require('collection/FiltersCollection'),
         GroupsView = require('view/GroupsView'),
         GroupsCollection = require('collection/GroupsCollection'),
@@ -53,6 +54,7 @@ define(function (require) {
             this.tableView = new TableView({collection: this.tableDataCollection});
             this.filtersView = new FiltersView({collection: this.filtersCollection});
             this.groupsView = new GroupsView({collection: this.groupsCollection});
+            this.chartView = new ChartView();
             this.axisView = new AxisView();
 
             this.calculateDimensions();
@@ -62,11 +64,13 @@ define(function (require) {
             this._subviews.push(this.tableView);
             this._subviews.push(this.groupsView);
             this._subviews.push(this.axisView);
+            this._subviews.push(this.chartView);
 
             this.$('.top-section .sidebar-holder').html(this.analysisSidebarView.$el);
             this.$('.top-section .conditions-holder').append(this.filtersView.$el);
             this.$('.top-section .conditions-holder').append(this.groupsView.$el);
-            this.$('.top-section .data-canvas-holder').html(this.axisView.$el);
+            this.$('.top-section .data-canvas-holder').append(this.axisView.$el);
+            this.$('.top-section .data-canvas-holder').append(this.chartView.$el);
             this.$('.bottom-section .table-holder').html(this.tableView.$el);
 
             return this;

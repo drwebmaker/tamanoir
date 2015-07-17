@@ -3,6 +3,7 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
+        _ = require('underscore'),
         c3 = require('c3'),
         $ = require('jquery'),
         ChartTemplate = require('text!template/ChartViewTemplate.html');
@@ -11,26 +12,20 @@ define(function (require) {
         className: 'chart',
         template: ChartTemplate,
         events: {
-            'click .remove': 'remove',
             'click .settings': 'showSettings',
             'click .menu': 'hideSettings',
-            'click .menu li': 'changeChartType',
-            'drop .chart-holder': 'onDrop'
+            'click .menu li': 'changeChartType'
         },
         initialize: function () {
-            this.$el.addClass(this.cid);
+            this._subviews = [];
+
+            this.listenTo(Tamanoir, 'axis:row:drop', this.onAxisRowDrop);
+            this.listenTo(Tamanoir, 'axis:item:remove', this.onAxisItemRemove);
+
             this.render();
         },
         render: function () {
             this.$el.html(this.template);
-            $('.charts-holder').append(this.$el);
-
-            this.chart = c3.generate({
-                bindto: '.' + this.cid + ' .chart-holder',
-                data: {
-                    columns: []
-                }
-            });
 
             return this;
         },
@@ -46,9 +41,35 @@ define(function (require) {
             var type = $(event.target).text().trim();
             this.chart.transform(type);
         },
-        onDrop: function () {
-            console.log(arguments);
-            this.trigger('drop', this);
+        remove: function () {
+            _.invoke(this._subviews, 'remove');
+            Backbone.View.remove.apply(this, arguments);
+        },
+        onAxisRowDrop: function (name, data) {
+            if (this.chart) {
+                this.chart.load({
+                    columns: [
+                        [name].concat(data)
+                    ]
+                })
+            } else {
+                this.chart = c3.generate({
+                    bindto: '.chart-holder',
+                    size: {
+                        height: $('.top-section').height() - $('.axis-view').height() - this.$('.header').height() - 2
+                    },
+                    data: {
+                        columns: [
+                            [name].concat(data)
+                        ]
+                    }
+                });
+            }
+        },
+        onAxisItemRemove: function (model) {
+            this.chart.unload({
+                ids: model.get('name')
+            });
         }
     });
 });
