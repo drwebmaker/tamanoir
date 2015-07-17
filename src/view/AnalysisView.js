@@ -10,6 +10,7 @@ define(function (require) {
         DataCanvasItemsCollection = require('collection/DataCanvasItemsCollection'),
         ColumnsCollection = require('collection/ColumnsCollection'),
         FiltersView = require('view/FiltersView'),
+        AxisView = require('view/AxisView'),
         FiltersCollection = require('collection/FiltersCollection'),
         GroupsView = require('view/GroupsView'),
         GroupsCollection = require('collection/GroupsCollection'),
@@ -52,28 +53,33 @@ define(function (require) {
             this.tableView = new TableView({collection: this.tableDataCollection});
             this.filtersView = new FiltersView({collection: this.filtersCollection});
             this.groupsView = new GroupsView({collection: this.groupsCollection});
+            this.axisView = new AxisView();
 
-            this.calculateHeight();
+            this.calculateDimensions();
 
             this._subviews.push(this.analysisSidebarView);
             this._subviews.push(this.filtersView);
             this._subviews.push(this.tableView);
             this._subviews.push(this.groupsView);
+            this._subviews.push(this.axisView);
 
             this.$('.top-section .sidebar-holder').html(this.analysisSidebarView.$el);
             this.$('.top-section .conditions-holder').append(this.filtersView.$el);
             this.$('.top-section .conditions-holder').append(this.groupsView.$el);
+            this.$('.top-section .data-canvas-holder').html(this.axisView.$el);
             this.$('.bottom-section .table-holder').html(this.tableView.$el);
 
             return this;
         },
-        calculateHeight: function () {
+        calculateDimensions: function () {
             setTimeout(function () {
                 var bodyHeight = $('body').height(),
+                    bodyWidth = $('body').width(),
                     sectionHeight = Math.round((bodyHeight - 40) / 2);
 
                 this.$('.top-section').height(sectionHeight);
                 this.$('.analysis-sidebar-view').height(sectionHeight);
+                this.$('.data-canvas-holder').width(bodyWidth - $('.sidebar-holder').width() - $('.conditions-holder').width() - 1);
                 this.$('.conditions-holder').height(sectionHeight);
                 this.$('.bottom-section').height(bodyHeight - sectionHeight - 40);
             }.bind(this), 0);

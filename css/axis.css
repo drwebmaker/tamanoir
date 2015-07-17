@@ -1,0 +1,8 @@
+.axis-view {
+    border-bottom: 1px solid lightslategrey;
+}
+.axis-view .rows-holder,
+.axis-view .columns-holder {
+    height: 24px;
+    border: 1px solid lightslategrey;
+}
