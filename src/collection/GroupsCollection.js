@@ -7,6 +7,11 @@ define(function (require) {
         GroupModel = require('model/GroupModel');
 
     return Backbone.Collection.extend({
-        model: GroupModel
+        model: GroupModel,
+        getGroups: function () {
+            return this.map(function (group) {
+                return group.get('value');
+            }, this);
+        }
     });
 });

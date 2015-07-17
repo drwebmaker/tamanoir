@@ -8,6 +8,8 @@ define(function (require) {
         idAttribute: 'name',
         defaults: {
             name: '',
+            fullName: '',
+            groupAction: '',
             type: ''
         }
     });

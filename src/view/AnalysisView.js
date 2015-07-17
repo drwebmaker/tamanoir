@@ -23,7 +23,7 @@ define(function (require) {
             'click .editDomain': 'onEditDomainClick',
             'click .analysis-title': 'onProductTitleClick',
             'click .table-view td': 'onCellClick',
-            'click .table-view th div': 'onTableHeaderClick'
+            'click .analysis-sidebar-column-view': 'onSidebarItemClick'
         },
         initialize: function () {
             this._subviews = [];
@@ -39,7 +39,7 @@ define(function (require) {
 
             this.listenTo(this.model, 'sync', this.onDomainSync);
             this.listenTo(this.filtersCollection, 'update', this.onConditionsUpdate);
-            this.listenTo(this.groupsCollection, 'update', this.onConditionsUpdate);
+            this.listenTo(this.groupsCollection, 'update reset', this.onConditionsUpdate);
 
             this.model.fetch();
 
@@ -74,8 +74,7 @@ define(function (require) {
 
                 this.$('.top-section').height(sectionHeight);
                 this.$('.analysis-sidebar-view').height(sectionHeight);
-                this.$('.filters-view').height(sectionHeight / 2);
-                this.$('.groups-view').height(sectionHeight / 2);
+                this.$('.conditions-holder').height(sectionHeight);
                 this.$('.bottom-section').height(bodyHeight - sectionHeight - 40);
             }.bind(this), 0);
         },
@@ -94,7 +93,7 @@ define(function (require) {
             this.dataCanvasItemsCollection.reset(this.model.get('data'));
             this.model.connection.query(this.buildQuery()).then(function (data) {
                 this.tableDataCollection.reset(data);
-                this.columnsCollection.prepare(data);
+                this.columnsCollection.prepare(data, this.dataCanvasItemsCollection.getColumns());
             }.bind(this));
         },
         onCellClick: function (event) {
@@ -115,20 +114,26 @@ define(function (require) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
         },
-        onTableHeaderClick: function (event) {
+        onSidebarItemClick: function (event) {
             var value = $(event.target).text().trim();
-            console.log('table header click', value);
+            console.log('sidebar item click', value);
 
-            this.groupsCollection.add({value: value});
+            this.groupsCollection.reset({value: value});
         },
         buildQuery: function () {
             var columns = this.dataCanvasItemsCollection.getColumns(),
                 tables = this.dataCanvasItemsCollection.getTables(),
                 conditions = this.dataCanvasItemsCollection.getConditions(),
                 filters = this.filtersCollection.getFilters(),
+                groups = this.groupsCollection.getGroups(),
+                groupByNames = this.columnsCollection.getGroupByNames(),
                 query;
 
-            query = 'SELECT ' + (columns.length ? columns : '*') + ' FROM ' + tables + ' WHERE ' + conditions.concat(filters).join(' AND ') + ' LIMIT 100';
+            if (groups.length) {
+                query = 'SELECT ' + 'COUNT(*), ' + groups.concat(groupByNames) + ' FROM ' + tables + ' WHERE ' + conditions.concat(filters).join(' AND ') + ' GROUP BY ' + groups + ' LIMIT 100';
+            } else {
+                query = 'SELECT ' + (columns.length ? columns : '*') + ' FROM ' + tables + ' WHERE ' + conditions.concat(filters).join(' AND ') + ' LIMIT 100';
+            }
 
             return query;
         },
