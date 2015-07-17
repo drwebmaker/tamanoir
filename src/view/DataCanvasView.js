@@ -42,9 +42,6 @@ define(function (require) {
         serialize: function () {
             return this.collection.serialize();
         },
-        getQuery: function () {
-            return this.collection.getQuery();
-        },
         calculateHeight: function () {
             setTimeout(function () {
                 console.log('data canvas rendered');

@@ -92,7 +92,7 @@ define(function (require) {
         onDomainSync: function () {
             console.log('domain sync');
             this.dataCanvasItemsCollection.reset(this.model.get('data'));
-            this.model.connection.query(this.dataCanvasItemsCollection.getQuery() + ' LIMIT 100').then(function (data) {
+            this.model.connection.query(this.buildQuery()).then(function (data) {
                 this.tableDataCollection.reset(data);
                 this.columnsCollection.prepare(data);
             }.bind(this));
@@ -107,13 +107,9 @@ define(function (require) {
             this.filtersCollection.add({name: name, value: value});
         },
         onConditionsUpdate: function () {
-            var filters = this.filtersCollection.getConditions(),
-                query;
+            var query = this.buildQuery();
 
-            filters = filters ? ' AND ' + filters : '';
-
-            query = this.dataCanvasItemsCollection.getQuery() + filters + ' LIMIT 100';
-            console.log('filters changed', query);
+            console.log('query rebuild:', query);
 
             this.model.connection.query(query).then(function (data) {
                 this.tableDataCollection.reset(data);
@@ -124,6 +120,17 @@ define(function (require) {
             console.log('table header click', value);
 
             this.groupsCollection.add({value: value});
+        },
+        buildQuery: function () {
+            var columns = this.dataCanvasItemsCollection.getColumns(),
+                tables = this.dataCanvasItemsCollection.getTables(),
+                conditions = this.dataCanvasItemsCollection.getConditions(),
+                filters = this.filtersCollection.getFilters(),
+                query;
+
+            query = 'SELECT ' + (columns.length ? columns : '*') + ' FROM ' + tables + ' WHERE ' + conditions.concat(filters).join(' AND ') + ' LIMIT 100';
+
+            return query;
         },
         remove: function () {
             _.invoke(this._subviews, 'remove');

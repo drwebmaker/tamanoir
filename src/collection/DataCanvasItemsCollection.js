@@ -9,26 +9,6 @@ define(function (require) {
 
     return Backbone.Collection.extend({
         model: DataCanvasItemModel,
-        getQuery: function () {
-            var columns = _.reduce(this.toJSON(), function (memo, value) {
-                    memo = memo.concat(value.selected);
-                    return memo;
-                }.bind(this), []),
-                tables = _.map(this.toJSON(), function (value) { return value.name; }),
-                conditions = '';
-
-            columns = columns.length ? columns : '*';
-
-            _.each(this.getConditions(), function (value) {
-                if (conditions) {
-                    conditions += ' AND ' + value;
-                } else {
-                    conditions = '\nWHERE\n\t' + value;
-                }
-            });
-
-            return 'SELECT\n\t' + columns + '\nFROM\n\t' + tables + conditions;
-        },
         getColumnMatches: function () {
             var matches = {};
             _.each(this.toJSON(), function (canvasItem) {
@@ -41,6 +21,18 @@ define(function (require) {
                 }.bind(this));
             }.bind(this));
             return matches;
+        },
+        getColumns: function () {
+            var columns = [];
+            _.each(this.toJSON(), function (value) {
+                columns = columns.concat(value.selected);
+            }, this);
+            return columns;
+        },
+        getTables: function () {
+            return this.map(function (value) {
+                return value.get('name');
+            });
         },
         getConditions: function () {
             var matches = {},

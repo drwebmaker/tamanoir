@@ -102,14 +102,18 @@ define(function (require) {
             }.bind(this));
         },
         onCanvasItemsChange: function () {
-            console.log(this.dataCanvasView.getQuery());
-
             if (this.dataCanvasItemsCollection.size() === 0) {
                 this.tableDataCollection.reset([]);
                 return;
             }
 
-            this.connectionModel.query(this.dataCanvasView.getQuery() + ' LIMIT 100').then(function (data) {
+            var columns = this.dataCanvasItemsCollection.getColumns(),
+                tables = this.dataCanvasItemsCollection.getTables(),
+                query = 'SELECT ' + (columns.length ? columns : '*') + ' FROM ' + tables + ' LIMIT 100';
+
+            console.log('query rebuild:', query);
+
+            this.connectionModel.query(query).then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
 

@@ -12,6 +12,11 @@ define(function (require) {
             return this.map(function (filter) {
                 return filter.get('name') + ' ' + filter.get('type') + ' \'' + filter.get('value') + '\'';
             }, this).join(' AND ');
+        },
+        getFilters: function () {
+            return this.map(function (filter) {
+                return filter.get('name') + ' ' + filter.get('type') + ' \'' + filter.get('value') + '\'';
+            }, this);
         }
     });
 });
