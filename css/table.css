@@ -19,6 +19,13 @@
     line-height: 0;
 }
 
+.table-view td,
+.table-view th {
+    font-size: 14px;
+    line-height: 14px;
+    padding: 3px;
+}
+
 .table-view .outer {
     position: relative;
     padding-top: 30px;
