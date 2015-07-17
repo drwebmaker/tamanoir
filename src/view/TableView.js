@@ -11,6 +11,7 @@ define(function (require) {
         className: 'table-view',
         template: _.template(TableViewTemplate),
         events: {
+            'click th div': 'onTableHeaderClick'
         },
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
@@ -29,6 +30,17 @@ define(function (require) {
             setTimeout(function () {
                 this.$('.inner').height($('.bottom-section').height() - 30);
             }.bind(this), 0);
+        },
+        onTableHeaderClick: function (event) {
+            var value = $(event.target).text().trim();
+
+            if (this.reverse) {
+                this.collection.reset(this.collection.sortBy(value).reverse());
+                this.reverse = false;
+            } else {
+                this.collection.reset(this.collection.sortBy(value));
+                this.reverse = true;
+            }
         }
     });
 });

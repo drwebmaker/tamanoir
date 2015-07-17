@@ -31,6 +31,7 @@
 .table-view th div {
     position: absolute;
     color: black;
+    cursor: pointer;
     line-height: 30px;
     top: 0;
 }
