@@ -8,9 +8,13 @@
     line-height: 30px;
     border: 1px solid #007095;
 }
-
+.axis-item-view i {
+    position: absolute;
+    right: 3px;
+}
 .axis-item-view {
     background: #008CBA;
+    position: relative;
     color: white;
     display: inline-block;
     border-radius: 3px;
@@ -18,4 +22,13 @@
     line-height: 20px;
     padding-right: 10px;
     margin-right: 5px;
+    margin-top: 3px;
+}
+
+.axis-item-view div[title] {
+    overflow: hidden;
+    padding-right: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
 }

@@ -39,6 +39,10 @@
     position: absolute;
     color: black;
     cursor: pointer;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     line-height: 30px;
     top: 0;
 }

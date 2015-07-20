@@ -22,10 +22,11 @@ define(function (require) {
                 return model.get('type') === 'number';
             }.bind(this));
         },
-        getGroupByNames: function () {
-            var names = [];
+        getGroupByNames: function (groups, filters) {
+            var names = [],
+                filters = filters.length ? ' where ' + filters.join(' and ') : '';
             _.each(this.getNumbers(), function (column) {
-                names.push(column.get('groupAction') + '(' + column.get('fullName') + ') AS "' + column.get('groupAction') + '(' + column.get('name') + ')"');
+                names.push(column.get('groupAction') + '(' + column.get('fullName') + ') AS "' + column.get('groupAction') + '(' + column.get('name') + ') by ' + groups + filters + '"');
             });
             return names;
         },

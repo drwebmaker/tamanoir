@@ -111,7 +111,7 @@ define(function (require) {
             console.log('cell click', event);
 
             var index = $(event.target).index(),
-                name = $(this.$('th')[index]).find('div').text().trim(),
+                name = $(this.$('.table-view th')[index]).find('div').text().trim(),
                 value = $(event.target).text();
 
             this.filtersCollection.add({name: name, value: value});
@@ -134,7 +134,7 @@ define(function (require) {
                 conditions = this.dataCanvasItemsCollection.getConditions(),
                 filters = this.filtersCollection.getFilters(),
                 groups = this.groupsCollection.getGroups(),
-                groupByNames = this.columnsCollection.getGroupByNames(),
+                groupByNames = this.columnsCollection.getGroupByNames(groups, filters),
                 query;
 
             if (groups.length) {
