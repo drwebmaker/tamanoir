@@ -20,6 +20,7 @@ define(function (require) {
             this._subviews = [];
 
             this.listenTo(Tamanoir, 'axis:row:drop', this.onAxisRowDrop);
+            this.listenTo(Tamanoir, 'axis:column:drop', this.onAxisColumnDrop);
             this.listenTo(Tamanoir, 'axis:item:remove', this.onAxisItemRemove);
 
             this.render();
@@ -66,10 +67,56 @@ define(function (require) {
                 });
             }
         },
-        onAxisItemRemove: function (model) {
-            this.chart.unload({
-                ids: model.get('name')
+        onAxisColumnDrop: function (name, data) {
+            var storedData = this.getStoredData();
+
+            this.chart && this.chart.destroy();
+            this.chart = c3.generate({
+                bindto: '.chart-holder',
+                size: {
+                    height: $('.top-section').height() - $('.axis-view').height() - this.$('.header').height() - 2
+                },
+                data: {
+                    columns: storedData
+                },
+                axis: {
+                    x: {
+                        type: 'category',
+                        tick: {
+                            rotate: 75,
+                            multiline: false
+                        },
+                        categories: data
+                    }
+                }
             });
+        },
+        onAxisItemRemove: function (model) {
+            if (model.get('axis') === 'x') {
+                var storedData = this.getStoredData();
+
+                this.chart && this.chart.destroy();
+                this.chart = c3.generate({
+                    bindto: '.chart-holder',
+                    size: {
+                        height: $('.top-section').height() - $('.axis-view').height() - this.$('.header').height() - 2
+                    },
+                    data: {
+                        columns: storedData
+                    }
+                });
+            } else {
+                this.chart.unload({
+                    ids: model.get('name')
+                });
+            }
+        },
+        getStoredData: function () {
+            if (!this.chart) return [];
+
+            return _.map(this.chart.data(), function (value) {
+                return [value.id].concat(this.chart.data.values(value.id));
+            }, this);
         }
     });
 });

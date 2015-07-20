@@ -14,7 +14,8 @@ define(function (require) {
         template: _.template(AxisViewTemplate),
         events: {
             'dragover [class$=holder]': 'onHolderDragOver',
-            'drop .rows-holder': 'onRowsHolderDrop'
+            'drop .rows-holder': 'onRowsHolderDrop',
+            'drop .columns-holder': 'onColumnsHolderDrop'
         },
         initialize: function () {
             this._subviews = [];
@@ -44,10 +45,19 @@ define(function (require) {
         },
         onRowsHolderDrop: function (event) {
             console.log('drop', this.draggedData.name);
+            this.draggedData.axis = 'y';
             var view = new AxisItemView({model: new AxisItemModel(this.draggedData)})
             this._subviews.push(view);
             this.$('.rows-holder').append(view.$el);
             Tamanoir.trigger('axis:row:drop', this.draggedData.name, this.draggedData.data);
+        },
+        onColumnsHolderDrop: function (event) {
+            console.log('drop', this.draggedData.name);
+            this.draggedData.axis = 'x';
+            var view = new AxisItemView({model: new AxisItemModel(this.draggedData)});
+            this._subviews.push(view);
+            this.$('.columns-holder').append(view.$el);
+            Tamanoir.trigger('axis:column:drop', this.draggedData.name, this.draggedData.data);
         },
         onTableHeaderDragStart: function (name, data) {
             this.draggedData = {name: name, data: data};

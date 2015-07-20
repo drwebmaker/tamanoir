@@ -6,7 +6,9 @@ define(function (require) {
 
     return Backbone.Model.extend({
         defaults: {
-            name: ''
+            name: '',
+            data: [],
+            axis: 'y'
         }
     });
 });
