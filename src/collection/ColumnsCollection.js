@@ -26,7 +26,7 @@ define(function (require) {
             var names = [],
                 filters = _.map(filters, function (v) { return v.slice(v.indexOf('LIKE') + 5)});
             _.each(this.getNumbers(), function (column) {
-                names.push(column.get('groupAction') + '(' + column.get('fullName') + ') AS "' + column.get('groupAction') + '(' + column.get('name') + ') ' + filters + '"');
+                names.push(column.get('groupAction') + '(' + column.get('fullName') + ') AS "' + column.get('groupAction') + '(' + column.get('name') + ')' + filters + '"');
             });
             return names;
         },
