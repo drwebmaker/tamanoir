@@ -16,6 +16,7 @@ define(function (require) {
         GroupsView = require('view/GroupsView'),
         GroupsCollection = require('collection/GroupsCollection'),
         AnalysisSidebarView = require('view/AnalysisSidebarView'),
+        TableDataCollection = require('collection/TableDataCollection'),
         AnalysisViewTemplate = require('text!template/AnalysisViewTemplate.html');
 
     return Backbone.View.extend({
@@ -29,7 +30,7 @@ define(function (require) {
         initialize: function () {
             this._subviews = [];
 
-            this.tableDataCollection = new Backbone.Collection();
+            this.tableDataCollection = new TableDataCollection();
             this.columnsCollection = new ColumnsCollection();
             this.domainsCollection = new DomainsCollection();
             this.filtersCollection = new FiltersCollection();
@@ -102,7 +103,7 @@ define(function (require) {
             console.log('domain sync');
             this.dataCanvasItemsCollection.reset(this.model.get('data'));
             this.model.connection.query(this.buildQuery()).then(function (data) {
-                this.tableDataCollection.reset(data);
+                this.tableDataCollection.reset(this.tableDataCollection.parseNumbers(data));
                 this.columnsCollection.prepare(data, this.dataCanvasItemsCollection.getColumns());
             }.bind(this));
         },
@@ -121,7 +122,7 @@ define(function (require) {
             console.log('query rebuild:', query);
 
             this.model.connection.query(query).then(function (data) {
-                this.tableDataCollection.reset(data);
+                this.tableDataCollection.reset(this.tableDataCollection.parseNumbers(data));
             }.bind(this));
         },
         onColumnClick: function (model) {
