@@ -44,7 +44,7 @@ define(function (require) {
         },
         remove: function () {
             _.invoke(this._subviews, 'remove');
-            Backbone.View.remove.apply(this, arguments);
+            Backbone.View.prototype.remove.apply(this, arguments);
         },
         onAxisRowDrop: function (name, data) {
             if (this.chart) {
