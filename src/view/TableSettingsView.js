@@ -15,7 +15,7 @@ define(function (require) {
         },
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
-            Tamanoir.connecion.getColumns(this.model.get('name')).then(this.onColumnsLoaded.bind(this));
+            this.listenTo(this.model, 'destroy', this.remove);
             this.render();
         },
         render: function () {
@@ -45,9 +45,6 @@ define(function (require) {
             }
 
             console.log('selected', this.model.get('selected'));
-        },
-        onColumnsLoaded: function (columns) {
-            this.model.set('columns', _.map(columns, function (value) { return value.name; }))
         }
     });
 });

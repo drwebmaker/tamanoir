@@ -7,6 +7,7 @@ require.config({
         backbone: 'bower_components/backbone/backbone',
         'backbone.localStorage': 'bower_components/backbone.localStorage/backbone.localStorage',
         jquery: 'bower_components/jquery/dist/jquery',
+        'jquery-ui': 'bower_components/jquery-ui/jquery-ui',
         underscore: 'bower_components/underscore/underscore',
         text: 'bower_components/requirejs-text/text',
         json: 'bower_components/requirejs-plugins/src/json',
@@ -32,6 +33,9 @@ require.config({
         },
         jsplumb: {
             exports: 'jsPlumb',
+            deps: ['jquery']
+        },
+        'jquery-ui': {
             deps: ['jquery']
         }
     }

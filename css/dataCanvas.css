@@ -4,9 +4,7 @@
     cursor: default;
     width: 150px;
     padding-left: 25px;
-    float: left;
-    margin: 30px 0 0 50px;
-    position: relative;
+    position: absolute;
 }
 
 .canvas-items-holder {

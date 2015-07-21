@@ -7,6 +7,7 @@ define(function (require) {
         _ = require('underscore'),
         jsPlumb = require('jsplumb'),
         TableSettingsView = require('view/TableSettingsView'),
+        DataCanvasItemModel = require('model/DataCanvasItemModel'),
         DataCanvasViewTemplate = require('text!template/DataCanvasViewTemplate.html'),
         DataCanvasItemView = require('view/DataCanvasItemView');
 
@@ -22,7 +23,7 @@ define(function (require) {
 
             this.listenTo(Tamanoir, 'tables:table:dragstart', this.onSidebarTableDragStart);
             this.listenTo(Tamanoir, 'datacanvasitem:table:click', this.onDataCanvasItemClick);
-            this.listenTo(this.collection, 'update', this.render);
+            this.listenTo(this.collection, 'add', this.addItem);
             this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
@@ -30,7 +31,6 @@ define(function (require) {
             this.collection.each(this.addItem, this);
 
             this.calculateHeight();
-            this.drawRelations();
             return this;
         },
         addItem: function (model, index) {
@@ -42,12 +42,9 @@ define(function (require) {
 
             this.$('.canvas-items-holder').append(itemView.$el);
 
+            itemView.drawRelation();
+
             return this;
-        },
-        drawRelations: function () {
-            setTimeout(function () {
-                console.log(this.collection.getRelations());
-            }.bind(this), 0);
         },
         calculateHeight: function () {
             setTimeout(function () {
@@ -60,7 +57,12 @@ define(function (require) {
         },
         onDrop: function (event) {
             console.log('drop', this.draggedTableModel);
-            this.collection.add(this.draggedTableModel.toJSON());
+            Tamanoir.connecion.getColumns(this.draggedTableModel.get('name')).then(function (columns) {
+                this.collection.add(_.extend(this.draggedTableModel.toJSON(), {
+                    columns: _.map(columns, function (value) { return value.name; }),
+                    position: {top: event.originalEvent.offsetY, left: event.originalEvent.offsetX}
+                }));
+            }.bind(this));
         },
         onSidebarTableDragStart: function (table) {
             console.log('dragstart', table);
