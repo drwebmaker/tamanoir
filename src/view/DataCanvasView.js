@@ -5,6 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
+        jsPlumb = require('jsplumb'),
         TableSettingsView = require('view/TableSettingsView'),
         DataCanvasViewTemplate = require('text!template/DataCanvasViewTemplate.html'),
         DataCanvasItemView = require('view/DataCanvasItemView');
@@ -17,30 +18,36 @@ define(function (require) {
             'drop': 'onDrop'
         },
         initialize: function () {
+            this._subviews = [];
+
             this.listenTo(Tamanoir, 'tables:table:dragstart', this.onSidebarTableDragStart);
             this.listenTo(Tamanoir, 'datacanvasitem:table:click', this.onDataCanvasItemClick);
             this.listenTo(this.collection, 'update', this.render);
             this.listenTo(this.collection, 'reset', this.render);
-
-            this.render();
         },
         render: function () {
             this.$el.html(this.template);
             this.collection.each(this.addItem, this);
 
             this.calculateHeight();
+            this.drawRelations();
             return this;
         },
-        addItem: function (model) {
+        addItem: function (model, index) {
             console.log('add canvas item', model);
 
-            this.$('.canvas-items-holder').append(new DataCanvasItemView({model: model}).$el);
-            this.$('.table-settings-holder').html(new TableSettingsView({model: model}).$el);
+            var itemView = new DataCanvasItemView({model: model});
+
+            this._subviews.push(itemView);
+
+            this.$('.canvas-items-holder').append(itemView.$el);
 
             return this;
         },
-        serialize: function () {
-            return this.collection.serialize();
+        drawRelations: function () {
+            setTimeout(function () {
+                console.log('jsPlumb');
+            }.bind(this), 0);
         },
         calculateHeight: function () {
             setTimeout(function () {
@@ -62,6 +69,10 @@ define(function (require) {
         onDataCanvasItemClick: function (table) {
             console.log('canvas item clicked', table);
             this.$('.table-settings-holder').html(new TableSettingsView({model: table}).$el);
+        },
+        remove: function () {
+            _.invoke(this._subviews, 'remove');
+            Backbone.View.prototype.remove.apply(this, arguments);
         }
     });
 });

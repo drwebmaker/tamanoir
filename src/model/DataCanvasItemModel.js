@@ -9,7 +9,8 @@ define(function (require) {
         defaults: {
             name: '',
             columns: [],
-            selected: []
+            selected: [],
+            position: {top: 0, left: 0}
         }
     });
 });

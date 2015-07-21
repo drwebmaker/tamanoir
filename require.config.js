@@ -11,6 +11,7 @@ require.config({
         text: 'bower_components/requirejs-text/text',
         json: 'bower_components/requirejs-plugins/src/json',
         foundation: 'bower_components/foundation/js/foundation',
+        jsplumb: 'bower_components/jsplumb/dist/js/jquery.jsPlumb-1.7.6',
         c3: 'bower_components/c3/c3',
         d3: 'bower_components/d3/d3',
         root: '../'
@@ -28,6 +29,10 @@ require.config({
         },
         c3: {
             deps: ['d3']
+        },
+        jsplumb: {
+            exports: 'jsPlumb',
+            deps: ['jquery']
         }
     }
 });
