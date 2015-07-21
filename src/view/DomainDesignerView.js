@@ -109,7 +109,12 @@ define(function (require) {
 
             var columns = this.dataCanvasItemsCollection.getColumns(),
                 tables = this.dataCanvasItemsCollection.getTables(),
-                query = 'SELECT ' + (columns.length ? columns : '*') + ' FROM ' + tables + ' LIMIT 100';
+                conditions = this.dataCanvasItemsCollection.getConditions(),
+                query;
+
+            conditions = conditions.length ? ' WHERE ' + conditions.join(' AND ') : '';
+
+            query = 'SELECT ' + (columns.length ? columns : '*') + ' FROM ' + tables + conditions + ' LIMIT 100';
 
             console.log('query rebuild:', query);
 

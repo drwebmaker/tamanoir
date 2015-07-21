@@ -13,6 +13,11 @@ define(function (require) {
             'click .remove': 'onRemoveClick',
             'click .table-name': 'onTableNameClick'
         },
+        attributes: function () {
+            return {
+                id: this.model.get('name')
+            };
+        },
         initialize: function () {
             this.render();
         },

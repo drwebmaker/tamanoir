@@ -46,7 +46,7 @@ define(function (require) {
         },
         drawRelations: function () {
             setTimeout(function () {
-                console.log('jsPlumb');
+                console.log(this.collection.getRelations());
             }.bind(this), 0);
         },
         calculateHeight: function () {
