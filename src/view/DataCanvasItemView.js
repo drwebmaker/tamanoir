@@ -16,7 +16,7 @@ define(function (require) {
         events: {
             'click .remove': 'onRemoveClick',
             'click input': 'onColumnClick',
-            'click .title': 'onTitleClick'
+            'click .settings': 'onSettingsClick'
         },
         attributes: function () {
             return {
@@ -51,7 +51,7 @@ define(function (require) {
 
             console.log('selected', this.model.get('selected'));
         },
-        onTitleClick: function () {
+        onSettingsClick: function () {
             this.$('ul').toggleClass('hide');
             this.$el.toggleClass('z2');
         }

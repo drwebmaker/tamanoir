@@ -50,8 +50,13 @@
     cursor: pointer;
 }
 
-.data-canvas-view .data-canvas-item-view .table-name {
+.data-canvas-view .data-canvas-item-view i.settings {
+    position: absolute;
+    right: 5px;
     cursor: pointer;
+}
+
+.data-canvas-view .data-canvas-item-view .table-name {
     overflow: hidden;
     text-align: center;
     text-overflow: ellipsis;
