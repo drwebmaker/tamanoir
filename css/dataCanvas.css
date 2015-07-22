@@ -1,7 +1,10 @@
 .data-canvas-view .data-canvas-item-view {
     position: absolute;
-    border: 1px solid #008CBA;
+    z-index: 1;
     width: 200px;
+}
+.data-canvas-view .data-canvas-item-view.z2 {
+    z-index: 2;
 }
 
 .data-canvas-view .data-canvas-item-view .title {
@@ -13,6 +16,11 @@
 
 .data-canvas-view .data-canvas-item-view ul {
     margin: 0;
+    position: absolute;
+    width: 200px;
+    border: 1px solid #008CBA;
+    top: 30px;
+    left: 0;
     max-height: 200px;
     overflow: auto;
     background: white;
