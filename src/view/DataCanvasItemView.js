@@ -5,16 +5,17 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         jsPlumb = require('jsplumb'),
-        _ = require('underscore');
+        _ = require('underscore'),
+        DataCanvasItemViewTemplate = require('text!template/DataCanvasItemViewTemplate.html');
 
     require('jquery-ui');
 
     return Backbone.View.extend({
         className: 'data-canvas-item-view',
-        template: '<i class="remove foundicon-remove"></i><div class="table-name">{{- name }}</div>',
+        template: _.template(DataCanvasItemViewTemplate),
         events: {
             'click .remove': 'onRemoveClick',
-            'click .table-name': 'onTableNameClick'
+            'click input': 'onColumnClick'
         },
         attributes: function () {
             return {
@@ -26,7 +27,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(_.template(this.template)(this.model.toJSON()));
+            this.$el.html(this.template(this.model.toJSON()));
             this.positionalize();
 
             return this;
@@ -43,19 +44,41 @@ define(function (require) {
 
             jsPlumb.draggable(tableName);
 
-            jsPlumb.connect({
-                source: tableName,
-                target: relatedTable,
-                connector: 'Flowchart'
-            });
+            //jsPlumb.addEndpoint(tableName, {
+            //    isSource: true,
+            //    isTarget: true,
+            //    anchors: ['Top', 'Left', 'Bottom', 'Right'],
+            //    endpoint: 'Rectangle',
+            //    connector: 'Flowchart',
+            //    paintStyle:{ fillStyle: "#008CBA" },
+            //    connectorStyle:{ strokeStyle:"#008CBA", lineWidth: 3 }
+            //});
+
+            //jsPlumb.connect({
+            //    source: tableName,
+            //    target: relatedTable,
+            //    anchor: ['Left', 'Right', 'Top', 'Bottom'],
+            //    connector: 'Straight'
+            //});
         },
         onRemoveClick: function (event) {
             console.log('remove', this.model);
             this.model.collection.remove(this.model);//workaround
             this.model.trigger('destroy'); //workaround
         },
-        onTableNameClick: function () {
-            Tamanoir.trigger('datacanvasitem:table:click', this.model);
+        onColumnClick: function (event) {
+            var value = $(event.target).is(':checked'),
+                table = this.model.get('name'),
+                name = $(event.target).parent().text();
+            console.log('columns click', value, this.model);
+
+            if (value) {
+                this.model.set('selected', this.model.get('selected').concat(table + '.' + name));
+            } else {
+                this.model.set('selected', _.without(this.model.get('selected'), table + '.' + name));
+            }
+
+            console.log('selected', this.model.get('selected'));
         }
     });
 });

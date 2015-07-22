@@ -6,7 +6,6 @@ define(function (require) {
         $ = require('jquery'),
         _ = require('underscore'),
         jsPlumb = require('jsplumb'),
-        TableSettingsView = require('view/TableSettingsView'),
         DataCanvasItemModel = require('model/DataCanvasItemModel'),
         DataCanvasViewTemplate = require('text!template/DataCanvasViewTemplate.html'),
         DataCanvasItemView = require('view/DataCanvasItemView');
@@ -22,7 +21,6 @@ define(function (require) {
             this._subviews = [];
 
             this.listenTo(Tamanoir, 'tables:table:dragstart', this.onSidebarTableDragStart);
-            this.listenTo(Tamanoir, 'datacanvasitem:table:click', this.onDataCanvasItemClick);
             this.listenTo(this.collection, 'add', this.addItem);
             this.listenTo(this.collection, 'reset', this.render);
         },
@@ -67,10 +65,6 @@ define(function (require) {
         onSidebarTableDragStart: function (table) {
             console.log('dragstart', table);
             this.draggedTableModel = table;
-        },
-        onDataCanvasItemClick: function (table) {
-            console.log('canvas item clicked', table);
-            this.$('.table-settings-holder').html(new TableSettingsView({model: table}).$el);
         },
         remove: function () {
             _.invoke(this._subviews, 'remove');

@@ -1,4 +1,6 @@
-<div class="title">{{- name }}</div>
+<div class="title">
+    <i class="remove foundicon-remove"></i><div class="table-name">{{- name }}</div>
+</div>
 <ul>
     {{ _.each(columns, function (column) { }}
     <li><label><input type="checkbox" {{= _.contains(selected, name + '.' + column) ? 'checked' : ''}}/>{{- column }}</label></li>
