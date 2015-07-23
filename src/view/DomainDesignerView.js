@@ -32,7 +32,6 @@ define(function (require) {
             this.dataCanvasItemsCollection = new DataCanvasItemsCollection();
 
             this.listenTo(this.dataCanvasItemsCollection, 'change update reset', this.onCanvasItemsChange);
-            this.listenTo(Tamanoir, 'tables:table:click', this.onSidebarTableClick);
 
             if (this.model.isNew()) {
                 this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
@@ -94,12 +93,6 @@ define(function (require) {
         },
         onProductTitleClick: function () {
             Tamanoir.navigate('/', {trigger: true});
-        },
-        onSidebarTableClick: function (table) {
-            console.log('table clicked', table);
-            this.connectionModel.query('SELECT * FROM ' + table.get('name') + ' LIMIT 100').then(function (data) {
-                this.tableDataCollection.reset(data);
-            }.bind(this));
         },
         onCanvasItemsChange: function () {
             if (this.dataCanvasItemsCollection.size() === 0) {
