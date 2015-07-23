@@ -87,8 +87,8 @@ define(function (require) {
                 var bodyHeight = $('body').height(),
                     sectionHeight = Math.round((bodyHeight - 40) / 2);
 
+                this.$('.sidebar').height(bodyHeight - 40);
                 this.$('.top-section').height(sectionHeight);
-                this.$('.sidebar').height(sectionHeight);
                 this.$('.bottom-section').height(bodyHeight - sectionHeight - 40);
             }.bind(this), 0);
         },

@@ -32,3 +32,7 @@
     padding-left: 20px;
     line-height: initial;
 }
+
+.domain-designer-view .sidebar {
+    border-right: 1px solid #007095;
+}
