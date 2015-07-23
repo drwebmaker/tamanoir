@@ -15,6 +15,7 @@
 .tables-view li {
     padding-left: 20px;
     color: #008CBA;
+    cursor: move;
     border-bottom: 1px solid #f1f1f1;
     overflow: hidden;
     text-overflow: ellipsis;

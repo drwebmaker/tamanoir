@@ -19,7 +19,7 @@ define(function (require) {
         className: 'domain-designer-view',
         template: DomainDesignerViewTemplate,
         events: {
-            'click .domain-designer-title': 'onProductTitleClick',
+            'click .productTitle': 'onProductTitleClick',
             'click .saveDomain': 'onSaveDomainClick',
             'click .analysis': 'onAnalysisClick'
         },
@@ -114,9 +114,6 @@ define(function (require) {
             this.connectionModel.query(query).then(function (data) {
                 this.tableDataCollection.reset(data);
             }.bind(this));
-
-            this.$('.saveDomain').removeClass('foundicon-checkmark');
-            this.$('.saveDomain').addClass('foundicon-star');
         },
         onSaveDomainClick: function (event) {
             if (this.model.isNew()) {
@@ -135,8 +132,6 @@ define(function (require) {
                         }, {
                             success: function (model) {
                                 Tamanoir.navigate('connection/' + model.get('connectionId') + '/' + model.get('id'));
-                                this.$('.saveDomain').removeClass('foundicon-star');
-                                this.$('.saveDomain').addClass('foundicon-checkmark');
                             }.bind(this)
                         });
                     }
@@ -145,9 +140,9 @@ define(function (require) {
             } else {
                 this.model.save({
                     data: this.dataCanvasItemsCollection.toJSON()
+                }).done(function () {
+                    Tamanoir.showMessage('Saved');
                 });
-                this.$('.saveDomain').removeClass('foundicon-star');
-                this.$('.saveDomain').addClass('foundicon-checkmark');
             }
         },
         onAnalysisClick: function () {
