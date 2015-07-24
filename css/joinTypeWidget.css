@@ -1,0 +1,8 @@
+.join-type-widget-view {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    z-index: 1;
+    background: url("../img/sql_join_inner.png");
+}
