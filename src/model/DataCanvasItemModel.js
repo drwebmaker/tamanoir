@@ -12,6 +12,7 @@ define(function (require) {
             columns: [],
             selected: [],
             relatedTable: null,
+            joinType: 'inner',
             position: {top: 0, left: 0}
         },
         initialize: function () {

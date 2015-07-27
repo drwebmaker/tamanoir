@@ -6,3 +6,58 @@
     z-index: 1;
     background: url("../img/sql_join_inner.png");
 }
+
+.join-settings-view {
+    position: absolute;
+    border: 1px solid #cccccc;
+    background: white;
+    box-shadow: 0 5px 50px #cccccc;
+    padding: 10px;
+    z-index: 2;
+    width: 400px;
+}
+
+.join-settings-view .join-types {
+    text-align: center;
+}
+
+.join-settings-view [class^="join-type-"] {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    margin: 10px 5px;
+    transition: all .5s;
+    cursor: pointer;
+    background: center no-repeat;
+    border: 1px solid #cccccc;
+}
+
+.join-settings-view .endpoint-description {
+    color: #cccccc;
+    padding-left: 10px;
+}
+
+.join-settings-view [class^="join-type-"].active,
+.join-settings-view [class^="join-type-"]:hover {
+    background-color: #cccccc;
+}
+
+.join-settings-view .join-type-inner {
+    background-image: url('../img/sql_join_inner.png');
+}
+
+.join-settings-view .join-type-outer{
+    background-image: url('../img/sql_join_outer.png');
+}
+
+.join-settings-view .join-type-left {
+    background-image: url('../img/sql_join_left.png');
+}
+
+.join-settings-view .join-type-right {
+    background-image: url('../img/sql_join_right.png');
+}
+
+.join-settings-view .join-type-full {
+    background-image: url('../img/sql_join_full.png');
+}

@@ -4,7 +4,8 @@
 define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
-        $ = require('jquery');
+        $ = require('jquery'),
+        JoinSettingsView = require('view/JoinSettingsView');
 
     var JoinTypeWidgetView = Backbone.View.extend({
         className: 'join-type-widget-view',
@@ -29,8 +30,13 @@ define(function (require) {
                     this.$el.css({top: table.position.top + 50, left: table.position.left + 85}); break;
             }
         },
-        onClick: function () {
+        onClick: function (event) {
             console.log('on join type click');
+            new JoinSettingsView({
+                model: this.model,
+                sender: this
+            });
+
         }
     });
 

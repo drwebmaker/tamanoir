@@ -54,6 +54,7 @@ define(function (require) {
                 tableAvailablePlace = model.get('availablePlace'),
                 relatedTableName = model.get('relatedTable'),
                 relatedTable = this.collection.get(relatedTableName),
+                sourceColumnName,
                 relatedTablePosition,
                 relatedTableAvailablePlace,
                 anchors;
@@ -63,8 +64,13 @@ define(function (require) {
             this.$('.canvas-items-holder').append(itemView.$el);
 
             if (relatedTable) {
+                sourceColumnName = this.collection.getRelations()[tableName][relatedTableName]
                 relatedTablePosition = relatedTable.get('position');
                 relatedTableAvailablePlace = relatedTable.get('availablePlace');
+
+                model.set({
+                    sourceColumnName: sourceColumnName
+                }, {silent: true});
 
                 if (relatedTableAvailablePlace.right) {
                     anchors = ['Right', 'Left'];

@@ -1,0 +1,36 @@
+<div class="join-types">
+    <div class="join-type-inner {{= joinType === 'inner' ? 'active' : '' }}"></div>
+    <div class="join-type-outer"></div>
+    <div class="join-type-right"></div>
+    <div class="join-type-left"></div>
+    <div class="join-type-full"></div>
+</div>
+<div class="endpoint-description">source</div>
+<div>
+    <div class="column medium-6">
+        <select name="sourceTable">
+            <option value="{{- name }}">{{- name }}</option>
+        </select>
+    </div>
+    <div class="column medium-6">
+        <select name="sourceColumn">
+            <option value="{{- sourceColumnName }}">{{- sourceColumnName }}</option>
+        </select>
+    </div>
+</div>
+<div class="endpoint-description">target</div>
+<div>
+    <div class="column medium-6">
+        <select name="targetTable">
+            <option value="{{- relatedTable }}">{{- relatedTable }}</option>
+        </select>
+    </div>
+    <div class="column medium-6">
+        <select name="targetColumn">
+            <option value="{{- sourceColumnName }}">{{- sourceColumnName }}</option>
+        </select>
+    </div>
+</div>
+<div>
+    <button class="right">Done</button>
+</div>
