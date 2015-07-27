@@ -5,7 +5,6 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         DomainModel = require('model/DomainModel'),
-        MetadataExplorer = require('util/MetadataExplorer'),
         DialogView = require('view/DialogView'),
         AnalysisView = require('view/AnalysisView'),
         HomeView = require('view/HomeView'),
