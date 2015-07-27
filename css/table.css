@@ -2,6 +2,7 @@
     background: #e1e1e1;
     overflow: auto;
     position: relative;
+    padding-top: 12px;
 }
 
 .table-view tbody tr:nth-child(even){
@@ -14,35 +15,37 @@
     border-spacing: 0;
 }
 
-.table-view th{
-    color: transparent;
-    line-height: 0;
-}
-
-.table-view td,
-.table-view th {
+.table-view td {
     font-size: 14px;
     line-height: 14px;
-    padding: 3px;
-}
-
-.table-view .outer {
-    position: relative;
-    padding-top: 30px;
-}
-
-.table-view .inner {
-    overflow: auto;
-}
-
-.table-view th div {
-    position: absolute;
-    color: black;
-    cursor: pointer;
-    max-width: 200px;
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    padding: 1px 5px;
+    border-left: 1px solid gainsboro;
+}
+
+.table-view th {
+    min-width: 150px;
+}
+
+.table-view th .inner {
+    position: absolute;
+    color: white;
+    padding: 1px 5px;
+    cursor: pointer;
+    margin-left: -10px;
+    border-left: 1px solid white;
     line-height: 30px;
     top: 0;
+}
+
+.table-view th:first-child .inner {
+    border-left: none;
+}
+
+.table-view .header {
+    position: absolute;
+    top: 0;
+    height: 30px;
+    width: 100%;
+    background: #007095;
 }

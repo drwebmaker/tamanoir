@@ -1,25 +1,21 @@
-<div class="outer">
-    <div class="inner">
-        <table>
-            <thead>
-            <tr>
-                {{ _.each(data[0], function (value, key) { }}
-                <th>
-                    {{- key }}
-                    <div draggable="true" title="{{- key }}">{{- key }}</div>
-                </th>
-                {{ }) }}
-            </tr>
-            </thead>
-            <tbody>
-            {{ _.each(data, function (item) { }}
-            <tr>
-                {{ _.each(item, function (value, key) { }}
-                <td>{{- value }}</td>
-                {{ }) }}
-            </tr>
-            {{ }) }}
-            </tbody>
-        </table>
-    </div>
-</div>
+<div class="header"></div>
+<table>
+    <thead>
+    <tr>
+        {{ _.each(data[0], function (value, key) { }}
+        <th>
+            <div class="inner" draggable="true" title="{{- key }}">{{- key }}</div>
+        </th>
+        {{ }) }}
+    </tr>
+    </thead>
+    <tbody>
+    {{ _.each(data, function (item) { }}
+    <tr>
+        {{ _.each(item, function (value, key) { }}
+        <td>{{- value }}</td>
+        {{ }) }}
+    </tr>
+    {{ }) }}
+    </tbody>
+</table>

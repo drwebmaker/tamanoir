@@ -12,7 +12,8 @@ define(function (require) {
         template: _.template(TableViewTemplate),
         events: {
             'click th div': 'onTableHeaderClick',
-            'dragstart th div': 'onTableHeaderDragStart'
+            'dragstart th div': 'onTableHeaderDragStart',
+            'scroll': 'onScroll'
         },
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
@@ -29,7 +30,8 @@ define(function (require) {
         },
         calculateHeight: function () {
             setTimeout(function () {
-                this.$('.inner').height($('.bottom-section').height() - 30);
+                this.$el.height($('.bottom-section').height() - 14);
+                this.onScroll();
             }.bind(this), 0);
         },
         onTableHeaderClick: function (event) {
@@ -50,6 +52,16 @@ define(function (require) {
                 });
             console.log('dragstart', name, data);
             Tamanoir.trigger('table:header:dragstart', name, data);
+        },
+        onScroll: function (event) {
+            this.$('.inner').css({
+                top: this.$el.scrollTop()
+            });
+
+            this.$('.header').css({
+                top: this.$el.scrollTop(),
+                left: this.$el.scrollLeft()
+            });
         }
     });
 });

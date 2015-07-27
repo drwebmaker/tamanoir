@@ -34,5 +34,8 @@
     "requirejs-plugins": "~1.0.3",
     "jsplumb": "~1.7.6",
     "jquery-ui": "~1.11.4"
+  },
+  "devDependencies": {
+    "jsplumb": "~1.7.6"
   }
 }
