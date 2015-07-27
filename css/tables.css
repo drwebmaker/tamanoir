@@ -16,9 +16,20 @@
     padding-left: 20px;
     color: #008CBA;
     cursor: move;
+    white-space: nowrap;
     border-bottom: 1px solid #f1f1f1;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.tables-view .tamanoir-icon-table {
+    display: inline-block;
+    height: 32px;
+    position: relative;
+    top: 3px;
+    width: 32px;
+    background: url('../img/table_48x48.png') no-repeat;
+    background-size: 32px;
 }
 
 .tables-view li:last-child {
@@ -27,11 +38,8 @@
 
 .tables-view ul li span {
     padding-left: 10px;
-}
-
-.tables-view ul li i {
     position: relative;
-    top: 3px;
+    top: -8px;
 }
 
 .tables-view ul li > div {
