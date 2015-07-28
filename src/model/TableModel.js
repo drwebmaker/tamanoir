@@ -14,7 +14,12 @@ define(function (require) {
     return Backbone.Model.extend({
         defaults: {
             data: [],
-            metadata: null
+            metadata: null,
+
+            sourceTable: null,
+            sourceColumn: null,
+            targetTable: null,
+            targetColumn: null
         },
 
         initialize: function (config) {

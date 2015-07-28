@@ -12,6 +12,12 @@ define(function (require) {
             columns: [],
             selected: [],
             relatedTable: null,
+
+            sourceTable: null,
+            sourceColumn: null,
+            targetTable: null,
+            targetColumn: null,
+
             joinType: 'inner',
             position: {top: 0, left: 0}
         },
