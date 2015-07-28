@@ -149,7 +149,7 @@ define(function (require) {
             if (this.model.get('id')) {
                 Tamanoir.navigate('analysis/' + this.model.get('connectionId') + '/' + this.model.get('id'), {trigger: true});
             } else {
-                Tamanoir.navigate('analysis/' + this.model.get('connectionId'), {trigger: true});
+                Tamanoir.showMessage('You should save domain before analyse it.');
             }
         },
         remove: function () {

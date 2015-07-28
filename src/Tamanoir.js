@@ -15,7 +15,6 @@ define(function (require) {
             '(/)': 'navigateToHome',
             'connection/:connectionId': 'navigateToDomainDesigner',
             'connection/:connectionId/:domainId': 'navigateToDomainDesigner',
-            'analysis/:connectionId': 'navigateToAnalysisDomain',
             'analysis/:connectionId/:domainId': 'navigateToAnalysisDomain',
             '*otherwise': 'navigateToLibrary'
         },
