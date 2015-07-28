@@ -126,7 +126,7 @@ define(function (require) {
             }.bind(this));
         },
         onColumnClick: function (model) {
-            this.groupsCollection.reset({value: model.get('name')});
+            this.groupsCollection.reset({value: model.get('label')});
         },
         buildQuery: function () {
             var columns = this.dataCanvasItemsCollection.getColumns(),

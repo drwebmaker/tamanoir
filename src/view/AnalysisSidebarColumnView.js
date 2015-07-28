@@ -5,7 +5,7 @@ define(function (require) {
     return Backbone.View.extend({
         className: 'analysis-sidebar-column-view',
         tagName: 'li',
-        template: _.template('{{- name }}'),
+        template: _.template('{{- label }}'),
         events: {
             'click': 'onColumnNameClick'
         },

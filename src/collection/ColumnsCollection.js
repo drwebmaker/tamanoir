@@ -10,6 +10,7 @@ define(function (require) {
     require('backbone.localStorage');
 
     return Backbone.Collection.extend({
+        localStorage: new Backbone.LocalStorage('columns'),
         model: ColumnModel,
         getCategories: function () {
             return this.filter(function (model) {
@@ -26,15 +27,15 @@ define(function (require) {
             var names = [],
                 filters = _.map(filters, function (v) { return v.slice(v.indexOf('LIKE') + 5)});
             _.each(this.getNumbers(), function (column) {
-                names.push(column.get('groupAction') + '(' + column.get('fullName') + ') AS "' + column.get('groupAction') + '(' + column.get('name') + ')' + filters + '"');
+                names.push(column.get('groupAction') + '(' + column.get('name') + ') AS "' + column.get('groupAction') + '(' + column.get('label') + ')' + filters + '"');
             });
             return names;
         },
         prepare: function (data, columnNames) {
             var columns = _.map(data[0], function (value, key) {
                 return {
-                    name: key,
-                    fullName: _.find(columnNames, function (name) { return name.indexOf(key) !== -1} ),
+                    label: key,
+                    name: _.find(columnNames, function (name) { return name.indexOf(key) !== -1} ),
                     groupAction: $.isNumeric(value) ? 'SUM' : 'COUNT',
                     type: $.isNumeric(value) ? 'number' : 'category'
                 };

@@ -1,15 +1,17 @@
 /**
- * Created by Artem.Malieiev on 6/19/2015.
+ * Created by artem on 7/28/15.
  */
 define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore');
 
     return Backbone.Model.extend({
-        idAttribute : 'name',
         defaults: {
-            name: '',
-            label: ''
+            sourceTable: '',
+            sourceColumn: '',
+            targetTable: '',
+            targetColumn: '',
+            joinType: 'inner'
         }
     });
 });

@@ -8,7 +8,9 @@ define(function (require) {
         idAttribute: 'name',
         defaults: {
             name: '',
-            fullName: '',
+            label: '',
+            selected: false,
+            table: '',
             groupAction: '',
             type: ''
         }
