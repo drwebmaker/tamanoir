@@ -7,7 +7,7 @@
     <input type="text" placeholder="user" name="user" value="{{- user }}"/>
     <input type="password" placeholder="password" name="password" value="{{- password }}"/>
 </form>
-{{ if (this.model.isNew()) { }}
+{{ if (url) { }}
 <button class="connect">connect</button>
 {{ } else { }}
 <button class="save">save</button>
