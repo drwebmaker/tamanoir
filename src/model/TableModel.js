@@ -6,8 +6,8 @@ define(function (require) {
         _ = require('underscore');
 
     return Backbone.Model.extend({
-        idAttribute : 'name',
         defaults: {
+            connectionId: '',
             name: '',
             label: ''
         }

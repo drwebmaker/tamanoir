@@ -8,6 +8,7 @@ define(function (require) {
         PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel'),
         TablesView = require('view/TablesView'),
         DataCanvasView = require('view/DataCanvasView'),
+        TablesCollection = require('collection/TablesCollection'),
         DialogView = require('view/DialogView'),
         ConnectionsCollection = require('collection/ConnectionsCollection'),
         DomainsCollection = require('collection/DomainsCollection'),
@@ -27,7 +28,7 @@ define(function (require) {
             this._subviews = [];
 
             this.model.collection = new DomainsCollection();
-            this.tablesCollection = new Backbone.Collection();
+            this.tablesCollection = new TablesCollection();
             this.tableDataCollection = new Backbone.Collection();
             this.dataCanvasItemsCollection = new DataCanvasItemsCollection();
 

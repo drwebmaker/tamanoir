@@ -56,7 +56,7 @@ define(function (require) {
             }.bind(this));
 
             _.each(alreadyMathed, function (value, key) {
-                conditions.push(key + '.' + _.values(value)[0] + ' = ' + _.keys(value)[0] + '.' +  _.values(value)[0]);
+                conditions.push(key + '."' + _.values(value)[0] + '" = ' + _.keys(value)[0] + '."' +  _.values(value)[0] + '"');
             }.bind(this));
 
             return conditions;

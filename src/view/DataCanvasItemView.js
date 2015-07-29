@@ -44,9 +44,9 @@ define(function (require) {
             console.log('columns click', value, this.model);
 
             if (value) {
-                this.model.set('selected', this.model.get('selected').concat(table + '.' + name));
+                this.model.set('selected', this.model.get('selected').concat(table + '."' + name + '"'));
             } else {
-                this.model.set('selected', _.without(this.model.get('selected'), table + '.' + name));
+                this.model.set('selected', _.without(this.model.get('selected'), table + '."' + name + '"'));
             }
 
             console.log('selected', this.model.get('selected'));
