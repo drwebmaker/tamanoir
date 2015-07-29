@@ -9,7 +9,6 @@ define(function (require) {
     return Backbone.View.extend({
         className: 'domains-list-item-view',
         tagName: 'li',
-        template: _.template(DomainListItemViewTemplate),
         events: {
             'click .domain': 'onDomainClick',
             'click .edit': 'onEditDomainClick',
@@ -20,7 +19,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(_.template(DomainListItemViewTemplate)(this.model.toJSON()));
             return this;
         },
         onDomainClick: function () {

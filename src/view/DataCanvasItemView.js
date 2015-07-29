@@ -12,7 +12,6 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'data-canvas-item-view',
-        template: _.template(DataCanvasItemViewTemplate),
         events: {
             'click .remove': 'onRemoveClick',
             'click input': 'onColumnClick',
@@ -28,7 +27,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(_.template(DataCanvasItemViewTemplate)(this.model.toJSON()));
 
             return this;
         },

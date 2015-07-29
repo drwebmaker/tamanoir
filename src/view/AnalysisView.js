@@ -21,7 +21,6 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'analysis-view',
-        template: _.template(AnalysisViewTemplate),
         events: {
             'click .editDomain': 'onEditDomainClick',
             'click .productTitle': 'onProductTitleClick',
@@ -49,7 +48,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template());
+            this.$el.html(_.template(AnalysisViewTemplate)());
 
             this.analysisSidebarView = new AnalysisSidebarView({collection: this.columnsCollection});
             this.tableView = new TableView({collection: this.tableDataCollection});

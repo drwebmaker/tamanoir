@@ -10,7 +10,6 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'groups-view',
-        template: _.template(GroupsViewTemplate),
         initialize: function () {
             this._subviews = [];
 
@@ -20,7 +19,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template());
+            this.$el.html(_.template(GroupsViewTemplate)());
             this.collection.each(this.addOne, this);
             return this;
         },

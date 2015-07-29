@@ -9,7 +9,6 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'edit-domain',
-        template: _.template(EditDomainViewTemplate),
         events: {
             'click .save': 'onSaveClick'
         },
@@ -17,7 +16,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(_.template(EditDomainViewTemplate)(this.model.toJSON()));
             this.calculateHeight();
             return this;
         },

@@ -10,14 +10,13 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'tables-view',
-        template: _.template(TablesViewTemplate),
         initialize: function (config) {
             this.config = config || {};
             this._subviews = [];
             this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
-            this.$el.html(this.template({database: this.config.database}));
+            this.$el.html(_.template(TablesViewTemplate)({database: this.config.database}));
             this.collection.each(this.addTable, this);
             this.calculateHeight();
             return this;

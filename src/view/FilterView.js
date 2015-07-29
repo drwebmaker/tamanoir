@@ -10,7 +10,6 @@ define(function (require) {
     return Backbone.View.extend({
         className: 'filter-view',
         tagName: 'li',
-        template: _.template(FilterViewTemplate),
         events: {
             'click .remove': 'onRemoveClick'
         },
@@ -20,7 +19,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(_.template(FilterViewTemplate)(this.model.toJSON()));
             return this;
         },
         onRemoveClick: function () {

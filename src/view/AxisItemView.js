@@ -9,7 +9,6 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'axis-item-view',
-        template: _.template(AxisItemViewTemplate),
         events: {
             'click .remove': 'onRemoveClick'
         },
@@ -21,7 +20,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(_.template(AxisItemViewTemplate)(this.model.toJSON()));
 
             return this;
         },

@@ -4,6 +4,7 @@
 define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
+        _ = require('underscore'),
         DialogViewTemplate = require('text!template/DialogViewTemplate.html');
 
     return Backbone.View.extend({

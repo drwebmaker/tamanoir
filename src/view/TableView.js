@@ -9,7 +9,6 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'table-view',
-        template: _.template(TableViewTemplate),
         events: {
             'click th div': 'onTableHeaderClick',
             'dragstart th div': 'onTableHeaderDragStart',
@@ -22,7 +21,7 @@ define(function (require) {
         render: function () {
             this.calculateHeight();
 
-            this.$el.html(this.template({
+            this.$el.html(_.template(TableViewTemplate)({
                 data: this.collection.toJSON()
             }));
 

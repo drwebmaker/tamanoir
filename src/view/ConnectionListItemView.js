@@ -9,7 +9,6 @@ define(function (require) {
     return Backbone.View.extend({
         className: 'connections-list-item-view',
         tagName: 'li',
-        template: _.template(ConnectionListItemViewTemplate),
         events: {
             'click .connection': 'onConnectionClick',
             'click .edit': 'onEditConnectionClick',
@@ -20,7 +19,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(_.template(ConnectionListItemViewTemplate)(this.model.toJSON()));
             return this;
         },
         onConnectionClick: function () {

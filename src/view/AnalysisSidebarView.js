@@ -6,7 +6,6 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'analysis-sidebar-view',
-        template: _.template(AnalysisSidebarViewTemplate),
         events: {
         },
         initialize: function () {
@@ -15,7 +14,7 @@ define(function (require) {
             this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
-            this.$el.html(this.template());
+            this.$el.html(_.template(AnalysisSidebarViewTemplate)());
 
             _.each(this.collection.getCategories(), this.addCategory, this);
             _.each(this.collection.getNumbers(), this.addNumber, this);

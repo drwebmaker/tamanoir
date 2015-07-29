@@ -10,7 +10,6 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'edit-connection',
-        template: _.template(EditConnectionViewTemplate),
         events: {
             'click .connect': 'onConnectClick',
             'click .save': 'onSaveClick'
@@ -20,7 +19,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(_.template(EditConnectionViewTemplate)(this.model.toJSON()));
             this.calculateHeight();
             return this;
         },

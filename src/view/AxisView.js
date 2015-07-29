@@ -11,7 +11,6 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'axis-view',
-        template: _.template(AxisViewTemplate),
         events: {
             'dragover [class$=holder]': 'onHolderDragOver',
             'drop .rows-holder': 'onRowsHolderDrop',
@@ -25,7 +24,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(this.template());
+            this.$el.html(_.template(AxisViewTemplate)());
 
             this.calculateHeight();
 

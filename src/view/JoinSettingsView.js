@@ -12,13 +12,12 @@ define(function (require) {
         events: {
             'click button': 'remove'
         },
-        template: _.template(JoinSettingsViewTemplate),
         initialize: function (config) {
             this.config = config;
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(_.template(JoinSettingsViewTemplate)(this.model.toJSON()));
 
             this.$el.css({
                 top: this.config.sender.$el.position().top + 32,
