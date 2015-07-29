@@ -3,6 +3,7 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
+        tamanoirConfig = require('json!root/tamanoir.config.json'),
         ConnectionsCollection = require('collection/ConnectionsCollection'),
         ConnectionListItemView = require('view/ConnectionListItemView'),
         ConnectionsListViewTemplate = require('text!template/ConnectionsListViewTemplate.html');
@@ -26,6 +27,10 @@ define(function (require) {
             this.$('ul').append(new ConnectionListItemView({model: model}).$el);
         },
         onConnectionsSync: function () {
+            //load sample connection if no one is present
+            if (this.collection.isEmpty()) {
+                this.collection.create(tamanoirConfig.sampleConnection);
+            }
             this.render();
         }
     });

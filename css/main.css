@@ -2,6 +2,7 @@
 @import "../src/bower_components/foundation-icons/foundation_icons_general/stylesheets/general_foundicons.css";
 @import "../src/bower_components/c3/c3.css";
 
+@import "flashScreen.css";
 @import "base.css";
 @import "home.css";
 @import "chart.css";
