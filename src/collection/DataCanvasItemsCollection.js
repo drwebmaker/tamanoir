@@ -27,6 +27,16 @@ define(function (require) {
             _.each(this.toJSON(), function (value) {
                 columns = columns.concat(value.selected);
             }, this);
+
+            //if no one is selected then return whole list
+            if (!columns.length) {
+                _.each(this.toJSON(), function (canvasItem) {
+                    columns = columns.concat(_.map(canvasItem.columns, function (columnName) {
+                        return canvasItem.name + '."' + columnName + '"';
+                    }));
+                });
+            }
+
             return columns;
         },
         getTables: function () {

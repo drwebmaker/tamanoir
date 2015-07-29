@@ -108,7 +108,7 @@ define(function (require) {
 
             conditions = conditions.length ? ' WHERE ' + conditions.join(' AND ') : '';
 
-            query = 'SELECT ' + (columns.length ? columns : '*') + ' FROM ' + tables + conditions + ' LIMIT 100';
+            query = 'SELECT ' + columns + ' FROM ' + tables + conditions + ' LIMIT 100';
 
             console.log('query rebuild:', query);
 

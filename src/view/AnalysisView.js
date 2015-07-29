@@ -140,7 +140,7 @@ define(function (require) {
             if (groups.length) {
                 query = 'SELECT ' + 'COUNT(*), ' + groups.concat(groupByNames) + ' FROM ' + tables + (conditions.concat(filters).length ? ' WHERE ' : '') + conditions.concat(filters).join(' AND ') + ' GROUP BY ' + groups + ' LIMIT 100';
             } else {
-                query = 'SELECT ' + (columns.length ? columns : '*') + ' FROM ' + tables + (conditions.concat(filters).length ? ' WHERE ' : '') + conditions.concat(filters).join(' AND ') + ' LIMIT 100';
+                query = 'SELECT ' + columns  + ' FROM ' + tables + (conditions.concat(filters).length ? ' WHERE ' : '') + conditions.concat(filters).join(' AND ') + ' LIMIT 100';
             }
 
             return query;

@@ -10,7 +10,7 @@ define(function (require) {
         model: GroupModel,
         getGroups: function () {
             return this.map(function (group) {
-                return group.get('value');
+                return '"' + group.get('value') + '"';
             }, this);
         }
     });
