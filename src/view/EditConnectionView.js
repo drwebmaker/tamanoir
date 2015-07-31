@@ -19,7 +19,7 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html(_.template(EditConnectionViewTemplate)(this.model.toJSON()));
+            this.$el.html(_.template(EditConnectionViewTemplate)(_.extend(this.model.toJSON(), {isNew: this.model.isNew()})));
             this.calculateHeight();
             return this;
         },
