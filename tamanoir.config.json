@@ -1,11 +1,11 @@
 {
-  "serverUrl": "http://localhost:8085",
+  "serverUrl": "http://localhost:5000",
   "sampleConnection": {
     "url": "jdbc:postgresql://ec2-54-83-43-118.compute-1.amazonaws.com:5432/d6b1irgulbgef6",
     "database": "d6b1irgulbgef6",
-    "server": "ec2-54-83-43-118.compute-1.amazonaws.com",
+    "host": "ec2-54-83-43-118.compute-1.amazonaws.com",
     "port": "5432",
-    "user": "kxolabtaoqpcaf",
+    "username": "kxolabtaoqpcaf",
     "password": "KKznjiCYR-Bfx6K_FYq-gBPmW2",
     "name": "Northwind"
   }

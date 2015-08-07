@@ -8,34 +8,27 @@ define(function (require) {
         tamanoirConfig = require('json!root/tamanoir.config.json');
 
     return Backbone.Model.extend({
+        idAttribute: 'connection_id',
         defaults: {
-            url: '',
+            connection_id: '',
             database: '',
-            server: '',
+            host: '',
             port: '',
-            user: '',
+            username: '',
             password: ''
         },
         getTables: function () {
             var deferred = $.Deferred();
 
             $.ajax({
-                url: tamanoirConfig.serverUrl + '/rest/connections?include=public',
-                method: 'POST',
+                url: tamanoirConfig.serverUrl + '/api/connection/' + this.get('connection_id'),
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/metadata+json'
-                },
-                data: JSON.stringify({
-                    url: this.get('url'),
-                    type: 'jdbc',
-                    properties: {
-                        user: this.get('user'),
-                        password: this.get('password')
-                    }
-                })
+                    'Accept': 'application/json'
+                }
             }).then(function (data) {
-                deferred.resolve(data.items);
+                deferred.resolve(data);
             }).fail(this.showError);
 
             return deferred;

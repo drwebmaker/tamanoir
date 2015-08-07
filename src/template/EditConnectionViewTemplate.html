@@ -1,10 +1,10 @@
 <div class="home-header text-center">PostgreSQL</div>
 <form>
     <input type="text" placeholder="name" name="name" value="{{- name }}"/>
-    <input type="text" placeholder="server" name="server" value="{{- server }}"/>
+    <input type="text" placeholder="host" name="host" value="{{- host }}"/>
     <input type="text" placeholder="port" name="port" value="{{- port }}"/>
     <input type="text" placeholder="database" name="database" value="{{- database }}"/>
-    <input type="text" placeholder="user" name="user" value="{{- user }}"/>
+    <input type="text" placeholder="username" name="username" value="{{- username }}"/>
     <input type="password" placeholder="password" name="password" value="{{- password }}"/>
 </form>
 {{ if (isNew) { }}

@@ -38,10 +38,8 @@ define(function (require) {
 
             this.remove();
 
-            this.model.save(_.extend(values, {
-                url: 'jdbc:postgresql://' + values.server + ':' + values.port + '/' + values.database
-            })).done(function () {
-                Tamanoir.navigate('connection/' + this.model.get('id'), {trigger: true});
+            this.model.save(values).done(function () {
+                Tamanoir.navigate('connection/' + this.model.get('connection_id'), {trigger: true});
             }.bind(this));
 
             console.log('connect clicked', values);
@@ -54,9 +52,7 @@ define(function (require) {
 
             this.remove();
 
-            this.model.save(_.extend(values, {
-                url: 'jdbc:postgresql://' + values.server + ':' + values.port + '/' + values.database
-            }));
+            this.model.save(values);
         }
     });
 });

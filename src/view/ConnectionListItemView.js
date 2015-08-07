@@ -23,7 +23,7 @@ define(function (require) {
             return this;
         },
         onConnectionClick: function () {
-            Tamanoir.navigate('connection/' + this.model.get('id'), {trigger: true});
+            Tamanoir.navigate('connection/' + this.model.get('connection_id'), {trigger: true});
         },
         onDeleteConnectionClick: function () {
             this.model.destroy();

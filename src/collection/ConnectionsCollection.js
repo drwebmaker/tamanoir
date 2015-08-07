@@ -3,12 +3,13 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
+        tamanoirConfig = require('json!root/tamanoir.config.json'),
         PostgreSQLConnectionModel = require('model/PostgreSQLConnectionModel');
 
     require('backbone.localStorage');
 
     return Backbone.Collection.extend({
         model: PostgreSQLConnectionModel,
-        localStorage: new Backbone.LocalStorage('connections')
+        url: tamanoirConfig.serverUrl + '/api/connections'
     });
 });

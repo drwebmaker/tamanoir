@@ -35,7 +35,7 @@ define(function (require) {
             this.listenTo(this.dataCanvasItemsCollection, 'change update reset', this.onCanvasItemsChange);
 
             if (this.model.isNew()) {
-                this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
+                this.connectionModel = new PostgreSQLConnectionModel({connection_id: this.model.get('connectionId')});
                 this.connectionModel.collection = new ConnectionsCollection();
                 this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
                 this.connectionModel.fetch();
@@ -77,7 +77,7 @@ define(function (require) {
             this.render();
         },
         onDomainModelSync: function () {
-            this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
+            this.connectionModel = new PostgreSQLConnectionModel({connection_id: this.model.get('connectionId')});
             this.connectionModel.collection = new ConnectionsCollection();
             this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
             this.connectionModel.fetch();
