@@ -12,6 +12,8 @@ define(function (require) {
             this._subviews = [];
 
             this.listenTo(this.collection, 'reset', this.render);
+
+            this.render();
         },
         render: function () {
             this.$el.html(_.template(AnalysisSidebarViewTemplate)());
