@@ -10,6 +10,7 @@ define(function (require) {
         },
         initialize: function () {
             this._subviews = [];
+            $(window).on('resize', _.debounce(this.render.bind(this), 500));
 
             this.render();
         },

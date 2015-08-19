@@ -43,7 +43,8 @@ define(function (require) {
             this.listenTo(this.groupsCollection, 'update reset', this.onConditionsUpdate);
             this.listenTo(Tamanoir, 'analysisSidebar:column:click', this.onColumnClick);
 
-            //TODO add listenTo 'resize'
+            //re-render view if window resizing
+            $(window).on('resize', _.debounce(this.render.bind(this), 500));
 
             this.model.fetch();
 

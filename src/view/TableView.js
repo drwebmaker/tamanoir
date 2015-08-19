@@ -31,7 +31,7 @@ define(function (require) {
             setTimeout(function () {
                 this.$el.height($('.bottom-section').height() - 14);
                 this.onScroll();
-            }.bind(this), 0);
+            }.bind(this), 10);
         },
         onTableHeaderClick: function (event) {
             var value = $(event.target).text().trim();
