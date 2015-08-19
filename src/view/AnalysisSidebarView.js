@@ -12,7 +12,7 @@ define(function (require) {
             this._subviews = [];
 
             this.listenTo(this.collection, 'reset', this.render);
-            //$(window).on('resize', _.debounce(this.render.bind(this), 500));
+
             this.render();
         },
         render: function () {
