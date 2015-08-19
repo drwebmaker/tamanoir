@@ -14,6 +14,8 @@ define(function (require) {
             this.config = config || {};
             this._subviews = [];
             this.listenTo(this.collection, 'reset', this.render);
+            $(window).on('resize', _.debounce(this.render.bind(this), 500));
+            this.render();
         },
         render: function () {
             this.$el.html(_.template(TablesViewTemplate)({database: this.config.database}));
@@ -22,7 +24,7 @@ define(function (require) {
             return this;
         },
         addTable: function (tableModel) {
-            var view = new TableListItemView({model: tableModel})
+            var view = new TableListItemView({model: tableModel});
             this._subviews.push(view);
             this.$el.find('ul').append(view.render().$el);
         },
@@ -36,6 +38,7 @@ define(function (require) {
         },
         remove: function () {
             _.invoke(this._subviews, 'remove');
+            //$(window).off('resize', _.debounce(this.render.bind(this), 2000));
             Backbone.View.prototype.remove.apply(this, arguments);
         }
     });
