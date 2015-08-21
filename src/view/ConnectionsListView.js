@@ -3,7 +3,7 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        tamanoirConfig = require('json!root/tamanoir.config.json'),
+        tamanoirConfig = require('json!tamanoir.config.json'),
         ConnectionsCollection = require('collection/ConnectionsCollection'),
         ConnectionListItemView = require('view/ConnectionListItemView'),
         ConnectionsListViewTemplate = require('text!template/ConnectionsListViewTemplate.html');

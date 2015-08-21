@@ -38,7 +38,6 @@ define(function (require) {
         },
         remove: function () {
             _.invoke(this._subviews, 'remove');
-            //$(window).off('resize', _.debounce(this.render.bind(this), 2000));
             Backbone.View.prototype.remove.apply(this, arguments);
         }
     });

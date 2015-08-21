@@ -2,7 +2,6 @@
  * Created by Artem.Malieiev on 6/10/2015.
  */
 require.config({
-    baseUrl: 'src',
     paths: {
         backbone: 'bower_components/backbone/backbone',
         'backbone.localStorage': 'bower_components/backbone.localStorage/backbone.localStorage',
@@ -14,8 +13,7 @@ require.config({
         foundation: 'bower_components/foundation/js/foundation',
         jsplumb: 'bower_components/jsplumb/dist/js/dom.jsPlumb-1.7.7',
         c3: 'bower_components/c3/c3',
-        d3: 'bower_components/d3/d3',
-        root: '../'
+        d3: 'bower_components/d3/d3'
     },
     shim: {
         jquery: {
