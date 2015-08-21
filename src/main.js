@@ -6,7 +6,7 @@ define(function (require) {
         $ = require('jquery');
         Backbone = require('backbone');
 
-    require('root/underscore.config');
+    require('underscore.config');
 
     window.Tamanoir = new Tamanoir();
     Backbone.history.start();

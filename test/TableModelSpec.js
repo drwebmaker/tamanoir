@@ -8,20 +8,9 @@ define(function (require) {
 
     describe('TableModel', function () {
 
-        it('should load data from table', function (done) {
-            var domain = new DomainModel({id: 70});
-
-            domain.fetch().done(function () {
-                var table = new TableModel({
-                    domain: domain
-                });
-                table.load('public.jiuser');
-                table.on('change:data', function (m, data) {
-                    expect(data['public.jiuser'].metadata.length).toBe(9);
-                    expect(data['public.jiuser'].data.length).toBe(6);
-                    done();
-                });
-            });
+        it('Should be defined when we create it', function () {
+            var table = new TableModel();
+            expect(table).toBeDefined();
         });
     });
 });

@@ -29,7 +29,9 @@ require.config({
         styles: '../styles',
         foundation: 'bower_components/foundation/js/foundation',
         c3: 'bower_components/c3/c3',
-        d3: 'bower_components/d3/d3'
+        d3: 'bower_components/d3/d3',
+        json: 'bower_components/requirejs-plugins/src/json',
+        jsplumb: 'bower_components/jsplumb/dist/js/dom.jsPlumb-1.7.7'
     },
     shim: {
         jquery: {

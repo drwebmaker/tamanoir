@@ -5,7 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        tamanoirConfig = require('json!root/tamanoir.config.json');
+        tamanoirConfig = require('json!tamanoir.config.json');
 
     return Backbone.Model.extend({
         defaults: {
