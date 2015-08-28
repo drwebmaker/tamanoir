@@ -74,6 +74,18 @@ define(function (require) {
                 console.log(columns);
             });
         },
+        getReference: function(tableName) {
+            var deferred = $.Deferred();
+
+            setTimeout(function() {
+                deferred.resolve([
+                    {tableName: 'account'},
+                    {tableName: 'store'}
+                ])
+            }, 300);
+
+            return deferred;
+        },
         query: function (query) {
             var deferred = $.Deferred();
 

@@ -14,7 +14,8 @@ define(function (require) {
             this.config = config || {};
             this._subviews = [];
             this.listenTo(this.collection, 'reset', this.render);
-            $(window).on('resize', _.debounce(this.render.bind(this), 500));
+            $(window).on('resize', _.debounce(_.bind(this.render, this), 500));
+
             this.render();
         },
         render: function () {
@@ -29,12 +30,12 @@ define(function (require) {
             this.$el.find('ul').append(view.render().$el);
         },
         calculateHeight: function () {
-            setTimeout(function () {
+            setTimeout(_.bind(function () {
                 var topSectionHeight = $('.sidebar').height(),
                     titleHeight = this.$('.title').height();
 
                 this.$('ul').height(topSectionHeight - titleHeight);
-            }.bind(this), 0);
+            }, this), 0);
         },
         remove: function () {
             _.invoke(this._subviews, 'remove');

@@ -6,6 +6,8 @@ define(function (require) {
         $ = require('jquery'),
         jsPlumb = require('jsplumb'),
         _ = require('underscore'),
+        DataCanvasSuggestedItemModel = require('model/DataCanvasSuggestedItemModel'),
+        DataCanvasSuggestedItemsView = require('view/DataCanvasSuggestedItemsView'),
         DataCanvasItemViewTemplate = require('text!template/DataCanvasItemViewTemplate.html');
 
     require('jquery-ui');
@@ -15,7 +17,8 @@ define(function (require) {
         events: {
             'click .remove': 'onRemoveClick',
             'click input': 'onColumnClick',
-            'click .settings': 'onSettingsClick'
+            'click .settings': 'onSettingsClick',
+            'click .plus': 'onPlusClick'
         },
         attributes: function () {
             return {
@@ -23,6 +26,7 @@ define(function (require) {
             };
         },
         initialize: function () {
+            this._subview = [];
             this.listenTo(this.model, 'destroy', this.remove);
             this.render();
         },
@@ -51,8 +55,24 @@ define(function (require) {
             console.log('selected', this.model.get('selected'));
         },
         onSettingsClick: function () {
-            this.$('ul').toggleClass('hide');
+            this.$('.columnsList').toggleClass('hide');
             this.$el.toggleClass('z2');
+        },
+        onPlusClick: function() {
+            this.$('.suggestedList').toggleClass('hide');
+            this.$el.toggleClass('activeItem');
+
+            Tamanoir.connecion.getReference(this.model.get('name')).then(_.bind(function (data) {
+                this.$('.suggested ul').empty();
+
+                data.forEach(function (value) {
+                    var model = new DataCanvasSuggestedItemModel(value);
+                    var view = new DataCanvasSuggestedItemsView({ model: model });
+                    this._subview.push(view);
+                    this.$('.suggested ul').append(view.$el);
+                }.bind(this));
+
+            }, this));
         }
     });
 });

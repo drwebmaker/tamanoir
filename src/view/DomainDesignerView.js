@@ -35,7 +35,7 @@ define(function (require) {
             this.listenTo(this.dataCanvasItemsCollection, 'change update reset', this.onCanvasItemsChange);
 
             //re-render view if window resizing
-            $(window).on('resize', _.debounce(this.render.bind(this), 500));
+            $(window).on('resize', _.debounce(_.bind(this.render, this), 500));
 
             if (this.model.isNew()) {
                 this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
