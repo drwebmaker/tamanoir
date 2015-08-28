@@ -35,6 +35,9 @@ require.config({
         },
         'jquery-ui': {
             deps: ['jquery']
+        },
+        sinon: {
+            exports: 'sinon'
         }
     }
 });

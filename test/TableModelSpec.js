@@ -4,7 +4,8 @@
 define(function (require) {
 
     var TableModel = require('model/TableModel'),
-        DomainModel = require('model/DomainModel');
+        DomainModel = require('model/DomainModel'),
+        sinon = require('sinon');
 
     describe('TableModel', function () {
 

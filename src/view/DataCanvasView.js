@@ -64,7 +64,7 @@ define(function (require) {
             this.$('.canvas-items-holder').append(itemView.$el);
 
             if (relatedTable) {
-                sourceColumnName = this.collection.getRelations()[tableName][relatedTableName]
+                sourceColumnName = this.collection.getRelations()[tableName][relatedTableName];
                 relatedTablePosition = relatedTable.get('position');
                 relatedTableAvailablePlace = relatedTable.get('availablePlace');
 
