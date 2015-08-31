@@ -79,8 +79,8 @@ define(function (require) {
 
             setTimeout(function() {
                 deferred.resolve([
-                    {tableName: 'account'},
-                    {tableName: 'store'}
+                    {name: 'customer'},
+                    {name: 'store'}
                 ])
             }, 300);
 

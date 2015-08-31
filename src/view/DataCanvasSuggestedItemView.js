@@ -10,12 +10,22 @@ define(function (require) {
     return Backbone.View.extend({
         tagName: 'li',
 
+        className: 'canvasSuggestedItem',
+
+        events: {
+            'click': 'onSuggestedClick'
+        },
+
         initialize: function () {
             this.render();
         },
 
         render: function() {
             this.$el.html(_.template(DataCanvasSuggestedItemViewTemplate)(this.model.toJSON()));
+        },
+
+        onSuggestedClick: function() {
+            Tamanoir.trigger('DataCanvasSuggestedItem:click', this.model);
         }
     });
 });
