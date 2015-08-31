@@ -24,6 +24,7 @@ define(function (require) {
             this.initialItemPosition =  {top: 50, left: 50};
 
             this.listenTo(Tamanoir, 'tables:table:dragstart', this.onSidebarTableDragStart);
+            this.listenTo(Tamanoir, 'DataCanvasSuggestedItem:click', this.onSuggestedClick);
             this.listenTo(this.collection, 'remove', this.onRemove);
             this.listenTo(this.collection, 'update', this.render);
             this.listenTo(this.collection, 'reset', this.render);
@@ -207,8 +208,7 @@ define(function (require) {
                 this.collection.add(_.extend(this.draggedTableModel.toJSON(), {
                     columns: _.map(columns, function (value) {
                         return value.name;
-                    }),
-                    position: {top: event.originalEvent.offsetY, left: event.originalEvent.offsetX}
+                    })
                 }));
             }.bind(this));
         },
@@ -216,9 +216,20 @@ define(function (require) {
             console.log('dragstart', table);
             this.draggedTableModel = table;
         },
+        onSuggestedClick: function(model) {
+            this.draggedTableModel = model;
+            Tamanoir.connecion.getColumns(model.get('name')).then(function (columns) {
+                this.collection.add(_.extend(this.draggedTableModel.toJSON(), {
+                    columns: _.map(columns, function (value) {
+                        return value.name;
+                    })
+                }));
+            }.bind(this));
+        },
         remove: function () {
             _.invoke(this._subviews, 'remove');
             Backbone.View.prototype.remove.apply(this, arguments);
         }
     });
 });
+

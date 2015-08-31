@@ -7,7 +7,7 @@ define(function (require) {
         jsPlumb = require('jsplumb'),
         _ = require('underscore'),
         DataCanvasSuggestedItemModel = require('model/DataCanvasSuggestedItemModel'),
-        DataCanvasSuggestedItemsView = require('view/DataCanvasSuggestedItemsView'),
+        DataCanvasSuggestedItemView = require('view/DataCanvasSuggestedItemView'),
         DataCanvasItemViewTemplate = require('text!template/DataCanvasItemViewTemplate.html');
 
     require('jquery-ui');
@@ -67,7 +67,7 @@ define(function (require) {
 
                 data.forEach(function (value) {
                     var model = new DataCanvasSuggestedItemModel(value);
-                    var view = new DataCanvasSuggestedItemsView({ model: model });
+                    var view = new DataCanvasSuggestedItemView({ model: model });
                     this._subview.push(view);
                     this.$('.suggested ul').append(view.$el);
                 }.bind(this));
