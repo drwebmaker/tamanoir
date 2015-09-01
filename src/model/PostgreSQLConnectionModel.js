@@ -39,7 +39,6 @@ define(function (require) {
                 })
             }).then(function (data) {
                 this._metadata = data.items;
-                this._buildIntellijReferences();//remove when it will be available from server api
                 this.trigger('metadata:fetched');
             }.bind(this)).fail(this.showError);
         },
@@ -70,22 +69,6 @@ define(function (require) {
 
         showError: _.debounce(function (error) {
             Tamanoir.showError(error.responseJSON.message);
-        }, 1000, true),
-
-        //will be processed on server side
-        _buildIntellijReferences: function () {
-            var columnsMap = {};
-            _.each(this._metadata, function (table) {
-                _.each(table.items, function (column) {
-                    if(!columnsMap[column.name]) {
-                        columnsMap[column.name] = [table.name]
-                    } else {
-                        columnsMap[column.name].push(table.name)
-                    }
-                }, this);
-            }, this);
-            
-            console.log(columnsMap, '111');
-        }
+        }, 1000, true)
     });
 });
