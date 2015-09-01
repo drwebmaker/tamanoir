@@ -18,10 +18,12 @@ define(function (require) {
             'dragover': 'onDragOver',
             'drop': 'onDrop'
         },
-        initialize: function () {
+        initialize: function (options) {
             this._subviews = [];
 
             this.initialItemPosition =  {top: 50, left: 50};
+
+            this.connection = options.connection;
 
             this.listenTo(Tamanoir, 'tables:table:dragstart', this.onSidebarTableDragStart);
             this.listenTo(Tamanoir, 'DataCanvasSuggestedItem:click', this.onSuggestedClick);
@@ -204,27 +206,26 @@ define(function (require) {
         },
         onDrop: function (event) {
             console.log('drop', this.draggedTableModel);
-            Tamanoir.connecion.getColumns(this.draggedTableModel.get('name')).then(function (columns) {
-                this.collection.add(_.extend(this.draggedTableModel.toJSON(), {
-                    columns: _.map(columns, function (value) {
-                        return value.name;
-                    })
-                }));
-            }.bind(this));
+            var columns = this.draggedTableModel.getColumns();
+
+            this.collection.add(_.extend(this.draggedTableModel.toJSON(), {
+                columns: _.map(columns, function (value) {
+                    return value.name;
+                })
+            }));
         },
         onSidebarTableDragStart: function (table) {
             console.log('dragstart', table);
             this.draggedTableModel = table;
         },
-        onSuggestedClick: function(model) {
-            this.draggedTableModel = model;
-            Tamanoir.connecion.getColumns(model.get('name')).then(function (columns) {
-                this.collection.add(_.extend(this.draggedTableModel.toJSON(), {
-                    columns: _.map(columns, function (value) {
-                        return value.name;
-                    })
-                }));
-            }.bind(this));
+        onSuggestedClick: function(tableModel) {
+            var columns = tableModel.getColumns();
+
+            this.collection.add(_.extend(this.draggedTableModel.toJSON(), {
+                columns: _.map(columns, function (value) {
+                    return value.name;
+                })
+            }));
         },
         remove: function () {
             _.invoke(this._subviews, 'remove');

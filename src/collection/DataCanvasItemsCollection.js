@@ -30,11 +30,11 @@ define(function (require) {
 
             //if no one is selected then return whole list
             if (!columns.length) {
-                _.each(this.toJSON(), function (canvasItem) {
-                    columns = columns.concat(_.map(canvasItem.columns, function (columnName) {
-                        return canvasItem.name + '."' + columnName + '"';
+                this.each(function (canvasItem) {
+                    columns = columns.concat(_.map(canvasItem.getColumns(), function (column) {
+                        return canvasItem.get('name') + '."' + column.name + '"';
                     }));
-                });
+                }, this);
             }
 
             return columns;

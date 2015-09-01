@@ -9,7 +9,21 @@ define(function (require) {
         defaults: {
             connectionId: '',
             name: '',
-            label: ''
+            label: '',
+            items: null
+        },
+
+        getColumns: function () {
+            return this.get('items');
+        },
+
+        getReferences: function () {
+            return _.reduce(this.get('items'), function (memo, column) {
+                if (column.referenceTo) {
+                    memo.push(column.referenceTo);
+                }
+                return memo;
+            }, [], this);
         }
     });
 });

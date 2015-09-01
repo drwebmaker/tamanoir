@@ -3,13 +3,13 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
+        TableModel = require('model/TableModel'),
         _ = require('underscore');
 
-    return Backbone.Model.extend({
+    return TableModel.extend({
         idAttribute: 'name',
         defaults: {
             name: '',
-            columns: [],
             selected: [],
             relatedTable: null,
 
@@ -25,7 +25,7 @@ define(function (require) {
             var relatedTableModel = this.collection.chain()
                 .without(this)
                 .find(function (model, index) {
-                    return _.intersection(model.get('columns'), this.get('columns'))[0];
+                    return _.intersection(_.pluck(model.get('items'), 'name'), _.pluck(this.get('items'), 'name'))[0];
                 }.bind(this))
                 .value();
 

@@ -31,19 +31,18 @@ define(function (require) {
             this.tablesCollection = new TablesCollection();
             this.tableDataCollection = new Backbone.Collection();
             this.dataCanvasItemsCollection = new DataCanvasItemsCollection();
+            this.connectionsCollection = new ConnectionsCollection();
+            this.connectionModel = null;
 
             this.listenTo(this.dataCanvasItemsCollection, 'change update reset', this.onCanvasItemsChange);
+            this.listenTo(this.connectionsCollection, 'sync', this.onConnectionsLoaded);
 
             //re-render view if window resizing
             $(window).on('resize', _.debounce(_.bind(this.render, this), 500));
 
-            if (this.model.isNew()) {
-                this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
-                this.connectionModel.collection = new ConnectionsCollection();
-                this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
-                this.connectionModel.fetch();
-            } else {
-                this.listenToOnce(this.model, 'sync', this.onDomainModelSync);
+            this.connectionsCollection.fetch();
+
+            if (!this.model.isNew()) {
                 this.model.fetch();
             }
         },
@@ -59,7 +58,9 @@ define(function (require) {
             this.$('.sidebar').html(this.tablesView.$el);
 
 
-            this.dataCanvasView = new DataCanvasView({collection: this.dataCanvasItemsCollection});
+            this.dataCanvasView = new DataCanvasView({
+                collection: this.dataCanvasItemsCollection
+            });
             this.dataCanvasItemsCollection.reset(this.model.get('data'));
 
             this._subviews.push(this.tablesView);
@@ -70,20 +71,12 @@ define(function (require) {
 
             return this;
         },
-        onConnectionSync: function () {
-            Tamanoir.connecion = this.connectionModel; //Just for debug
+        onConnectionsLoaded: function () {
+            this.connectionModel = this.connectionsCollection.get(this.model.get('connectionId'));
 
-            this.connectionModel.getTables().then(function (tables) {
-                this.tablesCollection.reset(tables);
-            }.bind(this));
+            this.listenTo(this.connectionModel, 'metadata:fetched', this.onMetadataFetched);
 
-            this.render();
-        },
-        onDomainModelSync: function () {
-            this.connectionModel = new PostgreSQLConnectionModel({id: this.model.get('connectionId')});
-            this.connectionModel.collection = new ConnectionsCollection();
-            this.listenTo(this.connectionModel, 'sync', this.onConnectionSync);
-            this.connectionModel.fetch();
+            this.connectionModel.fetchMetadata();
         },
         calculateHeight: function () {
             setTimeout(function () {
@@ -95,6 +88,12 @@ define(function (require) {
                 this.$('.bottom-section').height(bodyHeight - sectionHeight - 40);
             }.bind(this), 0);
         },
+
+        onMetadataFetched: function (metadata) {
+            this.tablesCollection.reset(this.connectionModel.getMetadata());
+            this.render();
+        },
+
         onProductTitleClick: function () {
             Tamanoir.navigate('/', {trigger: true});
         },

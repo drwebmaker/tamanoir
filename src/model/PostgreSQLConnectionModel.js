@@ -16,10 +16,13 @@ define(function (require) {
             user: '',
             password: ''
         },
-        getTables: function () {
-            var deferred = $.Deferred();
 
-            $.ajax({
+        initialize: function () {
+            this._metadata = null;
+        },
+
+        fetchMetadata: function () {
+            return Backbone.ajax({
                 url: tamanoirConfig.serverUrl + '/rest/connections?include=public',
                 method: 'POST',
                 headers: {
@@ -35,61 +38,18 @@ define(function (require) {
                     }
                 })
             }).then(function (data) {
-                deferred.resolve(data.items);
-            }).fail(this.showError);
-
-            return deferred;
+                this._metadata = data.items;
+                this._buildIntellijReferences();//remove when it will be available from server api
+                this.trigger('metadata:fetched');
+            }.bind(this)).fail(this.showError);
         },
-        logTables: function () {
-            this.getTables().then(function (tables) {
-                console.log(tables);
-            });
-        },
-        getColumns: function (table) {
-            var deferred = $.Deferred();
 
-            $.ajax({
-                url: tamanoirConfig.serverUrl + '/rest/connections?include=public.' + table,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/metadata+json'
-                },
-                data: JSON.stringify({
-                    url: this.get('url'),
-                    type: 'jdbc',
-                    properties: {
-                        user: this.get('user'),
-                        password: this.get('password')
-                    }
-                })
-            }).then(function (data) {
-                deferred.resolve(data.items);
-            }).fail(this.showError);
-
-            return deferred;
+        getMetadata: function () {
+            return this._metadata;
         },
-        logColumns: function (table) {
-            this.getColumns(table).then(function (columns) {
-                console.log(columns);
-            });
-        },
-        getReference: function(tableName) {
-            var deferred = $.Deferred();
 
-            setTimeout(function() {
-                deferred.resolve([
-                    {name: 'customer'},
-                    {name: 'store'}
-                ])
-            }, 300);
-
-            return deferred;
-        },
         query: function (query) {
-            var deferred = $.Deferred();
-
-            $.ajax({
+            return Backbone.ajax({
                 url: tamanoirConfig.serverUrl + '/rest/connections',
                 method: 'POST',
                 headers: {
@@ -105,19 +65,24 @@ define(function (require) {
                     },
                     nativeQuery: query
                 })
-            }).then(function (data) {
-                deferred.resolve(data);
             }).fail(this.showError);
+        },
 
-            return deferred;
-        },
-        logQuery: function (query) {
-            this.query(query).then(function (data) {
-                console.log(data);
-            });
-        },
         showError: _.debounce(function (error) {
             Tamanoir.showError(error.responseJSON.message);
-        }, 1000, true)
+        }, 1000, true),
+
+        //will be processed on server side
+        _buildIntellijReferences: function () {
+            var columnsMap = {};
+            _.each(this._metadata, function (table) {
+                _.each(table.items, function (column) {
+                    //TODO: put logic here
+
+                }, this);
+            }, this);
+            
+            console.log(columnsMap);
+        }
     });
 });

@@ -62,17 +62,14 @@ define(function (require) {
             this.$('.suggestedList').toggleClass('hide');
             this.$el.toggleClass('activeItem');
 
-            Tamanoir.connecion.getReference(this.model.get('name')).then(_.bind(function (data) {
-                this.$('.suggested ul').empty();
+            this.$('.suggested ul').empty();
 
-                data.forEach(function (value) {
-                    var model = new DataCanvasSuggestedItemModel(value);
-                    var view = new DataCanvasSuggestedItemView({ model: model });
-                    this._subview.push(view);
-                    this.$('.suggested ul').append(view.$el);
-                }.bind(this));
-
-            }, this));
+            _.each(this.model.getReferences(), function (value) {
+                var model = new DataCanvasSuggestedItemModel({name: value});
+                var view = new DataCanvasSuggestedItemView({ model: model });
+                this._subview.push(view);
+                this.$('.suggested ul').append(view.$el);
+            }, this);
         }
     });
 });

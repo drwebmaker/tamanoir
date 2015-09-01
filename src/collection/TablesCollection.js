@@ -10,7 +10,6 @@ define(function (require) {
     require('backbone.localStorage');
 
     return Backbone.Collection.extend({
-        model: TableModel,
-        localStorage: new Backbone.LocalStorage('tables')
+        model: TableModel
     });
 });
