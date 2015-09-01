@@ -77,12 +77,15 @@ define(function (require) {
             var columnsMap = {};
             _.each(this._metadata, function (table) {
                 _.each(table.items, function (column) {
-                    //TODO: put logic here
-
+                    if(!columnsMap[column.name]) {
+                        columnsMap[column.name] = [table.name]
+                    } else {
+                        columnsMap[column.name].push(table.name)
+                    }
                 }, this);
             }, this);
             
-            console.log(columnsMap);
+            console.log(columnsMap, '111');
         }
     });
 });

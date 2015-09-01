@@ -19,20 +19,20 @@ define(function (require) {
             expect(createStub).toHaveBeenCalled();
         });
 
-        it('Should call method "addTable" with ars', function () {
-            var connectionModel = new ConnectionModel({connectionId: '', name: 'testName', label: ''});
-            var collection = new Backbone.Collection();
-
-            collection.add(connectionModel);
-
-            var tablesView = new TablesView({collection: collection});
-            spyOn(tablesView, 'addTable');
-
-            tablesView.render();
-
-            console.log(ConnectionModel);
-
-            expect(tablesView.addTable).toHaveBeenCalledWith(connectionModel);
-        });
+        //it('Should call method "addTable" with ars', function () {
+        //    var connectionModel = new ConnectionModel({connectionId: '', name: 'testName', label: ''});
+        //    var collection = new Backbone.Collection();
+        //
+        //    collection.add(connectionModel);
+        //
+        //    var tablesView = new TablesView({collection: collection});
+        //    spyOn(tablesView, 'addTable');
+        //
+        //    tablesView.render();
+        //
+        //    console.log(ConnectionModel);
+        //
+        //    expect(tablesView.addTable).toHaveBeenCalledWith(connectionModel);
+        //});
     });
 });
