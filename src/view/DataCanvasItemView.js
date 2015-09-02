@@ -7,6 +7,7 @@ define(function (require) {
         jsPlumb = require('jsplumb'),
         _ = require('underscore'),
         DataCanvasSuggestedItemModel = require('model/DataCanvasSuggestedItemModel'),
+        TableModel = require('model/TableModel'),
         DataCanvasSuggestedItemView = require('view/DataCanvasSuggestedItemView'),
         DataCanvasItemViewTemplate = require('text!template/DataCanvasItemViewTemplate.html');
 
@@ -28,12 +29,18 @@ define(function (require) {
         initialize: function () {
             this._subview = [];
             this.listenTo(this.model, 'destroy', this.remove);
+
             this.render();
         },
         render: function () {
             this.$el.html(_.template(DataCanvasItemViewTemplate)(this.model.toJSON()));
-
+            this.checkReference();
             return this;
+        },
+        checkReference: function() {
+            if(this.model.getReferences().length == 0) {
+                this.$('.plus').hide();
+            }
         },
         onRemoveClick: function (event) {
             console.log('remove', this.model);
@@ -65,8 +72,14 @@ define(function (require) {
             this.$('.suggested ul').empty();
 
             _.each(this.model.getReferences(), function (value) {
-                var model = new DataCanvasSuggestedItemModel({name: value});
+
+                //get tables collection
+                //get table name from value
+                //get table model from tables collection by name
+                //create DataCanvasSuggestedItemView with retrieved table model
+
                 var view = new DataCanvasSuggestedItemView({ model: model });
+                console.log(view);
                 this._subview.push(view);
                 this.$('.suggested ul').append(view.$el);
             }, this);
