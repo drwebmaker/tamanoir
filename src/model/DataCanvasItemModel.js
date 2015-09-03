@@ -11,7 +11,6 @@ define(function (require) {
         defaults: {
             name: '',
             selected: [],
-            relatedTable: null,
 
             sourceTable: null,
             sourceColumn: null,
@@ -19,17 +18,14 @@ define(function (require) {
             targetColumn: null,
 
             joinType: 'inner',
-            position: {top: 0, left: 0}
+            availablePlace: null,
+            placedTo: null,
+            position: null
         },
-        initialize: function () {
-            var relatedTableModel = this.collection.chain()
-                .without(this)
-                .find(function (model, index) {
-                    return _.intersection(_.pluck(model.get('items'), 'name'), _.pluck(this.get('items'), 'name'))[0];
-                }.bind(this))
-                .value();
 
-            relatedTableModel && this.set('relatedTable', relatedTableModel.get('name'));
+        initialize: function () {
+            this.set('availablePlace', {top: true, bottom: true, left: true, right: true});
+            this.set('position', {top: 50, left: 50});
         }
     });
 });

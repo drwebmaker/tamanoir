@@ -6,7 +6,6 @@ define(function (require) {
         $ = require('jquery'),
         jsPlumb = require('jsplumb'),
         _ = require('underscore'),
-        DataCanvasSuggestedItemModel = require('model/DataCanvasSuggestedItemModel'),
         TableModel = require('model/TableModel'),
         DataCanvasSuggestedItemView = require('view/DataCanvasSuggestedItemView'),
         DataCanvasItemViewTemplate = require('text!template/DataCanvasItemViewTemplate.html');
@@ -27,18 +26,19 @@ define(function (require) {
             };
         },
         initialize: function () {
-            this._subview = [];
+            this._subviews = [];
             this.listenTo(this.model, 'destroy', this.remove);
 
             this.render();
         },
         render: function () {
             this.$el.html(_.template(DataCanvasItemViewTemplate)(this.model.toJSON()));
+            //this.$el.css(this.model.get('position'));
             this.checkReference();
             return this;
         },
         checkReference: function() {
-            if(this.model.getReferences().length == 0) {
+            if(this.model.getRelatedTableNames().length == 0) {
                 this.$('.plus').hide();
             }
         },
@@ -73,43 +73,27 @@ define(function (require) {
         },
 
         showSuggestedList: function (tablesCollection) {
-            this.$('.suggested ul').empty();
+            //remove suggested dialog views
+            _.invoke(this._subviews, 'remove');
 
-            var refs = this.model.getReferences();
-            var refArr = [];
+            var relatedTableNames = this.model.getRelatedTableNames();
 
-            console.log(refs, 'refs');
+            var suggestedCollection = tablesCollection.filter(function (tableModel) {
+                return _.contains(relatedTableNames, tableModel.get('name'));
+            }, this);
 
-            for(var i = 0; i < refs.length; i++) {
-                refArr.push(this.parseTableName(refs[i]));
-            }
-            console.log(refArr, 'refArr');
-
-            var suggestedCollection = tablesCollection.clone();
-
-            var tmp = suggestedCollection.filter(function(item) {
-                return refArr.indexOf(item.get('name')) === -1;
-            });
-
-            suggestedCollection.remove(tmp);
-
-            console.log(suggestedCollection);
-            // get suggested names
-            //filter collection
-
-            suggestedCollection.each(this.renderSuggestedTable, this);
-        },
-
-        parseTableName: function(value) {
-            var found = /[\.](\w+\d?_?)/.exec(value);
-            console.log(found[1]);
-            return found[1];
+            _.each(suggestedCollection, this.renderSuggestedTable, this);
         },
 
         renderSuggestedTable: function (tableModel) {
             var view = new DataCanvasSuggestedItemView({ model: tableModel });
-            this._subview.push(view);
+            this._subviews.push(view);
             this.$('.suggested ul').append(view.$el);
+        },
+
+        remove: function () {
+            _.invoke(this._subviews, 'remove');
+            Backbone.View.prototype.remove.call(this);
         }
     });
 });

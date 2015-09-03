@@ -27,8 +27,9 @@ define(function (require) {
 
             this.listenTo(Tamanoir, 'tables:table:dragstart', this.onSidebarTableDragStart);
             this.listenTo(Tamanoir, 'DataCanvasSuggestedItem:click', this.onSuggestedClick);
+            this.listenTo(Tamanoir, 'onPlus:click', this.onPlusClick);
             this.listenTo(this.collection, 'remove', this.onRemove);
-            this.listenTo(this.collection, 'update', this.render);
+            this.listenTo(this.collection, 'add', this.addItem);
             this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
@@ -55,8 +56,9 @@ define(function (require) {
             var itemView = new DataCanvasItemView({model: model}),
                 tableName = model.get('name'),
                 tableAvailablePlace = model.get('availablePlace'),
-                relatedTableName = model.get('relatedTable'),
+                relatedTableName = this.active && this.active.get('name'),
                 relatedTable = this.collection.get(relatedTableName),
+                relation,
                 sourceColumnName,
                 relatedTablePosition,
                 relatedTableAvailablePlace,
@@ -64,15 +66,20 @@ define(function (require) {
 
             this._subviews.push(itemView);
 
-            this.$('.canvas-items-holder').append(itemView.$el);
+            this.$el.append(itemView.$el);
 
             if (relatedTable) {
-                sourceColumnName = this.collection.getRelations()[tableName][relatedTableName];
+                relation = this.active.getRelationForTable(tableName),
+                sourceColumnName = relation.sourceColumnName;
                 relatedTablePosition = relatedTable.get('position');
                 relatedTableAvailablePlace = relatedTable.get('availablePlace');
 
                 model.set({
-                    sourceColumnName: sourceColumnName
+                    sourceColumnName: sourceColumnName,
+                    sourceColumn: relation.sourceColumnName,
+                    sourceTable: relation.sourceTableName,
+                    targetColumn: relation.targetColumnName,
+                    targetTable: relation.targetTableName
                 }, {silent: true});
 
                 if (relatedTableAvailablePlace.right) {
@@ -176,18 +183,20 @@ define(function (require) {
                 itemView.$el.css(model.get('position'));
             }
 
-            (function (tableName, relatedTableName) {
-                setTimeout(function () {
-                    this.plumbInstance.connect({
-                        target: tableName,
-                        source: relatedTableName,
-                        anchors: anchors,
-                        connector: 'Straight',
-                        paintStyle:{ strokeStyle:"#008CBA", lineWidth: 3},
-                        endpointStyle:{ fillStyle:"#008CBA", radius: 1}
-                    });
-                }.bind(this), 0);
-            }.bind(this)(tableName, relatedTableName));
+            if (relatedTableName) {
+                (function (tableName, relatedTableName) {
+                    setTimeout(function () {
+                        this.plumbInstance.connect({
+                            target: tableName,
+                            source: relatedTableName,
+                            anchors: anchors,
+                            connector: 'Straight',
+                            paintStyle:{ strokeStyle:"#008CBA", lineWidth: 3},
+                            endpointStyle:{ fillStyle:"#008CBA", radius: 1}
+                        });
+                    }.bind(this), 0);
+                }.bind(this)(tableName, relatedTableName));
+            }
 
             return this;
         },
@@ -217,6 +226,9 @@ define(function (require) {
         onSidebarTableDragStart: function (table) {
             console.log('dragstart', table);
             this.draggedTableModel = table;
+        },
+        onPlusClick: function (view) {
+            this.active = view.model;
         },
         onSuggestedClick: function(tableModel) {
             var columns = tableModel.getColumns();

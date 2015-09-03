@@ -24,7 +24,7 @@ define(function (require) {
                 left: this.config.sender.$el.position().left - 184
             });
 
-            $('.canvas-items-holder').append(this.$el);
+            $('.data-canvas-view').append(this.$el);
 
             return this;
         }

@@ -9,19 +9,6 @@ define(function (require) {
 
     return Backbone.Collection.extend({
         model: DataCanvasItemModel,
-        getColumnMatches: function () {
-            var matches = {};
-            _.each(this.toJSON(), function (canvasItem) {
-                _.each(canvasItem.columns, function (columnName) {
-                    if (matches[columnName]) {
-                        matches[columnName].push(canvasItem.name);
-                    } else {
-                        matches[columnName] = [canvasItem.name];
-                    }
-                }.bind(this));
-            }.bind(this));
-            return matches;
-        },
         getColumns: function () {
             var columns = [];
             _.each(this.toJSON(), function (value) {
@@ -45,53 +32,26 @@ define(function (require) {
             });
         },
         getConditions: function () {
-            var matches = {},
-                alreadyMathed = {},
-                conditions = [];
-            _.each(this.toJSON(), function (canvasItem) {
-                _.each(canvasItem.columns, function (columnName) {
-                    if (matches[columnName]) {
-                        var t1 = canvasItem.name,
-                            t2 = matches[columnName][0];
+            var conditions = [];
+            if (this.size() < 2) {
+                return conditions;
+            }
 
-                        if (!alreadyMathed[t1]) {
-                            alreadyMathed[t1] = {};
-                        }
+            var relations = [];
+            var tableNames = this.getTables();
 
-                        alreadyMathed[t1][t2] = columnName;
-                    } else {
-                        matches[columnName] = [canvasItem.name];
-                    }
-                }.bind(this));
-            }.bind(this));
+            this.each(function (model) {
+                var relatedTableNames = _.intersection(model.getRelatedTableNames(), tableNames);
+                _.each(relatedTableNames, function (relatedTableName) {
+                    relations.push(model.getRelationForTable(relatedTableName));
+                });
+            }, this);
 
-            _.each(alreadyMathed, function (value, key) {
-                conditions.push(key + '."' + _.values(value)[0] + '" = ' + _.keys(value)[0] + '."' +  _.values(value)[0] + '"');
-            }.bind(this));
+            _.each(relations, function (relation) {
+                conditions.push(relation.sourceTableName + '."' + relation.sourceColumnName + '" = ' + relation.targetTableName + '."' + relation.targetColumnName + '"');
+            });
 
             return conditions;
-        },
-        getRelations: function () {
-            var matches = {},
-                alreadyMathed = {};
-            _.each(this.toJSON(), function (canvasItem) {
-                _.each(canvasItem.columns, function (columnName) {
-                    if (matches[columnName]) {
-                        var t1 = canvasItem.name,
-                            t2 = matches[columnName][0];
-
-                        if (!alreadyMathed[t1]) {
-                            alreadyMathed[t1] = {};
-                        }
-
-                        alreadyMathed[t1][t2] = columnName;
-                    } else {
-                        matches[columnName] = [canvasItem.name];
-                    }
-                }.bind(this));
-            }.bind(this));
-
-            return alreadyMathed;
         }
     });
 });
