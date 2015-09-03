@@ -8,7 +8,18 @@ define(function (require) {
 
     return Backbone.Model.extend({
         defaults: {
-            name: ''
+            name: '',
+            tableName: ''
         }
+        //initialize: function () {
+        //    var getName = this.get('name');
+        //    var getTableName = this.parseTableName(getName);
+        //    this.set('tableName', getTableName);
+        //},
+        //
+        //parseTableName: function(value) {
+        //    var found = /[\.](\w+\d?_?)/.exec(value);
+        //    return found[1];
+        //}
     });
 });

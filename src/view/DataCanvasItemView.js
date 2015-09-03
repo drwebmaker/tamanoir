@@ -7,6 +7,7 @@ define(function (require) {
         jsPlumb = require('jsplumb'),
         _ = require('underscore'),
         DataCanvasSuggestedItemModel = require('model/DataCanvasSuggestedItemModel'),
+        TableModel = require('model/TableModel'),
         DataCanvasSuggestedItemView = require('view/DataCanvasSuggestedItemView'),
         DataCanvasItemViewTemplate = require('text!template/DataCanvasItemViewTemplate.html');
 
@@ -28,12 +29,18 @@ define(function (require) {
         initialize: function () {
             this._subview = [];
             this.listenTo(this.model, 'destroy', this.remove);
+
             this.render();
         },
         render: function () {
             this.$el.html(_.template(DataCanvasItemViewTemplate)(this.model.toJSON()));
-
+            this.checkReference();
             return this;
+        },
+        checkReference: function() {
+            if(this.model.getReferences().length == 0) {
+                this.$('.plus').hide();
+            }
         },
         onRemoveClick: function (event) {
             console.log('remove', this.model);
@@ -62,14 +69,47 @@ define(function (require) {
             this.$('.suggestedList').toggleClass('hide');
             this.$el.toggleClass('activeItem');
 
+            Tamanoir.trigger('onPlus:click', this);
+        },
+
+        showSuggestedList: function (tablesCollection) {
             this.$('.suggested ul').empty();
 
-            _.each(this.model.getReferences(), function (value) {
-                var model = new DataCanvasSuggestedItemModel({name: value});
-                var view = new DataCanvasSuggestedItemView({ model: model });
-                this._subview.push(view);
-                this.$('.suggested ul').append(view.$el);
-            }, this);
+            var refs = this.model.getReferences();
+            var refArr = [];
+
+            console.log(refs, 'refs');
+
+            for(var i = 0; i < refs.length; i++) {
+                refArr.push(this.parseTableName(refs[i]));
+            }
+            console.log(refArr, 'refArr');
+
+            var suggestedCollection = tablesCollection.clone();
+
+            var tmp = suggestedCollection.filter(function(item) {
+                return refArr.indexOf(item.get('name')) === -1;
+            });
+
+            suggestedCollection.remove(tmp);
+
+            console.log(suggestedCollection);
+            // get suggested names
+            //filter collection
+
+            suggestedCollection.each(this.renderSuggestedTable, this);
+        },
+
+        parseTableName: function(value) {
+            var found = /[\.](\w+\d?_?)/.exec(value);
+            console.log(found[1]);
+            return found[1];
+        },
+
+        renderSuggestedTable: function (tableModel) {
+            var view = new DataCanvasSuggestedItemView({ model: tableModel });
+            this._subview.push(view);
+            this.$('.suggested ul').append(view.$el);
         }
     });
 });

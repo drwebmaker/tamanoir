@@ -220,6 +220,8 @@ define(function (require) {
         },
         onSuggestedClick: function(tableModel) {
             var columns = tableModel.getColumns();
+             console.log(tableModel);
+            this.draggedTableModel = tableModel;
 
             this.collection.add(_.extend(this.draggedTableModel.toJSON(), {
                 columns: _.map(columns, function (value) {
