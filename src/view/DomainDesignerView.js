@@ -36,6 +36,7 @@ define(function (require) {
 
             this.listenTo(this.dataCanvasItemsCollection, 'change update reset', this.onCanvasItemsChange);
             this.listenTo(this.connectionsCollection, 'sync', this.onConnectionsLoaded);
+            this.listenTo(Tamanoir, 'onPlus:click', this.getCollection);
 
             //re-render view if window resizing
             $(window).on('resize', _.debounce(_.bind(this.render, this), 500));
@@ -154,6 +155,9 @@ define(function (require) {
             } else {
                 Tamanoir.showMessage('You should save domain before analyse it.');
             }
+        },
+        getCollection: function(view) {
+            view.showSuggestedList(this.tablesCollection);
         },
         remove: function () {
             _.invoke(this._subviews, 'remove');

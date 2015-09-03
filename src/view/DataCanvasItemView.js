@@ -69,20 +69,47 @@ define(function (require) {
             this.$('.suggestedList').toggleClass('hide');
             this.$el.toggleClass('activeItem');
 
+            Tamanoir.trigger('onPlus:click', this);
+        },
+
+        showSuggestedList: function (tablesCollection) {
             this.$('.suggested ul').empty();
 
-            _.each(this.model.getReferences(), function (value) {
+            var refs = this.model.getReferences();
+            var refArr = [];
 
-                //get tables collection
-                //get table name from value
-                //get table model from tables collection by name
-                //create DataCanvasSuggestedItemView with retrieved table model
+            console.log(refs, 'refs');
 
-                var view = new DataCanvasSuggestedItemView({ model: model });
-                console.log(view);
-                this._subview.push(view);
-                this.$('.suggested ul').append(view.$el);
-            }, this);
+            for(var i = 0; i < refs.length; i++) {
+                refArr.push(this.parseTableName(refs[i]));
+            }
+            console.log(refArr, 'refArr');
+
+            var suggestedCollection = tablesCollection.clone();
+
+            var tmp = suggestedCollection.filter(function(item) {
+                return refArr.indexOf(item.get('name')) === -1;
+            });
+
+            suggestedCollection.remove(tmp);
+
+            console.log(suggestedCollection);
+            // get suggested names
+            //filter collection
+
+            suggestedCollection.each(this.renderSuggestedTable, this);
+        },
+
+        parseTableName: function(value) {
+            var found = /[\.](\w+\d?_?)/.exec(value);
+            console.log(found[1]);
+            return found[1];
+        },
+
+        renderSuggestedTable: function (tableModel) {
+            var view = new DataCanvasSuggestedItemView({ model: tableModel });
+            this._subview.push(view);
+            this.$('.suggested ul').append(view.$el);
         }
     });
 });

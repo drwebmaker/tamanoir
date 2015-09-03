@@ -25,5 +25,11 @@ define(function (require) {
                 return memo;
             }, [], this);
         }
+
+        //parseTableName: function(value) {
+        //    var found = /[\.](\w+\d?_?)/.exec(value);
+        //    console.log(found[1]);
+        //    return found[1];
+        //}
     });
 });
