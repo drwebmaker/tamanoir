@@ -2,15 +2,14 @@
  * Created by Artem.Malieiev on 6/10/2015.
  */
 define(function (require) {
-    var Tamanoir = require('Tamanoir'),
+    var MainRouter = require('common/router/MainRouter'),
         $ = require('jquery');
-        Backbone = require('backbone');
 
     require('underscore.config');
 
-    window.Tamanoir = new Tamanoir();
+    window.Tamanoir = new MainRouter();
     Backbone.history.start();
 
-    console.log('ready');
-    $('body').removeClass('flash-screen');
+    //remove loading screen
+    $('body').removeClass('splash-screen');
 });

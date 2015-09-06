@@ -22,18 +22,12 @@
     "jquery": "~2.1.4",
     "underscore": "~1.8.3",
     "backbone": "~1.2.1",
-    "flexbox-layout": "*",
     "requirejs": "~2.1.18",
     "requirejs-text": "~2.0.14",
     "require-css": "~0.1.8",
     "foundation": "~5.5.2",
     "foundation-icons": "*",
-    "c3": "~0.4.10",
-    "d3": "~3.5.5",
-    "backbone.localStorage": "~1.1.16",
-    "requirejs-plugins": "~1.0.3",
-    "jsplumb": "1.7.7",
-    "jquery-ui": "~1.11.4"
+    "backbone.localStorage": "~1.1.16"
   },
   "devDependencies": {
     "jsplumb": "~1.7.6",
