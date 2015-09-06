@@ -5,7 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        TableViewTemplate = require('text!domainDesigner/template/TableViewTemplate.html');
+        TableViewTemplate = require('text!domain/template/TableViewTemplate.html');
 
     return Backbone.View.extend({
         className: 'table-view',

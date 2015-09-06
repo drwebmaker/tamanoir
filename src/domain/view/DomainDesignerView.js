@@ -6,14 +6,14 @@ define(function (require) {
         _ = require('underscore'),
         $ = require('jquery'),
         PostgreSQLConnectionModel = require('common/model/PostgreSQLConnectionModel'),
-        TablesView = require('domainDesigner/view/TablesView'),
-        DataCanvasView = require('domainDesigner/view/DataCanvasView'),
-        TablesCollection = require('domainDesigner/collection/TablesCollection'),
+        TablesView = require('domain/view/TablesView'),
+        DataCanvasView = require('domain/view/DataCanvasView'),
+        TablesCollection = require('domain/collection/TablesCollection'),
         DialogView = require('common/view/DialogView'),
         ConnectionsCollection = require('common/collection/ConnectionsCollection'),
         DomainsCollection = require('common/collection/DomainsCollection'),
-        TableView = require('domainDesigner/view/TableView'),
-        DomainDesignerViewTemplate = require('text!domainDesigner/template/DomainDesignerViewTemplate.html');
+        TableView = require('domain/view/TableView'),
+        DomainDesignerViewTemplate = require('text!domain/template/DomainDesignerViewTemplate.html');
 
     return Backbone.View.extend({
 

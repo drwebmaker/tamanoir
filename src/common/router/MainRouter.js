@@ -9,7 +9,7 @@ define(function (require) {
         HomeView = require('home/view/HomeView'),
         ConnectionsCollection = require('common/collection/ConnectionsCollection'),
         DomainsCollection = require('common/collection/DomainsCollection'),
-        DomainDesignerView = require('domainDesigner/view/DomainDesignerView');
+        DomainDesignerView = require('domain/view/DomainDesignerView');
 
     return Backbone.Router.extend({
 

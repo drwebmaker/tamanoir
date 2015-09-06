@@ -5,7 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        ColumnModel = require('domainDesigner/model/ColumnModel');
+        ColumnModel = require('domain/model/ColumnModel');
 
     require('backbone.localStorage');
 

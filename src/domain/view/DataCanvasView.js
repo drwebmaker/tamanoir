@@ -5,7 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
-        JoinTypeWidgetView = require('domainDesigner/view/JoinTypeWidgetView');
+        JoinTypeWidgetView = require('domain/view/JoinTypeWidgetView');
 
     return Backbone.View.extend({
         className: 'data-canvas-view',

@@ -4,7 +4,7 @@
 define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
-        TableListItemViewTemplate = require('text!domainDesigner/template/TableListItemViewTemplate.html');
+        TableListItemViewTemplate = require('text!domain/template/TableListItemViewTemplate.html');
 
     return Backbone.View.extend({
         tagName: 'li',

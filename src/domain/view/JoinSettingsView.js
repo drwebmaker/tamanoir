@@ -5,7 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        JoinSettingsViewTemplate = require('text!domainDesigner/template/JoinSettingsViewTemplate.html');
+        JoinSettingsViewTemplate = require('text!domain/template/JoinSettingsViewTemplate.html');
 
     var JoinSettingsView = Backbone.View.extend({
         className: 'join-settings-view',
