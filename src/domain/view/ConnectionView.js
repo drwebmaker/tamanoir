@@ -5,87 +5,47 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        PostgreSQLConnectionModel = require('common/model/PostgreSQLConnectionModel'),
-        TablesView = require('domain/view/TablesView'),
-        DataCanvasView = require('domain/view/DataCanvasView'),
-        TablesCollection = require('domain/collection/TablesCollection'),
         DialogView = require('common/view/DialogView'),
-        ConnectionsCollection = require('common/collection/ConnectionsCollection'),
-        DomainsCollection = require('common/collection/DomainsCollection'),
-        TableView = require('domain/view/TableView'),
-        DomainDesignerViewTemplate = require('text!domain/template/DomainDesignerViewTemplate.html');
+        TablesCollection = require('domain/collection/TablesCollection'),
+        TableListItemView = require('domain/view/TableListItemView'),
+        ConnectionViewTemplate = require('text!domain/template/ConnectionViewTemplate.html');
 
     return Backbone.View.extend({
 
-        className: 'domain-designer-view',
-        template: DomainDesignerViewTemplate,
+        className: 'connection-view',
+        template: _.template(ConnectionViewTemplate),
         events: {
-            'click .productTitle': 'onProductTitleClick',
-            'click .saveDomain': 'onSaveDomainClick',
-            'click .analysis': 'onAnalysisClick'
         },
 
         initialize: function () {
             this._subviews = [];
 
-            this.listenTo(this.model.connections, 'change:metadata', this.onConnectionMetadataLoaded);
+            this.tablesCollection = new TablesCollection();
 
-            this.model.connections.invoke('fetchMetadata');
+            this.listenTo(this.model, 'change:metadata', this.onConnectionMetadataLoaded);
+            this.listenTo(this.tablesCollection, 'reset', this.render);
 
-            this.render();
+            this.model.fetchMetadata();
         },
 
         render: function () {
-            this.$el.html(this.template);
+            _.invoke(this._subviews, 'remove');
+            this.$el.html(this.template(this.model.toJSON()));
+
+            this.tablesCollection.each(this.addTable, this);
 
             return this;
         },
 
+        addTable: function (tableModel) {
+            var tableView = new TableListItemView({model: tableModel});
+
+            this._subviews.push(tableView);
+            this.$('ul').append(tableView.$el);
+        },
+
         onConnectionMetadataLoaded: function (connectionModel) {
-            console.log(connectionModel.toJSON());
-        },
-
-        onProductTitleClick: function () {
-            Tamanoir.navigate('/', {trigger: true});
-        },
-
-        onSaveDomainClick: function (event) {
-            if (this.model.isNew()) {
-                var dialogView = new DialogView({
-                    title: 'Save domain',
-                    content: $('<input type="text" placeholder="name" name="name"/>'),
-                    buttons: [{label: 'save', action: 'save'}]
-                }).render();
-                this.listenToOnce(dialogView, 'action:save', function () {
-                    var name = dialogView.$('input').val();
-                    if (name) {
-                        this.model.save({
-                            name: name,
-                            connectionId: this.connectionModel.get('id'),
-                            data: this.dataCanvasItemsCollection.toJSON()
-                        }, {
-                            success: function (model) {
-                                Tamanoir.navigate('connection/' + model.get('connectionId') + '/' + model.get('id'));
-                            }.bind(this)
-                        });
-                    }
-                    dialogView.remove();
-                }.bind(this));
-            } else {
-                this.model.save({
-                    data: this.dataCanvasItemsCollection.toJSON()
-                }).done(function () {
-                    Tamanoir.showMessage('Saved');
-                });
-            }
-        },
-
-        onAnalysisClick: function () {
-            if (this.model.get('id')) {
-                Tamanoir.navigate('analysis/' + this.model.get('connectionId') + '/' + this.model.get('id'), {trigger: true});
-            } else {
-                Tamanoir.showMessage('You should save domain before analyse it.');
-            }
+            this.tablesCollection.reset(connectionModel.get('metadata'));
         },
 
         remove: function () {

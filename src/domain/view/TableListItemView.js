@@ -7,14 +7,22 @@ define(function (require) {
         TableListItemViewTemplate = require('text!domain/template/TableListItemViewTemplate.html');
 
     return Backbone.View.extend({
+
         tagName: 'li',
+        template: _.template(TableListItemViewTemplate),
         events: {
             'dragstart': 'onDragStart'
         },
+
+        initialize: function () {
+            this.render();
+        },
+
         render: function () {
-            this.$el.html(_.template(TableListItemViewTemplate)(this.model.toJSON()));
+            this.$el.html(this.template(this.model.toJSON()));
             return this;
         },
+
         onDragStart: function () {
             Tamanoir.trigger('tables:table:dragstart', this.model);
         }

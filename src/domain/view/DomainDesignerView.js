@@ -5,13 +5,9 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        PostgreSQLConnectionModel = require('common/model/PostgreSQLConnectionModel'),
-        TablesView = require('domain/view/TablesView'),
         DataCanvasView = require('domain/view/DataCanvasView'),
-        TablesCollection = require('domain/collection/TablesCollection'),
         DialogView = require('common/view/DialogView'),
-        ConnectionsCollection = require('common/collection/ConnectionsCollection'),
-        DomainsCollection = require('common/collection/DomainsCollection'),
+        SidebarView = require('domain/view/SidebarView'),
         TableView = require('domain/view/TableView'),
         DomainDesignerViewTemplate = require('text!domain/template/DomainDesignerViewTemplate.html');
 
@@ -28,21 +24,17 @@ define(function (require) {
         initialize: function () {
             this._subviews = [];
 
-            this.listenTo(this.model.connections, 'change:metadata', this.onConnectionMetadataLoaded);
-
-            this.model.connections.invoke('fetchMetadata');
-
             this.render();
         },
 
         render: function () {
             this.$el.html(this.template);
 
-            return this;
-        },
+            this.sidebarView = new SidebarView({collection: this.model.connections});
 
-        onConnectionMetadataLoaded: function (connectionModel) {
-            console.log(connectionModel.toJSON());
+            this.$('.domain-designer-sidebar').html(this.sidebarView.$el);
+
+            return this;
         },
 
         onProductTitleClick: function () {
