@@ -72,8 +72,21 @@ define(function (require) {
             return model;
         },
 
-        buildQuery: function () {
-            return null;
+        getQuery: function () {
+            var query = null,
+                tables = this.getSelectedTables(),
+                columns = this.getSelectedColumns(),
+                conditions = this.getConditions();
+
+            if (tables.length == 0) {
+                return null;
+            } else if (conditions.length) {
+                query = 'SELECT ' + columns + ' FROM ' + tables + ' WHERE ' + conditions;
+            } else {
+                query = 'SELECT ' + columns + ' FROM ' + tables;
+            }
+
+            return query;
         }
     });
 });

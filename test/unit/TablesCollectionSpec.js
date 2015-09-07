@@ -150,5 +150,67 @@ define(function (require) {
                 expect(collection.getConditions()).toEqual([]);
             });
         });
+
+        describe('getQuery method', function () {
+            it('should return sql query', function () {
+                var collection = new TablesCollection([
+                    {
+                        name: 'users',
+                        selected: ['user_id'],
+                        items: [{name: 'user_id', referenceTo: 'public.store.user_id'}]
+                    }, {
+                        name: 'store',
+                        selected: ['store_sales'],
+                        items: [{name: 'store_sales'}, {name: 'store_id'}]
+                    }, {
+                        name: 'orders',
+                        selected: [],
+                        items: [{name: 'order_id'}]
+                    }
+                ]);
+
+                expect(collection.getQuery()).toEqual('SELECT users."user_id",store."store_sales" FROM users,store WHERE users."user_id" = store."user_id"');
+            });
+
+            it('should return sql query with omitted condition when only one table is selected', function () {
+                var collection = new TablesCollection([
+                    {
+                        name: 'users',
+                        selected: ['user_id'],
+                        items: [{name: 'user_id', referenceTo: 'public.store.user_id'}]
+                    }, {
+                        name: 'store',
+                        selected: [],
+                        items: [{name: 'store_sales'}, {name: 'store_id'}]
+                    }, {
+                        name: 'orders',
+                        selected: [],
+                        items: [{name: 'order_id'}]
+                    }
+                ]);
+
+                expect(collection.getQuery()).toEqual('SELECT users."user_id" FROM users');
+            });
+
+            it('should return null when no columns selected', function () {
+                var collection = new TablesCollection([
+                    {
+                        name: 'users',
+                        selected: [],
+                        items: [{name: 'user_id', referenceTo: 'public.store.user_id'}]
+                    }, {
+                        name: 'store',
+                        selected: [],
+                        items: [{name: 'store_sales'}, {name: 'store_id'}]
+                    }, {
+                        name: 'orders',
+                        selected: [],
+                        items: [{name: 'order_id'}]
+                    }
+                ]);
+
+                expect(collection.getQuery()).toEqual(null);
+            });
+        });
     });
 });
