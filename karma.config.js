@@ -14,7 +14,7 @@ module.exports = function(config) {
 
       'test/test-main.js'
     ],
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
 
     // list of files to exclude
     exclude: [

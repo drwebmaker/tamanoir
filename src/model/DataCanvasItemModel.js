@@ -8,7 +8,7 @@ define(function (require) {
 
     return TableModel.extend({
         idAttribute: 'name',
-        defaults: {
+        defaults: _.extend({}, TableModel.prototype.defaults, {
             name: '',
             selected: [],
 
@@ -21,7 +21,7 @@ define(function (require) {
             availablePlace: null,
             placedTo: null,
             position: null
-        },
+        }),
 
         initialize: function () {
             this.set('availablePlace', {top: true, bottom: true, left: true, right: true});

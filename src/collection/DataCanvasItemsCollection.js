@@ -52,6 +52,21 @@ define(function (require) {
             });
 
             return conditions;
+        },
+        getDataCanvasModel: function() {
+            var model = {
+                node: [],
+                edges: []
+            };
+            this.each(function(item) {
+                model.node.push({id: item.get('name'), label: item.get('name')});
+                _.each(item.get('items'), function(column) {
+                    if(column.referenceTo) {
+                        model.edges.push({from: item.get('name'), to: item._getRelatedTableName(column)});
+                    }
+                });
+            });
+            return model;
         }
     });
 });
