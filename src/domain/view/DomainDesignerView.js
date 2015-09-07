@@ -49,9 +49,13 @@ define(function (require) {
 
             setTimeout(function () {
                 var bodyHeight = $('body').height(),
-                    header = self.$('.domain-designer-header');
+                    header = self.$('.domain-designer-header'),
+                    contentHeight = bodyHeight - header.height();
 
-                self.sidebarView.$el.height(bodyHeight - header.height());
+                self.sidebarView.$el.height(contentHeight);
+                self.dataCanvasView.$el.height(contentHeight / 2);
+                //12px workaround should be removed
+                self.tableView.$el.height(contentHeight / 2 - 12);
             }, 0);
         },
 
