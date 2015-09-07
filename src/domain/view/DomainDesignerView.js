@@ -6,6 +6,8 @@ define(function (require) {
         _ = require('underscore'),
         $ = require('jquery'),
         DataCanvasView = require('domain/view/DataCanvasView'),
+        DataCollection = require('domain/collection/DataCollection'),
+        TablesCollection = require('domain/collection/TablesCollection'),
         DialogView = require('common/view/DialogView'),
         SidebarView = require('domain/view/SidebarView'),
         TableView = require('domain/view/TableView'),
@@ -17,12 +19,18 @@ define(function (require) {
         template: DomainDesignerViewTemplate,
         events: {
             'click .productTitle': 'onProductTitleClick',
-            'click .saveDomain': 'onSaveDomainClick',
-            'click .analysis': 'onAnalysisClick'
+            'click .saveDomain': 'onSaveDomainClick'
         },
 
         initialize: function () {
             this._subviews = [];
+
+            //TODO: should be placed inside domain model
+            this.tablesCollection = new TablesCollection();
+
+            this.dataCollection = new DataCollection();
+
+            this.listenTo(this.tablesCollection, 'change update', this.buildQuery);
 
             this.render();
         },
@@ -31,8 +39,8 @@ define(function (require) {
             this.$el.html(this.template);
 
             this.sidebarView = new SidebarView({collection: this.model.connections});
-            this.dataCanvasView = new DataCanvasView();
-            this.tableView = new TableView();
+            this.dataCanvasView = new DataCanvasView({collection: this.tablesCollection});
+            this.tableView = new TableView({collection: this.dataCollection});
 
             this.$('.sidebar-container').html(this.sidebarView.$el);
             this.$('.data-canvas-container').html(this.dataCanvasView.$el);
@@ -42,7 +50,6 @@ define(function (require) {
 
             return this;
         },
-
 
         calculateHeight: function () {
             var self = this;
@@ -57,6 +64,10 @@ define(function (require) {
                 //12px workaround should be removed
                 self.tableView.$el.height(contentHeight / 2 - 12);
             }, 0);
+        },
+
+        buildQuery: function () {
+            console.log('build query');
         },
 
         onProductTitleClick: function () {
@@ -91,14 +102,6 @@ define(function (require) {
                 }).done(function () {
                     Tamanoir.showMessage('Saved');
                 });
-            }
-        },
-
-        onAnalysisClick: function () {
-            if (this.model.get('id')) {
-                Tamanoir.navigate('analysis/' + this.model.get('connectionId') + '/' + this.model.get('id'), {trigger: true});
-            } else {
-                Tamanoir.showMessage('You should save domain before analyse it.');
             }
         },
 

@@ -12,36 +12,34 @@ define(function (require) {
     return Backbone.Collection.extend({
         model: TableModel,
 
-        getColumns: function () {
-            var columns = [];
-            _.each(this.toJSON(), function (value) {
-                columns = columns.concat(value.selected);
-            }, this);
+        getSelectedColumns: function () {
+            return this.reduce(function (memo, table) {
+                memo = memo.concat(_.map(table.get('selected'), function (column) {
+                    return table.get('name') + '."' + column + '"';
+                }));
 
-            //if no one is selected then return whole list
-            if (!columns.length) {
-                this.each(function (canvasItem) {
-                    columns = columns.concat(_.map(canvasItem.getColumns(), function (column) {
-                        return canvasItem.get('name') + '."' + column.name + '"';
-                    }));
-                }, this);
-            }
+                return memo;
+            }, []);
+        },
 
-            return columns;
+        getSelectedTables: function () {
+            return this.reduce(function (memo, table) {
+                if (table.get('selected').length) {
+                    memo.push(table.get('name'));
+                }
+
+                return memo;
+            }, []);
         },
-        getTables: function () {
-            return this.map(function (value) {
-                return value.get('name');
-            });
-        },
+
         getConditions: function () {
-            var conditions = [];
-            if (this.size() < 2) {
+            var conditions = [],
+                relations = [],
+                tableNames = this.getSelectedTables();
+
+            if (tableNames.length < 2) {
                 return conditions;
             }
-
-            var relations = [];
-            var tableNames = this.getTables();
 
             this.each(function (model) {
                 var relatedTableNames = _.intersection(model.getRelatedTableNames(), tableNames);
@@ -56,20 +54,26 @@ define(function (require) {
 
             return conditions;
         },
-        getDataCanvasModel: function() {
+
+        getDataCanvasModel: function () {
             var model = {
-                node: [],
+                nodes: [],
                 edges: []
             };
-            this.each(function(item) {
-                model.node.push({id: item.get('name'), label: item.get('name')});
-                _.each(item.get('items'), function(column) {
-                    if(column.referenceTo) {
+
+            this.each(function (item) {
+                model.nodes.push({id: item.get('name'), label: item.get('name')});
+                _.each(item.get('items'), function (column) {
+                    if (column.referenceTo) {
                         model.edges.push({from: item.get('name'), to: item._getRelatedTableName(column)});
                     }
                 });
             });
             return model;
+        },
+
+        buildQuery: function () {
+            return null;
         }
     });
 });

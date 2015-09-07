@@ -7,10 +7,11 @@ define(function (require) {
 
     return Backbone.Model.extend({
         defaults: {
-            connectionId: '',
-            name: '',
-            label: '',
-            items: null
+            connectionId: undefined,
+            name: undefined,
+            label: undefined,
+            items: undefined,
+            selected: undefined
         },
 
         getColumns: function () {

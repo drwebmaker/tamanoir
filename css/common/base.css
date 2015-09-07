@@ -27,7 +27,7 @@ ul {
     top: 45%;
     left: 45%;
     z-index: 1;
-    background: url("../img/loading_128.png") no-repeat center;
+    background: url("../../img/loading_128.png") no-repeat center;
     -webkit-animation-name: splash-screen; /* Chrome, Safari, Opera */
     -webkit-animation-duration: 2s; /* Chrome, Safari, Opera */
     -webkit-animation-iteration-count: infinite; /* Chrome, Safari, Opera */

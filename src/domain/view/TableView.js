@@ -9,6 +9,7 @@ define(function (require) {
 
     return Backbone.View.extend({
         className: 'table-view',
+        template: _.template(TableViewTemplate),
         events: {
             'click th div': 'onTableHeaderClick',
             'dragstart th div': 'onTableHeaderDragStart',
@@ -19,20 +20,11 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.$el.html('table');
-            //this.calculateHeight();
-            //
-            //this.$el.html(_.template(TableViewTemplate)({
-            //    data: this.collection.toJSON()
-            //}));
+            this.$el.html(this.template({
+                data: this.collection.toJSON()
+            }));
 
             return this;
-        },
-        calculateHeight: function () {
-            setTimeout(function () {
-                this.$el.height($('.bottom-section').height() - 14);
-                this.onScroll();
-            }.bind(this), 10);
         },
         onTableHeaderClick: function (event) {
             var value = $(event.target).text().trim();

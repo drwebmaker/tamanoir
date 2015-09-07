@@ -13,5 +13,5 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['karma']);
+    grunt.registerTask('test', ['karma']);
 };

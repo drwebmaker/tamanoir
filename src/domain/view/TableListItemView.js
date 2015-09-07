@@ -28,7 +28,8 @@ define(function (require) {
         },
 
         onDragStart: function () {
-            Tamanoir.trigger('tables:table:dragstart', this.model);
+            console.log('dragstart:sidebarTable');
+            Tamanoir.trigger('dragstart:sidebarTable', this.model);
         }
     });
 });

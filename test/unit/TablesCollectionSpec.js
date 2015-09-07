@@ -3,12 +3,12 @@
  */
 define(function (require) {
 
-    var DataCanvasItemsCollection = require('domain/collection/TablesCollection');
+    var TablesCollection = require('domain/collection/TablesCollection');
 
     describe('TablesCollection', function () {
         describe('getDataCanvasModel method', function () {
             it('Should generate required model for vis.js library', function () {
-                var tablesCollection = new DataCanvasItemsCollection([
+                var tablesCollection = new TablesCollection([
                         {
                             "items": [
                                 {
@@ -18,9 +18,6 @@ define(function (require) {
                                 {
                                     "referenceTo": "public.products.ProductID",
                                     "name": "ProductID"
-                                },
-                                {
-                                    "name": "UnitPrice"
                                 },
                                 {
                                     "name": "Quantity"
@@ -45,37 +42,7 @@ define(function (require) {
                                     "name": "EmployeeID"
                                 },
                                 {
-                                    "name": "OrderDate"
-                                },
-                                {
                                     "name": "RequiredDate"
-                                },
-                                {
-                                    "name": "ShippedDate"
-                                },
-                                {
-                                    "name": "ShipVia"
-                                },
-                                {
-                                    "name": "Freight"
-                                },
-                                {
-                                    "name": "ShipName"
-                                },
-                                {
-                                    "name": "ShipAddress"
-                                },
-                                {
-                                    "name": "ShipCity"
-                                },
-                                {
-                                    "name": "ShipRegion"
-                                },
-                                {
-                                    "name": "ShipPostalCode"
-                                },
-                                {
-                                    "name": "ShipCountry"
                                 }
                             ],
                             "name": "orders"
@@ -89,27 +56,6 @@ define(function (require) {
                                     "name": "CompanyName"
                                 },
                                 {
-                                    "name": "ContactName"
-                                },
-                                {
-                                    "name": "ContactTitle"
-                                },
-                                {
-                                    "name": "Address"
-                                },
-                                {
-                                    "name": "City"
-                                },
-                                {
-                                    "name": "Region"
-                                },
-                                {
-                                    "name": "PostalCode"
-                                },
-                                {
-                                    "name": "Country"
-                                },
-                                {
                                     "name": "Phone"
                                 },
                                 {
@@ -120,7 +66,7 @@ define(function (require) {
                         }
                     ]),
                     expectedModel = {
-                        node: [
+                        nodes: [
                             {id: 'order_details', label: 'order_details'},
                             {id: 'orders', label: 'orders'},
                             {id: 'customers', label: 'customers'}
@@ -136,6 +82,72 @@ define(function (require) {
 
 
                 expect(tablesCollection.getDataCanvasModel()).toEqual(expectedModel);
+            });
+        });
+
+        describe('getSelectedColumns method', function () {
+            it('should return selected column names', function () {
+                var collection = new TablesCollection([
+                    {name: 'users', selected: []},
+                    {name: 'store', selected: ['store_sales']},
+                    {name: 'employees', selected: ['employee_id', 'full_name']}
+                ]);
+
+                expect(collection.getSelectedColumns()).toEqual(['store."store_sales"', 'employees."employee_id"', 'employees."full_name"']);
+            });
+        });
+
+        describe('getSelectedTables method', function () {
+            it('should return selected table names', function () {
+                var collection = new TablesCollection([
+                    {name: 'users', selected: []},
+                    {name: 'store', selected: ['store_sales']},
+                    {name: 'employees', selected: ['employee_id', 'full_name']}
+                ]);
+
+                expect(collection.getSelectedTables()).toEqual(['store', 'employees']);
+            });
+        });
+
+        describe('getConditions method', function () {
+            it('should return conditions for sql joins', function () {
+                var collection = new TablesCollection([
+                    {
+                        name: 'users',
+                        selected: ['user_id'],
+                        items: [{name: 'user_id', referenceTo: 'public.store.user_id'}]
+                    }, {
+                        name: 'store',
+                        selected: ['store_sales'],
+                        items: [{name: 'store_sales'}, {name: 'store_id'}]
+                    }, {
+                        name: 'orders',
+                        selected: [],
+                        items: [{name: 'order_id'}]
+                    }
+                ]);
+
+                expect(collection.getConditions()).toEqual(['users."user_id" = store."user_id"']);
+            });
+
+            it('should return empty array when selected columns from single table', function () {
+                var collection = new TablesCollection([
+                    {
+                        name: 'users',
+                        selected: [],
+                        items: [{name: 'user_id', referenceTo: 'public.store.user_id'}]
+                    }, {
+                        name: 'store',
+                        selected: ['store_sales'],
+                        items: [{name: 'store_sales'}, {name: 'store_id'}]
+                    }, {
+                        name: 'orders',
+                        selected: [],
+                        items: [{name: 'order_id'}]
+                    }
+                ]);
+
+                expect(collection.getConditions()).toEqual([]);
             });
         });
     });

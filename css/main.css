@@ -1,20 +1,24 @@
+/*vendor*/
 @import "../src/bower_components/foundation/css/foundation.css";
 @import "../src/bower_components/foundation-icons/foundation_icons_general/stylesheets/general_foundicons.css";
 
-@import "base.css";
-@import "home.css";
-@import "editConnection.css";
-@import "editDomain.css";
-@import "joinTypeWidget.css";
-@import "connectionsList.css";
-@import "domainsList.css";
-@import "tables.css";
-@import "dialog.css";
-@import "layout.css";
-@import "list.css";
-@import "table.css";
+/*common*/
+@import "common/base.css";
+@import "common/dialog.css";
+@import "common/layout.css";
 
+/*home*/
+@import "home/home.css";
+@import "home/editConnection.css";
+@import "home/editDomain.css";
+@import "home/connectionsList.css";
+@import "home/domainsList.css";
+
+/*domain*/
 @import "domain/domainDesigner.css";
 @import "domain/connection.css";
 @import "domain/sidebar.css";
 @import "domain/tableListItem.css";
+@import "domain/joinTypeWidget.css";
+@import "domain/tables.css";
+@import "domain/table.css";
