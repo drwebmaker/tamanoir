@@ -16,14 +16,3 @@
 .domain-designer-view .toolbar-item:hover {
     background: #222222;
 }
-
-.domain-designer-view .title {
-    background: #007095;
-    color: white;
-    padding-left: 20px;
-    line-height: initial;
-}
-
-.domain-designer-view .sidebar {
-    border-right: 1px solid #007095;
-}

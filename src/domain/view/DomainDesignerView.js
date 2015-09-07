@@ -31,10 +31,28 @@ define(function (require) {
             this.$el.html(this.template);
 
             this.sidebarView = new SidebarView({collection: this.model.connections});
+            this.dataCanvasView = new DataCanvasView();
+            this.tableView = new TableView();
 
-            this.$('.domain-designer-sidebar').html(this.sidebarView.$el);
+            this.$('.sidebar-container').html(this.sidebarView.$el);
+            this.$('.data-canvas-container').html(this.dataCanvasView.$el);
+            this.$('.table-container').html(this.tableView.$el);
+
+            this.calculateHeight();
 
             return this;
+        },
+
+
+        calculateHeight: function () {
+            var self = this;
+
+            setTimeout(function () {
+                var bodyHeight = $('body').height(),
+                    header = self.$('.domain-designer-header');
+
+                self.sidebarView.$el.height(bodyHeight - header.height());
+            }, 0);
         },
 
         onProductTitleClick: function () {

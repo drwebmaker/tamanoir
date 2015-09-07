@@ -9,6 +9,8 @@ define(function (require) {
 
     return Backbone.View.extend({
 
+        className: 'sidebar-view',
+
         events: {
         },
 

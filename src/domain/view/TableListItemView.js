@@ -9,6 +9,10 @@ define(function (require) {
     return Backbone.View.extend({
 
         tagName: 'li',
+        attributes: {
+            draggable: true
+        },
+        className: 'table-list-item-view',
         template: _.template(TableListItemViewTemplate),
         events: {
             'dragstart': 'onDragStart'

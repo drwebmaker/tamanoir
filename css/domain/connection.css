@@ -1,0 +1,12 @@
+.connection-view ul {
+    margin: 0;
+    padding: 0;
+}
+
+.connection-view .title {
+    line-height: 30px;
+    font-weight: bold;
+    color: white;
+    padding-left: 20px;
+    background-color: #007094;
+}
