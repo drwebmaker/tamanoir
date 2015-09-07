@@ -15,6 +15,8 @@ define(function (require) {
         },
         initialize: function (options) {
             this._subviews = [];
+
+            this.render();
         },
         render: function () {
             this.$el.html("data canvas");

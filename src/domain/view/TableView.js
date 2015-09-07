@@ -19,11 +19,12 @@ define(function (require) {
             this.render();
         },
         render: function () {
-            this.calculateHeight();
-
-            this.$el.html(_.template(TableViewTemplate)({
-                data: this.collection.toJSON()
-            }));
+            this.$el.html('table');
+            //this.calculateHeight();
+            //
+            //this.$el.html(_.template(TableViewTemplate)({
+            //    data: this.collection.toJSON()
+            //}));
 
             return this;
         },
