@@ -142,9 +142,7 @@ define(function (require) {
                 ],
                 edges: [
                     {from: 'order_details', to: 'orders'},
-                    {from: 'order_details', to: 'products'},
-                    {from: 'orders', to: 'customers'},
-                    {from: 'orders', to: 'employees'}
+                    {from: 'orders', to: 'customers'}
                 ]
             };
 
