@@ -6,7 +6,7 @@ define(function (require) {
     var TablesCollection = require('domain/collection/TablesCollection');
 
     describe('TablesCollection', function () {
-        describe('getDataCanvasModel method', function () {
+        describe('generateVisModel method', function () {
             it('Should generate required model for vis.js library', function () {
                 var tablesCollection = new TablesCollection([
                         {
@@ -74,14 +74,12 @@ define(function (require) {
                         ],
                         edges: [
                             {from: 'order_details', to: 'orders'},
-                            {from: 'order_details', to: 'products'},
-                            {from: 'orders', to: 'customers'},
-                            {from: 'orders', to: 'employees'}
+                            {from: 'orders', to: 'customers'}
                         ]
                     };
 
 
-                expect(tablesCollection.getDataCanvasModel()).toEqual(expectedModel);
+                expect(tablesCollection.generateVisModel()).toEqual(expectedModel);
             });
         });
 

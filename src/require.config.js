@@ -6,6 +6,7 @@ require.config({
         backbone: 'bower_components/backbone/backbone',
         'backbone.localStorage': 'bower_components/backbone.localStorage/backbone.localStorage',
         jquery: 'bower_components/jquery/dist/jquery',
+        vis: 'bower_components/vis/dist/vis',
         underscore: 'bower_components/underscore/underscore',
         text: 'bower_components/requirejs-text/text',
         css: 'bower_components/require-css/css'

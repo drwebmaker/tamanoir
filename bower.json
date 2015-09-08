@@ -27,6 +27,7 @@
     "require-css": "~0.1.8",
     "foundation": "~5.5.2",
     "foundation-icons": "*",
+    "vis": "~4.8.0",
     "backbone.localStorage": "~1.1.16"
   },
   "devDependencies": {

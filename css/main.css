@@ -1,6 +1,7 @@
 /*vendor*/
 @import "../src/bower_components/foundation/css/foundation.css";
 @import "../src/bower_components/foundation-icons/foundation_icons_general/stylesheets/general_foundicons.css";
+@import "../src/bower_components/vis/dist/vis.css";
 
 /*common*/
 @import "common/base.css";

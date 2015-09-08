@@ -5,6 +5,7 @@ define(function (require) {
     var Backbone = require('backbone'),
         $ = require('jquery'),
         _ = require('underscore'),
+        vis = require('vis'),
         JoinTypeWidgetView = require('domain/view/JoinTypeWidgetView');
 
     return Backbone.View.extend({
@@ -25,12 +26,12 @@ define(function (require) {
         },
 
         render: function () {
-
-            //TODO: replace with vis.js
             this.$el.empty();
-            this.collection.each(function (tableModel) {
-                this.$el.append(tableModel.get('name') + ' ');
-            }, this);
+
+            var settings = this.collection.generateVisModel(),
+                options = {};
+
+            this.network = new vis.Network(this.el, settings, options);
 
             return this;
         },

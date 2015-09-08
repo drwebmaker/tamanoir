@@ -94,20 +94,29 @@ define(function (require) {
             return conditions;
         },
 
-        getDataCanvasModel: function () {
+        generateVisModel: function () {
+            var self = this;
             var model = {
                 nodes: [],
                 edges: []
             };
-
-            this.each(function (item) {
-                model.nodes.push({id: item.get('name'), label: item.get('name')});
-                _.each(item.get('items'), function (column) {
-                    if (column.referenceTo) {
-                        model.edges.push({from: item.get('name'), to: item._getRelatedTableName(column)});
-                    }
+            var selected = self.getTables();
+            if(this.size() > 1) {
+                self.each(function(item) {
+                    model.nodes.push({id: item.get('name'), label: item.get('name')});
+                    _.each(item.get('items'), function(column) {
+                        if(column.referenceTo && _.contains(selected, item._getRelatedTableName(column))) {
+                            model.edges.push({from: item.get('name'), to: item._getRelatedTableName(column)});
+                        }
+                    });
                 });
-            });
+            } else {
+                self.each(function(item) {
+                    model.nodes.push({id: item.get('name'), label: item.get('name')});
+                    delete model.edges;
+                });
+            }
+
             return model;
         },
 
