@@ -6,6 +6,7 @@
 .connection-view .title {
     line-height: 30px;
     font-weight: bold;
+    cursor: move;
     color: white;
     padding-left: 20px;
     background-color: #007094;

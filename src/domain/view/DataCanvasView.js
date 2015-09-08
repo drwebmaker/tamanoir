@@ -19,7 +19,8 @@ define(function (require) {
         initialize: function (options) {
             this._subviews = [];
 
-            this.listenTo(Tamanoir, 'dragstart:sidebarTable', this.onSidebarTableDragStart);
+            this.listenTo(Tamanoir, 'dragstart:sidebarTable', this.onSidebarTableDragstart);
+            this.listenTo(Tamanoir, 'dragstart:sidebarConnection', this.onSidebarConnectionDragstart);
             this.listenTo(this.collection, 'update reset', this.render);
 
             this.render();
@@ -42,11 +43,22 @@ define(function (require) {
 
         onDrop: function (event) {
             console.log('drop:sidebarTable');
-            this.collection.add(this.draggedTableModel);
+            if (this.draggedTableModel) {
+                this.collection.add(this.draggedTableModel);
+            } else {
+                this.collection.add(this.draggedTablesCollection.models);
+            }
         },
 
-        onSidebarTableDragStart: function (tableModel) {
+        onSidebarTableDragstart: function (tableModel) {
             this.draggedTableModel = tableModel;
+            this.draggedCollection = null;
+        },
+
+        onSidebarConnectionDragstart: function (tablesCollection) {
+            console.log('dragstart:sidebarConnection');
+            this.draggedTablesCollection = tablesCollection;
+            this.draggedTableModel = null;
         },
 
         remove: function () {

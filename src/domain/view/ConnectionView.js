@@ -15,6 +15,7 @@ define(function (require) {
         className: 'connection-view',
         template: _.template(ConnectionViewTemplate),
         events: {
+            'dragstart .title': 'onConnectionDrag'
         },
 
         initialize: function () {
@@ -42,6 +43,11 @@ define(function (require) {
 
             this._subviews.push(tableView);
             this.$('ul').append(tableView.$el);
+        },
+
+        onConnectionDrag: function () {
+            console.log('dragstart:sidebarConnection');
+            Tamanoir.trigger('dragstart:sidebarConnection', this.tablesCollection);
         },
 
         onConnectionMetadataLoaded: function (connectionModel) {
