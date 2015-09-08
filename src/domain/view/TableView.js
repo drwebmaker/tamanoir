@@ -24,6 +24,8 @@ define(function (require) {
                 data: this.collection.toJSON()
             }));
 
+            this.onScroll();
+
             return this;
         },
         onTableHeaderClick: function (event) {

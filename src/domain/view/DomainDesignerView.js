@@ -67,7 +67,17 @@ define(function (require) {
         },
 
         buildQuery: function () {
-            console.log('build query');
+            var self = this,
+                query = this.tablesCollection.getQuery();
+
+            console.log('query:', query);
+
+            //TODO: provide way to work with multiple connections
+            //right now only one connection is supported
+            //limit for 100 record
+            this.model.connections.first().query(query + ' LIMIT 100').then(function (data) {
+                self.dataCollection.reset(data);
+            });
         },
 
         onProductTitleClick: function () {

@@ -109,7 +109,7 @@ define(function (require) {
             });
         });
 
-        describe('getConditions method', function () {
+        describe('getSelectedConditions method', function () {
             it('should return conditions for sql joins', function () {
                 var collection = new TablesCollection([
                     {
@@ -147,7 +147,7 @@ define(function (require) {
                     }
                 ]);
 
-                expect(collection.getConditions()).toEqual([]);
+                expect(collection.getSelectedConditions()).toEqual([]);
             });
         });
 
@@ -192,7 +192,7 @@ define(function (require) {
                 expect(collection.getQuery()).toEqual('SELECT users."user_id" FROM users');
             });
 
-            it('should return null when no columns selected', function () {
+            it('should return all data for each table when no columns selected', function () {
                 var collection = new TablesCollection([
                     {
                         name: 'users',
@@ -209,7 +209,7 @@ define(function (require) {
                     }
                 ]);
 
-                expect(collection.getQuery()).toEqual(null);
+                expect(collection.getQuery()).toEqual('SELECT users."user_id",store."store_sales",store."store_id",orders."order_id" FROM users,store,orders WHERE users."user_id" = store."user_id"');
             });
         });
     });

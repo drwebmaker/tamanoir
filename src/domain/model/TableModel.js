@@ -11,11 +11,7 @@ define(function (require) {
             name: undefined,
             label: undefined,
             items: undefined,
-            selected: undefined
-        },
-
-        getColumns: function () {
-            return this.get('items');
+            selected: []
         },
 
         getRelatedTableNames: function () {
