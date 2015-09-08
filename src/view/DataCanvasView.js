@@ -6,6 +6,7 @@ define(function (require) {
         $ = require('jquery'),
         _ = require('underscore'),
         jsPlumb = require('jsplumb'),
+        vis = require('vis'),
         DataCanvasItemModel = require('model/DataCanvasItemModel'),
         JoinTypeWidgetView = require('view/JoinTypeWidgetView'),
         DataCanvasViewTemplate = require('text!template/DataCanvasViewTemplate.html'),
@@ -29,16 +30,20 @@ define(function (require) {
             this.listenTo(Tamanoir, 'DataCanvasSuggestedItem:click', this.onSuggestedClick);
             this.listenTo(Tamanoir, 'onPlus:click', this.onPlusClick);
             this.listenTo(this.collection, 'remove', this.onRemove);
-            this.listenTo(this.collection, 'add', this.addItem);
+            this.listenTo(this.collection, 'add', this.render);
             this.listenTo(this.collection, 'reset', this.render);
         },
         render: function () {
             this.$el.html(this.template);
 
-            this.plumbInstance = jsPlumb.getInstance();
+            var data = this.collection.getDataCanvasModel();
+            var options = {};
+            var network = new vis.Network(this.el, data, options);
 
-            this.collection.each(this.resetMetadata, this);
-            this.collection.each(this.addItem, this);
+            //this.plumbInstance = jsPlumb.getInstance();
+
+            //this.collection.each(this.resetMetadata, this);
+            //this.collection.each(this.addItem, this);
 
             this.calculateHeight();
             return this;

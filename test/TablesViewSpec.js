@@ -20,7 +20,7 @@ define(function (require) {
             expect(createStub).toHaveBeenCalled();
         });
 
-        it('Should created new model', function() {
+        it('Should created new model with many items', function() {
             var metadata = [
                 {
                     "items": [
@@ -134,7 +134,7 @@ define(function (require) {
             ];
             var collection = new DataCanvasItemsCollection(metadata);
             var nodeEdges = {
-                node: [
+                nodes: [
                     {id: 'order_details', label: 'order_details'},
                     {id: 'orders', label: 'orders'},
                     {id: 'customers', label: 'customers'}
@@ -148,6 +148,42 @@ define(function (require) {
                 ]
             };
 
+
+            expect(collection.getDataCanvasModel()).toEqual(nodeEdges);
+        });
+
+        it('Should created new model with one item', function() {
+            var metadata = [
+                {
+                    "items": [
+                        {
+                            "referenceTo": "public.orders.OrderID",
+                            "name": "OrderID"
+                        },
+                        {
+                            "referenceTo": "public.products.ProductID",
+                            "name": "ProductID"
+                        },
+                        {
+                            "name": "UnitPrice"
+                        },
+                        {
+                            "name": "Quantity"
+                        },
+                        {
+                            "name": "Discount"
+                        }
+                    ],
+                    "name": "order_details"
+                }
+            ];
+            var collection = new DataCanvasItemsCollection(metadata);
+
+            var nodeEdges = {
+                nodes: [
+                    {id: 'order_details', label: 'order_details'}
+                ]
+            };
 
             expect(collection.getDataCanvasModel()).toEqual(nodeEdges);
         });
