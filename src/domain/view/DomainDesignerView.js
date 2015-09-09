@@ -20,7 +20,8 @@ define(function (require) {
         template: DomainDesignerViewTemplate,
         events: {
             'click .productTitle': 'onProductTitleClick',
-            'click .saveDomain': 'onSaveDomainClick'
+            'click .saveDomain': 'onSaveDomainClick',
+            'click .adHoc': 'onAdHocClick'
         },
 
         initialize: function (attrs, options) {
@@ -98,15 +99,17 @@ define(function (require) {
                     buttons: [{label: 'save', action: 'save'}]
                 }).render();
                 this.listenToOnce(dialogView, 'action:save', function () {
-                    var name = dialogView.$('input').val();
+                    var self = this,
+                        name = dialogView.$('input').val();
+
                     if (name) {
-                        var domain = this.domainsCollection.create({
+                        this.domainsCollection.add(this.model);
+                        this.model.save({
                             name: name,
                             tables: this.tablesCollection.toJSON(),
-                            connections: this.model.get('connections')
+                        }).done(function () {
+                            Tamanoir.navigate('domain/' + self.model.get('id'));
                         });
-
-                        Tamanoir.navigate('domain/' + domain.get('id'));
                     }
                 }.bind(this));
             } else {
@@ -115,6 +118,14 @@ define(function (require) {
                 }).done(function () {
                     DialogView.showMessage('Saved');
                 });
+            }
+        },
+
+        onAdHocClick: function () {
+            if (this.model.isNew()) {
+                DialogView.showMessage('Save your domain before create Ad Hoc')
+            } else {
+                Tamanoir.navigate('adhoc/' + this.model.get('id'), {trigger: true});
             }
         },
 
