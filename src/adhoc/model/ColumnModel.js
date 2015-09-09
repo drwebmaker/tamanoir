@@ -5,14 +5,8 @@ define(function (require) {
     var Backbone = require('backbone');
 
     return Backbone.Model.extend({
-        idAttribute: 'name',
         defaults: {
-            name: '',
-            label: '',
-            selected: false,
-            table: '',
-            groupAction: '',
-            type: ''
+            name: undefined
         }
     });
 });

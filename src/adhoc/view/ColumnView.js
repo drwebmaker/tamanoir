@@ -9,6 +9,10 @@ define(function (require) {
 
     return Backbone.View.extend({
 
+        tagName: 'li',
+        attributes: {
+            draggable: true
+        },
         template: _.template(ColumnViewTemplate),
         className: 'column-view',
 

@@ -6,6 +6,7 @@ define(function (require) {
         _ = require('underscore'),
         $ = require('jquery'),
         SidebarViewTemplate = require('text!adhoc/template/SidebarViewTemplate.html'),
+        ColumnModel = require('adhoc/model/ColumnModel'),
         ColumnView = require('adhoc/view/ColumnView');
 
     return Backbone.View.extend({
@@ -25,14 +26,32 @@ define(function (require) {
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
 
+            _.each(this.collection.getCategories(), this.addCategory, this);
+            _.each(this.collection.getNumbers(), this.addNumber, this);
+            _.each(this.collection.getDates(), this.addDate, this);
+
             return this;
         },
 
-        addColumn: function (columnModel) {
-            var columnView = new ColumnView({model: columnModel});
+        addCategory: function (name) {
+            var columnView = new ColumnView({model: new ColumnModel({name: name})});
 
-            this.$el.append(columnView.$el);
-            this._subviews.push(v);
+            this.$('ul.categories').append(columnView.$el);
+            this._subviews.push(columnView);
+        },
+
+        addNumber: function (name) {
+            var columnView = new ColumnView({model: new ColumnModel({name: name})});
+
+            this.$('ul.numbers').append(columnView.$el);
+            this._subviews.push(columnView);
+        },
+
+        addDate: function (name) {
+            var columnView = new ColumnView({model: new ColumnModel({name: name})});
+
+            this.$('ul.dates').append(columnView.$el);
+            this._subviews.push(columnView);
         },
 
         remove: function () {
