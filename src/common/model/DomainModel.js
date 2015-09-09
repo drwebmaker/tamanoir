@@ -8,13 +8,18 @@ define(function (require) {
     return Backbone.Model.extend({
         defaults: {
             name: undefined,
-            connections: undefined
+            connections: undefined,
+            tables: []
         },
 
         initialize: function (attrs, options) {
             options || (options = {});
 
-            this.connections = options.connections;
+            if (attrs.connections) {
+                this.connections = new ConnectionsCollection(attrs.connections);
+            } else {
+                this.connections = options.connections;
+            }
         },
 
         toJSON: function () {

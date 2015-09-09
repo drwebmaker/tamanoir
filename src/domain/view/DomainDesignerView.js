@@ -8,6 +8,7 @@ define(function (require) {
         DataCanvasView = require('domain/view/DataCanvasView'),
         DataCollection = require('domain/collection/DataCollection'),
         TablesCollection = require('domain/collection/TablesCollection'),
+        DomainsCollection = require('common/collection/DomainsCollection'),
         DialogView = require('common/view/DialogView'),
         SidebarView = require('domain/view/SidebarView'),
         TableView = require('domain/view/TableView'),
@@ -22,15 +23,20 @@ define(function (require) {
             'click .saveDomain': 'onSaveDomainClick'
         },
 
-        initialize: function () {
+        initialize: function (attrs, options) {
             this._subviews = [];
+            options || (options = {});
+
+            this.domainsCollection = options.domains;
 
             //TODO: should be placed inside domain model
             this.tablesCollection = new TablesCollection();
 
             this.dataCollection = new DataCollection();
 
-            this.listenTo(this.tablesCollection, 'change update', this.buildQuery);
+            this.listenTo(this.tablesCollection, 'change update reset', this.buildQuery);
+
+            this.tablesCollection.reset(this.model.get('tables'));
 
             this.render();
         },
@@ -71,6 +77,7 @@ define(function (require) {
                 query = this.tablesCollection.getQuery();
 
             console.log('query:', query);
+            if(!query) return;
 
             //TODO: provide way to work with multiple connections
             //right now only one connection is supported
@@ -94,23 +101,21 @@ define(function (require) {
                 this.listenToOnce(dialogView, 'action:save', function () {
                     var name = dialogView.$('input').val();
                     if (name) {
-                        this.model.save({
+                        var domain = this.domainsCollection.create({
                             name: name,
-                            connectionId: this.connectionModel.get('id'),
-                            data: this.dataCanvasItemsCollection.toJSON()
+                            tables: this.tablesCollection.toJSON()
                         }, {
-                            success: function (model) {
-                                Tamanoir.navigate('connection/' + model.get('connectionId') + '/' + model.get('id'));
-                            }.bind(this)
+                            connections: this.model.connections
                         });
+
+                        Tamanoir.navigate('domain/' + domain.get('id'));
                     }
-                    dialogView.remove();
                 }.bind(this));
             } else {
                 this.model.save({
-                    data: this.dataCanvasItemsCollection.toJSON()
+                    tables: this.tablesCollection.toJSON()
                 }).done(function () {
-                    Tamanoir.showMessage('Saved');
+                    DialogView.showMessage('Saved');
                 });
             }
         },

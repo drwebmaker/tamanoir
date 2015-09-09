@@ -16,6 +16,7 @@ define(function (require) {
         routes: {
             '(/)': 'navigateToHome',
             'domain/:entityId': 'navigateToDomainDesigner',
+            'adhoc/:domainId': 'navigateToAdHocDesigner',
             '*otherwise': 'navigateToHome'
         },
 
@@ -36,7 +37,9 @@ define(function (require) {
                 var domain = domainsCollection.get(entityId);
 
                 if (domain) {
-
+                    self.loadView(new DomainDesignerView({model: domain}, {
+                        domains: domainsCollection
+                    }));
                 } else {
                     //try to find connection by entityId
                     connectionsCollection.fetch().then(function () {
@@ -45,7 +48,9 @@ define(function (require) {
                         if (connection) {
                             self.loadView(new DomainDesignerView({model: new DomainModel({}, {
                                 connections: new ConnectionsCollection([connection])
-                            })}));
+                            })}, {
+                                domains: domainsCollection
+                            }));
                         } else {
                             throw "no domain or connection find";
                         }
