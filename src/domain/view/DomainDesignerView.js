@@ -25,9 +25,8 @@ define(function (require) {
 
         initialize: function (attrs, options) {
             this._subviews = [];
-            options || (options = {});
 
-            this.domainsCollection = options.domains;
+            this.domainsCollection = attrs.domains;
 
             //TODO: should be placed inside domain model
             this.tablesCollection = new TablesCollection();
@@ -103,9 +102,8 @@ define(function (require) {
                     if (name) {
                         var domain = this.domainsCollection.create({
                             name: name,
-                            tables: this.tablesCollection.toJSON()
-                        }, {
-                            connections: this.model.connections
+                            tables: this.tablesCollection.toJSON(),
+                            connections: this.model.get('connections')
                         });
 
                         Tamanoir.navigate('domain/' + domain.get('id'));

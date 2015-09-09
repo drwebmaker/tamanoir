@@ -37,7 +37,8 @@ define(function (require) {
                 var domain = domainsCollection.get(entityId);
 
                 if (domain) {
-                    self.loadView(new DomainDesignerView({model: domain}, {
+                    self.loadView(new DomainDesignerView({
+                        model: domain,
                         domains: domainsCollection
                     }));
                 } else {
@@ -46,9 +47,10 @@ define(function (require) {
                         var connection = connectionsCollection.get(entityId);
 
                         if (connection) {
-                            self.loadView(new DomainDesignerView({model: new DomainModel({}, {
-                                connections: new ConnectionsCollection([connection])
-                            })}, {
+                            self.loadView(new DomainDesignerView({
+                                model: new DomainModel({
+                                    connections: [connection.toJSON()]
+                                }),
                                 domains: domainsCollection
                             }));
                         } else {

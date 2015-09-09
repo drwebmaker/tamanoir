@@ -12,10 +12,6 @@ define(function (require) {
             type: ConnectionType.POSTGRES
         },
 
-        initialize: function (attrs, options) {
-            options || (options = {});
-        },
-
         fetchMetadata: function () {
             throw 'fetchMetadata method should be overwritten';
         },

@@ -8,26 +8,12 @@ define(function (require) {
     return Backbone.Model.extend({
         defaults: {
             name: undefined,
-            connections: undefined,
+            connections: [],
             tables: []
         },
 
-        initialize: function (attrs, options) {
-            options || (options = {});
-
-            if (attrs.connections) {
-                this.connections = new ConnectionsCollection(attrs.connections);
-            } else {
-                this.connections = options.connections;
-            }
-        },
-
-        toJSON: function () {
-            var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
-
-            json.connections = this.connections.toJSON();
-
-            return json;
+        initialize: function () {
+            this.connections = new ConnectionsCollection(this.get('connections'));
         }
     });
 });
