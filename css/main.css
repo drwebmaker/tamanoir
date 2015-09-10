@@ -24,3 +24,8 @@
 @import "domain/joinTypeWidget.css";
 @import "domain/tables.css";
 @import "domain/table.css";
+
+/*adhoc*/
+@import "adhoc/adhocDesigner.css";
+@import "adhoc/sidbar.css";
+@import "adhoc/column.css";

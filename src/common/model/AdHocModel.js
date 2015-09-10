@@ -3,17 +3,16 @@
  */
 define(function (require) {
     var Backbone = require('backbone'),
-        ConnectionsCollection = require('common/collection/ConnectionsCollection');
+        DomainModel = require('common/model/DomainModel');
 
     return Backbone.Model.extend({
         defaults: {
             name: undefined,
-            connections: [],
-            tables: []
+            domain: undefined
         },
 
         initialize: function () {
-            this.connections = new ConnectionsCollection(this.get('connections'));
+            this.domain = new DomainModel(this.get('domain'));
         }
     });
 });

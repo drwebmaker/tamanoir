@@ -21,19 +21,24 @@ define(function (require) {
         template: DomainDesignerViewTemplate,
         events: {
             'click .productTitle': 'onProductTitleClick',
-            'click .saveDomain': 'onSaveDomainClick'
+            'click .saveDomain': 'onSaveDomainClick',
+            'click .adHoc': 'onAdHocClick'
         },
 
-        initialize: function () {
+        initialize: function (attrs, options) {
             this._subviews = [];
+
+            this.domainsCollection = attrs.domains;
 
             //TODO: should be placed inside domain model
             this.tablesCollection = new TablesCollection();
 
             this.dataCollection = new DataCollection();
 
-            this.listenTo(this.tablesCollection, 'change update', this.buildQuery);
+            this.listenTo(this.tablesCollection, 'change update reset', this.buildQuery);
             //$(window).on('resize', _.debounce(_.bind(this.render, this), 500));
+
+            this.tablesCollection.reset(this.model.get('tables'));
 
             this.render();
         },
@@ -75,6 +80,7 @@ define(function (require) {
                 query = this.tablesCollection.getQuery();
 
             console.log('query:', query);
+            if(!query) return;
 
             //TODO: provide way to work with multiple connections
             //right now only one connection is supported
@@ -96,26 +102,33 @@ define(function (require) {
                     buttons: [{label: 'save', action: 'save'}]
                 }).render();
                 this.listenToOnce(dialogView, 'action:save', function () {
-                    var name = dialogView.$('input').val();
+                    var self = this,
+                        name = dialogView.$('input').val();
+
                     if (name) {
+                        this.domainsCollection.add(this.model);
                         this.model.save({
                             name: name,
-                            connectionId: this.connectionModel.get('id'),
-                            data: this.dataCanvasItemsCollection.toJSON()
-                        }, {
-                            success: function (model) {
-                                Tamanoir.navigate('connection/' + model.get('connectionId') + '/' + model.get('id'));
-                            }.bind(this)
+                            tables: this.tablesCollection.toJSON(),
+                        }).done(function () {
+                            Tamanoir.navigate('domain/' + self.model.get('id'));
                         });
                     }
-                    dialogView.remove();
                 }.bind(this));
             } else {
                 this.model.save({
-                    data: this.dataCanvasItemsCollection.toJSON()
+                    tables: this.tablesCollection.toJSON()
                 }).done(function () {
-                    Tamanoir.showMessage('Saved');
+                    DialogView.showMessage('Saved');
                 });
+            }
+        },
+
+        onAdHocClick: function () {
+            if (this.model.isNew()) {
+                DialogView.showMessage('Save your domain before create Ad Hoc')
+            } else {
+                Tamanoir.navigate('adhoc/' + this.model.get('id'), {trigger: true});
             }
         },
 

@@ -25,7 +25,7 @@ define(function (require) {
             this.listenTo(Tamanoir, 'dragstart:sidebarConnection', this.onSidebarConnectionDragstart);
             this.listenTo(this.collection, 'update reset', this.render);
 
-            this.render();
+            setTimeout(function () {this.render();}.bind(this), 100);//TODO: find solution how to remove this hook
         },
 
         render: function () {
