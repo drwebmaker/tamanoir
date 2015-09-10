@@ -9,6 +9,7 @@ define(function (require) {
         ConnectionView = require('domain/view/ConnectionView'),
         TableModel = require('domain/model/TableModel'),
         TablesCollection = require('domain/collection/TablesCollection'),
+        RightSidebarColumnsItemView = require('domain/view/RightSidebarColumnsItemView'),
         RightSidebarViewTemplate = require('text!domain/template/RightSidebarViewTemplate.html');
 
     return Backbone.View.extend({
@@ -20,16 +21,27 @@ define(function (require) {
 
         template: _.template(RightSidebarViewTemplate),
 
+        initialize: function() {
+            this._subview = [];
+        },
+
         render: function() {
-            //this.$el.empty();
-            this.$el.html(this.template(this.model.toJSON()));
+            var model = this.model.toJSON();
+            this.$el.html(this.template(model));
             this.$el.height($('.data-canvas-view').height() - 1);
             $('.right-sidebar-container').addClass('active');
+            this.addColumns(model);
             return this;
         },
 
         closeRightSidebar:function() {
             $('.right-sidebar-container').removeClass('active');
+        },
+
+        addColumns: function(items) {
+            var view = new RightSidebarColumnsItemView({ model: items });
+            this._subview.push(view);
+            this.$('.right-content').append(view.render().$el);
         }
     })
 });
