@@ -17,6 +17,8 @@ define(function (require) {
         },
         initialize: function () {
             this.listenTo(this.collection, 'reset', this.render);
+            $(window).on('resize', _.debounce(_.bind(this.render, this), 500));
+
             this.render();
         },
         render: function () {

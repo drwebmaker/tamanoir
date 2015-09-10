@@ -6,6 +6,8 @@ define(function (require) {
         $ = require('jquery'),
         _ = require('underscore'),
         vis = require('vis'),
+        RightSidebarView = require('domain/view/RightSidebarView'),
+        TableModel = require('domain/model/TableModel'),
         JoinTypeWidgetView = require('domain/view/JoinTypeWidgetView');
 
     return Backbone.View.extend({
@@ -22,6 +24,7 @@ define(function (require) {
             this.listenTo(Tamanoir, 'dragstart:sidebarTable', this.onSidebarTableDragstart);
             this.listenTo(Tamanoir, 'dragstart:sidebarConnection', this.onSidebarConnectionDragstart);
             this.listenTo(this.collection, 'update reset', this.render);
+            $(window).on('resize', _.debounce(_.bind(this.render, this), 500));
 
             setTimeout(function () {this.render();}.bind(this), 100);//TODO: find solution how to remove this hook
         },
@@ -33,8 +36,23 @@ define(function (require) {
                 options = {};
 
             this.network = new vis.Network(this.el, settings, options);
+            this.network.on('click', this.clickNode.bind(this));
+
+
+
+
 
             return this;
+        },
+
+        clickNode: function(param) {
+
+            var filteredCollection = this.collection.get(param.nodes[0]);
+
+            if(filteredCollection) {
+                var view = new RightSidebarView({model: filteredCollection});
+                $('.right-sidebar-container').html(view.render().$el);
+            }
         },
 
         onDragOver: function (event) {
