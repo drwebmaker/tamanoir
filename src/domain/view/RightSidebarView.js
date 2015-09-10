@@ -14,6 +14,10 @@ define(function (require) {
     return Backbone.View.extend({
         className: 'right-sidebar-view',
 
+        events: {
+            'click .remove-right-sidebar': 'closeRightSidebar'
+        },
+
         template: _.template(RightSidebarViewTemplate),
 
         render: function() {
@@ -22,6 +26,10 @@ define(function (require) {
             this.$el.height($('.data-canvas-view').height() - 1);
             $('.right-sidebar-container').addClass('active');
             return this;
+        },
+
+        closeRightSidebar:function() {
+            $('.right-sidebar-container').removeClass('active');
         }
     })
 });
