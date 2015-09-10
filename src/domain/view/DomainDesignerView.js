@@ -33,6 +33,7 @@ define(function (require) {
             this.dataCollection = new DataCollection();
 
             this.listenTo(this.tablesCollection, 'change update', this.buildQuery);
+            //$(window).on('resize', _.debounce(_.bind(this.render, this), 500));
 
             this.render();
         },

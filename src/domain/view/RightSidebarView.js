@@ -17,21 +17,11 @@ define(function (require) {
         template: _.template(RightSidebarViewTemplate),
 
         render: function() {
-            this.$el.empty();
+            //this.$el.empty();
             this.$el.html(this.template(this.model.toJSON()));
             this.$el.height($('.data-canvas-view').height() - 1);
             $('.right-sidebar-container').addClass('active');
             return this;
         }
-
-        //initialize: function () {
-        //    this.listenTo(Tamanoir, 'clickNode', this.render);
-        //}
-        //
-        //onNodeClick: function(param) {
-        //    console.log('clicked');
-        //    //console.log(param.nodes[0]);
-        //    console.log(this.model.toJSON());
-        //}
     })
 });
