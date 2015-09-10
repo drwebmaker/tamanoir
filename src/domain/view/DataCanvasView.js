@@ -47,17 +47,12 @@ define(function (require) {
 
         clickNode: function(param) {
 
-            var filteredCollection = this.collection.where({name: param.nodes[0]});
+            var filteredCollection = this.collection.get(param.nodes[0]);
 
-            var filteredModel = filteredCollection.filter(function(item) {
-                if(item.get('name') == param.nodes[0]) return true;
-            });
-            if(filteredModel.length > 0) {
-                var view = new RightSidebarView({model: filteredModel[0]});
+            if(filteredCollection) {
+                var view = new RightSidebarView({model: filteredCollection});
                 $('.right-sidebar-container').html(view.render().$el);
             }
-            // get model from this.collection with name which equal name from param
-            //render sidebar with this model
         },
 
         onDragOver: function (event) {

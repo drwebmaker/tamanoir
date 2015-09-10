@@ -11,9 +11,10 @@ define(function (require) {
             name: undefined,
             label: undefined,
             items: undefined,
-            selected: [],
-            idAttribute: 'name'
+            selected: []
         },
+
+        idAttribute: 'name',
 
         getRelatedTableNames: function () {
             return _.reduce(this.get('items'), function (memo, column) {
