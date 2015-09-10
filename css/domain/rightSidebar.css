@@ -19,3 +19,9 @@
     padding-left: 20px;
     background-color: #007094;
 }
+
+.remove-right-sidebar {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
