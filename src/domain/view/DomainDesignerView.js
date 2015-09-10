@@ -8,7 +8,6 @@ define(function (require) {
         DataCanvasView = require('domain/view/DataCanvasView'),
         DataCollection = require('domain/collection/DataCollection'),
         TablesCollection = require('domain/collection/TablesCollection'),
-        DomainsCollection = require('common/collection/DomainsCollection'),
         DialogView = require('common/view/DialogView'),
         SidebarView = require('domain/view/SidebarView'),
         RightSidebarView = require('domain/view/RightSidebarView'),
@@ -36,7 +35,8 @@ define(function (require) {
 
             this.dataCollection = new DataCollection();
 
-            this.listenTo(this.tablesCollection, 'change update reset', this.buildQuery);
+            this.listenTo(this.tablesCollection, 'change update', this.buildQuery);
+            //$(window).on('resize', _.debounce(_.bind(this.render, this), 500));
 
             this.tablesCollection.reset(this.model.get('tables'));
 

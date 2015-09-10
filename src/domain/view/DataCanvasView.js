@@ -24,7 +24,6 @@ define(function (require) {
             this.listenTo(Tamanoir, 'dragstart:sidebarTable', this.onSidebarTableDragstart);
             this.listenTo(Tamanoir, 'dragstart:sidebarConnection', this.onSidebarConnectionDragstart);
             this.listenTo(this.collection, 'update reset', this.render);
-            $(window).on('resize', _.debounce(_.bind(this.render, this), 500));
 
             setTimeout(function () {this.render();}.bind(this), 100);//TODO: find solution how to remove this hook
         },
@@ -37,11 +36,6 @@ define(function (require) {
 
             this.network = new vis.Network(this.el, settings, options);
             this.network.on('click', this.clickNode.bind(this));
-
-
-
-
-
             return this;
         },
 
