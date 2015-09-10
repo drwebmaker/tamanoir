@@ -35,7 +35,7 @@ define(function (require) {
 
             this.dataCollection = new DataCollection();
 
-            this.listenTo(this.tablesCollection, 'change update', this.buildQuery);
+            this.listenTo(this.tablesCollection, 'change update reset', this.buildQuery);
             //$(window).on('resize', _.debounce(_.bind(this.render, this), 500));
 
             this.tablesCollection.reset(this.model.get('tables'));
