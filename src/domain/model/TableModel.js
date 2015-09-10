@@ -11,7 +11,8 @@ define(function (require) {
             name: undefined,
             label: undefined,
             items: undefined,
-            selected: []
+            selected: [],
+            idAttribute: 'name'
         },
 
         getRelatedTableNames: function () {

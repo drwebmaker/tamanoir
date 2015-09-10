@@ -1,0 +1,21 @@
+.right-sidebar-container {
+    position: absolute;
+    right: -35%;
+    top: 40px;
+    width: 35%;
+    border: 1px solid #007094;
+    background: #fff;
+    -webkit-transition: right 1s; /* Safari */
+    transition: right 1s;
+}
+.right-sidebar-container.active {
+    right: 0;
+}
+
+.right-sidebar-view .title {
+    line-height: 30px;
+    font-weight: bold;
+    color: white;
+    padding-left: 20px;
+    background-color: #007094;
+}

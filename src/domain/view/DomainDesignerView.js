@@ -10,7 +10,9 @@ define(function (require) {
         TablesCollection = require('domain/collection/TablesCollection'),
         DialogView = require('common/view/DialogView'),
         SidebarView = require('domain/view/SidebarView'),
+        RightSidebarView = require('domain/view/RightSidebarView'),
         TableView = require('domain/view/TableView'),
+        TableModel = require('domain/model/TableModel'),
         DomainDesignerViewTemplate = require('text!domain/template/DomainDesignerViewTemplate.html');
 
     return Backbone.View.extend({
@@ -39,6 +41,7 @@ define(function (require) {
             this.$el.html(this.template);
 
             this.sidebarView = new SidebarView({collection: this.model.connections});
+
             this.dataCanvasView = new DataCanvasView({collection: this.tablesCollection});
             this.tableView = new TableView({collection: this.dataCollection});
 
