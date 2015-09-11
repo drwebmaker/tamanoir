@@ -15,14 +15,23 @@ module.exports = function (grunt) {
         },
 
         requirejs: {
-            compile: {
+            compileJS: {
                 options: {
                     baseUrl: 'src',
-                    mainConfigFile: 'src/require.config.js',
-                    name: 'bower_components/almond/almond',
-                    insertRequire: ['main'],
                     include: ['main'],
-                    out: 'build/app.js'
+                    includeRequire: ['main'],
+                    mainConfigFile: 'src/require.config.js',
+                    wrap: true,
+                    name: 'bower_components/almond/almond',
+                    out: 'build/main.js',
+                    optimize: 'none'
+                }
+            },
+            compileCSS: {
+                options: {
+                    optimizeCss: 'standard',
+                    cssIn: 'css/main.css',
+                    out: 'build/main.css'
                 }
             }
         }
