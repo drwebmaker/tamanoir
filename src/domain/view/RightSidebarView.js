@@ -6,9 +6,6 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        ConnectionView = require('domain/view/ConnectionView'),
-        TableModel = require('domain/model/TableModel'),
-        TablesCollection = require('domain/collection/TablesCollection'),
         RightSidebarColumnsView = require('domain/view/RightSidebarColumnsView'),
         RightSidebarViewTemplate = require('text!domain/template/RightSidebarViewTemplate.html');
 
@@ -30,10 +27,10 @@ define(function (require) {
             var view = new RightSidebarColumnsView({model: this.model});
 
             this._subview.push(view);
-            this.$('.right-content').append(view.render().$el);
+            this.$('.columns-container').html(view.render().$el);
 
-            this.$el.height($('.data-canvas-view').height() - 1);
-            this.$('.right-content').height(this.$el.height() - $('.title').height());
+            this.calculateHeight();
+
             $('.right-sidebar-container').addClass('active');
 
             return this;
@@ -41,6 +38,11 @@ define(function (require) {
 
         closeRightSidebar:function() {
             $('.right-sidebar-container').removeClass('active');
+        },
+
+        calculateHeight: function() {
+            this.$el.height($('.data-canvas-view').height() - 1);
+            this.$('.columns-container').height(this.$el.height() - $('.title').height());
         }
     })
 });

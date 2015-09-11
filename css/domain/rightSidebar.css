@@ -26,12 +26,9 @@
     cursor: pointer;
 }
 
-.right-content {
+.columns-container {
     overflow-y: auto;
 }
-
-
-
 
 input[type="checkbox"] {
     display:none;

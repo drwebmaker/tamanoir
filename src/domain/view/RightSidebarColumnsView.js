@@ -6,9 +6,6 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        ConnectionView = require('domain/view/ConnectionView'),
-        TableModel = require('domain/model/TableModel'),
-        TablesCollection = require('domain/collection/TablesCollection'),
         RightSidebarColumnsItemView = require('domain/view/RightSidebarColumnsItemView');
 
     return Backbone.View.extend({
@@ -36,8 +33,8 @@ define(function (require) {
 
         onCheckboxChange: function(model) {
             var selected = this.model.get('selected');
-            if(model.get('clicked') !== undefined) {
-                selected = selected.concat(model.get('clicked'));
+            if(model.get('clicked')) {
+                selected = selected.concat(model.get('name'));
             } else {
                 selected = _.without(selected, model.get('name'));
             }

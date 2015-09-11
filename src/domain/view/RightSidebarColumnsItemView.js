@@ -5,14 +5,10 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        ConnectionView = require('domain/view/ConnectionView'),
-        TableModel = require('domain/model/TableModel'),
-        TablesCollection = require('domain/collection/TablesCollection'),
         RightSidebarColumnsItemViewTemplate = require('text!domain/template/RightSidebarColumnsItemViewTemplate.html');
 
     return Backbone.View.extend({
         tagName: "li",
-        className: "",
         template: _.template(RightSidebarColumnsItemViewTemplate),
 
         events: {
@@ -28,11 +24,10 @@ define(function (require) {
             return this;
         },
         onCheckboxChange: function(event) {
-            var selected = this.model.get('name');
             if(this.$('input[type="checkbox"]').prop('checked')) {
-                this.model.set('clicked', selected);
+                this.model.set('clicked', true);
             } else {
-                this.model.unset('clicked', selected);
+                this.model.set('clicked', false);
             }
         }
 
