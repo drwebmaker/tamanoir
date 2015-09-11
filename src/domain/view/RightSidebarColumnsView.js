@@ -33,7 +33,7 @@ define(function (require) {
 
         onCheckboxChange: function(model) {
             var selected = this.model.get('selected');
-            if(model.get('clicked')) {
+            if(model.get('checked')) {
                 selected = selected.concat(model.get('name'));
             } else {
                 selected = _.without(selected, model.get('name'));

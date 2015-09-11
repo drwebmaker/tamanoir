@@ -25,9 +25,9 @@ define(function (require) {
         },
         onCheckboxChange: function(event) {
             if(this.$('input[type="checkbox"]').prop('checked')) {
-                this.model.set('clicked', true);
+                this.model.set('checked', true);
             } else {
-                this.model.set('clicked', false);
+                this.model.set('checked', false);
             }
         }
 
