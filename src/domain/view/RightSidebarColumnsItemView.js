@@ -1,7 +1,6 @@
 /**
- * Created by valeriy.abornyev on 9/10/2015.
+ * Created by valeriy.abornyev on 9/11/2015.
  */
-
 define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
@@ -12,21 +11,30 @@ define(function (require) {
         RightSidebarColumnsItemViewTemplate = require('text!domain/template/RightSidebarColumnsItemViewTemplate.html');
 
     return Backbone.View.extend({
-        tagName: "ul",
+        tagName: "li",
         className: "",
         template: _.template(RightSidebarColumnsItemViewTemplate),
 
-        initialize: function(){
-            this.listenTo(this.model, 'change', this.render);
+        events: {
+            'change input[type="checkbox"]': 'onCheckboxChange'
+        },
+
+        initialize: function() {
+            this.render();
         },
 
         render: function() {
-            var self = this;
-            var obj = this.model.items;
-            obj.forEach(function(item) {
-                self.$el.append(self.template(item));
-            });
+            this.$el.html(this.template(this.model.toJSON()));
             return this;
+        },
+        onCheckboxChange: function(event) {
+            var selected = this.model.get('name');
+            if(this.$('input[type="checkbox"]').prop('checked')) {
+                this.model.set('clicked', selected);
+            } else {
+                this.model.unset('clicked', selected);
+            }
         }
-    });
+
+    })
 });

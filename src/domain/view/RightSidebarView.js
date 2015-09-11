@@ -9,7 +9,7 @@ define(function (require) {
         ConnectionView = require('domain/view/ConnectionView'),
         TableModel = require('domain/model/TableModel'),
         TablesCollection = require('domain/collection/TablesCollection'),
-        RightSidebarColumnsItemView = require('domain/view/RightSidebarColumnsItemView'),
+        RightSidebarColumnsView = require('domain/view/RightSidebarColumnsView'),
         RightSidebarViewTemplate = require('text!domain/template/RightSidebarViewTemplate.html');
 
     return Backbone.View.extend({
@@ -26,22 +26,22 @@ define(function (require) {
         },
 
         render: function() {
-            var model = this.model.toJSON();
-            this.$el.html(this.template(model));
+            this.$el.html(this.template(this.model.toJSON()));
+            var view = new RightSidebarColumnsView({model: this.model});
+
+            this._subview.push(view);
+            this.$('.right-content').append(view.render().$el);
+
             this.$el.height($('.data-canvas-view').height() - 1);
+            this.$('.right-content').height(this.$el.height() - $('.title').height());
             $('.right-sidebar-container').addClass('active');
-            this.addColumns(model);
+
             return this;
         },
 
         closeRightSidebar:function() {
             $('.right-sidebar-container').removeClass('active');
-        },
-
-        addColumns: function(items) {
-            var view = new RightSidebarColumnsItemView({ model: items });
-            this._subview.push(view);
-            this.$('.right-content').append(view.render().$el);
         }
     })
 });
+

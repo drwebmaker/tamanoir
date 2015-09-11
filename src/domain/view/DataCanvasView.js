@@ -41,10 +41,10 @@ define(function (require) {
 
         clickNode: function(param) {
 
-            var filteredCollection = this.collection.get(param.nodes[0]);
+            var model = this.collection.get(param.nodes[0]);
 
-            if(filteredCollection) {
-                var view = new RightSidebarView({model: filteredCollection});
+            if(model) {
+                var view = new RightSidebarView({model: model});
                 $('.right-sidebar-container').html(view.render().$el);
             }
         },
