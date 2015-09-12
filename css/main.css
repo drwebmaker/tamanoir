@@ -29,3 +29,5 @@
 @import "adhoc/adhocDesigner.css";
 @import "adhoc/sidbar.css";
 @import "adhoc/column.css";
+@import "adhoc/chart.css";
+@import "adhoc/chartDropZone.css";

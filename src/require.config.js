@@ -10,6 +10,7 @@ require.config({
         vis: 'patched/vis',
         lodash: 'bower_components/lodash/lodash',
         underscore: 'patched/underscore',
+        highcharts: 'bower_components/highcharts/highcharts',
         'underscore.string': 'bower_components/underscore.string/dist/underscore.string',
         text: 'bower_components/requirejs-text/text',
         css: 'bower_components/require-css/css'

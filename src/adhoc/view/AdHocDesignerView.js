@@ -11,6 +11,7 @@ define(function (require) {
         SidebarView = require('adhoc/view/SidebarView'),
         DialogView = require('common/view/DialogView'),
         TableView = require('domain/view/TableView'),
+        ChartView = require('adhoc/view/ChartView'),
         AdHocDesignerViewTemplate = require('text!adhoc/template/AdHocDesignerViewTemplate.html');
 
     return Backbone.View.extend({
@@ -42,7 +43,7 @@ define(function (require) {
 
             this.tableView = new TableView({collection: this.dataCollection});
             this.sidebarView = new SidebarView({model: this.model, collection: this.tablesCollection});
-            this.chartView = new Backbone.View();
+            this.chartView = new ChartView();
 
             this.$('.sidebar-container').html(this.sidebarView.$el);
             this.$('.chart-container').html(this.chartView.$el);

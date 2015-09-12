@@ -1,0 +1,29 @@
+.chart-drop-zone-view {
+    position: absolute;
+}
+.chart-drop-zone-view .y-zone {
+    height: 200px;
+    width: 50px;
+    box-shadow: 5px 5px 20px black;
+    float: left;
+    background-color: #1cc7ff;
+}
+.chart-drop-zone-view .center-zone {
+    height: 200px;
+    width: 300px;
+    background: transparent;
+    float: left;
+}
+.chart-drop-zone-view .zero-zone {
+    height: 50px;
+    width: 50px;
+    float: left;
+    background: transparent;
+}
+.chart-drop-zone-view .x-zone {
+    height: 50px;
+    width: 300px;
+    float: left;
+    box-shadow: 5px 5px 20px black;
+    background-color: #00d6b2;
+}

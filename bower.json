@@ -24,6 +24,7 @@
     "backbone.localStorage": "~1.1.16",
     "foundation": "~5.5.2",
     "foundation-icons": "*",
+    "highcharts": "~4.1.8",
     "jquery": "~2.1.4",
     "lodash": "~3.10.1",
     "require-css": "~0.1.8",
