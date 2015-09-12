@@ -13,6 +13,8 @@ define(function (require) {
         initialize: function () {
             this.chartDropZoneView = new ChartDropZoneView();
 
+            this.showDropZone = _.debounce(this.showDropZone, 1000, true);
+
             this.listenTo(this.chartDropZoneView, 'dropX', this.onDropX);
             this.listenTo(this.chartDropZoneView, 'dropY', this.onDropY);
 
@@ -49,6 +51,8 @@ define(function (require) {
         },
 
         showDropZone: function () {
+            console.log('showDropZone');
+
             this.chartDropZoneView.$el.show();
             this.chartDropZoneView.$el.css({
                 top: (this.$el.height() / 2) - (this.chartDropZoneView.$el.height() / 2),
@@ -60,12 +64,9 @@ define(function (require) {
             console.log('hideDropZone');
             this.chartDropZoneView.$el.hide();
         },
-
         onDragover: function () {
-            console.log('dragover');
             clearTimeout(this.timeout);
             this.timeout = setTimeout(_.bind(this.hideDropZone, this), 200);
-            //TODO: find solution how to decrise showDropZone method calls
             this.showDropZone();
         },
         onDropX: function () {
