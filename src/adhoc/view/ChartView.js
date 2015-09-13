@@ -54,9 +54,11 @@ define(function (require) {
             console.log('showDropZone');
 
             this.chartDropZoneView.$el.show();
-            this.chartDropZoneView.$el.css({
-                top: (this.$el.height() / 2) - (this.chartDropZoneView.$el.height() / 2),
-                left: (this.$el.width() / 2) - (this.chartDropZoneView.$el.width() / 2)
+            this.chartDropZoneView.$('.y-zone, .center-zone').css({
+                height: this.$el.height() - 70
+            });
+            this.chartDropZoneView.$('.x-zone, .center-zone').css({
+                width: this.$el.width() - 70
             });
         },
 

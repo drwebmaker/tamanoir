@@ -1,15 +1,15 @@
 .chart-drop-zone-view {
     position: absolute;
+    top: 10px;
+    left: 10px;
 }
 .chart-drop-zone-view .y-zone {
-    height: 200px;
     width: 50px;
-    box-shadow: 5px 5px 20px black;
+    box-shadow: 5px 5px 20px gray;
     float: left;
     background-color: #1cc7ff;
 }
 .chart-drop-zone-view .center-zone {
-    height: 200px;
     width: 300px;
     background: transparent;
     float: left;
@@ -22,8 +22,7 @@
 }
 .chart-drop-zone-view .x-zone {
     height: 50px;
-    width: 300px;
     float: left;
-    box-shadow: 5px 5px 20px black;
+    box-shadow: 5px 5px 20px gray;
     background-color: #00d6b2;
 }
