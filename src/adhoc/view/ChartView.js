@@ -30,12 +30,12 @@ define(function (require) {
             var self = this;
 
             setTimeout(function () {
-                self.$('.highcharts-container').height(self.$el.height());
+                self.$('#chart-container').height(self.$el.height());
             }, 100);
         },
 
         renderChart: function (options) {
-            this.$('.highcharts-container').highcharts(options);
+            this.$('#chart-container').highcharts(options);
         },
 
         showDropZone: function () {
