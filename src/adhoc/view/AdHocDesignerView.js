@@ -32,6 +32,10 @@ define(function (require) {
             this.dataCollection = new DataCollection();
 
             this.listenTo(this.tablesCollection, 'change update reset', this.buildQuery);
+            this.listenTo(Tamanoir, 'sidebar:column:dragstart', this.onDragstart);
+            this.listenTo(Tamanoir, 'table:header:dragstart', this.onTableHeaderDragstart);
+            this.listenTo(Tamanoir, 'dropzone:x:drop', this.onDropX);
+            this.listenTo(Tamanoir, 'dropzone:y:drop', this.onDropY);
 
             this.tablesCollection.reset(this.model.get('domain').tables);
 
@@ -82,6 +86,25 @@ define(function (require) {
             this.domain.connections.first().query(query + ' LIMIT 100').then(function (data) {
                 self.dataCollection.reset(data);
             });
+        },
+
+        onDropX: function () {
+            console.log('dropzone:x:drop');
+            this.chartView.renderChart();
+        },
+
+        onDropY: function () {
+            console.log('dropzone:y:drop');
+        },
+
+        onDragstart: function (columnModel) {
+            console.log('sidebar:column:dragstart', columnModel);
+            this.draggedColumnName = columnModel.get('name');
+        },
+
+        onTableHeaderDragstart: function (headerName) {
+            console.log('table:header:dragstart', headerName);
+            this.draggedColumnName = headerName;
         },
 
         onProductTitleClick: function () {

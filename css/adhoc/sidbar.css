@@ -14,7 +14,8 @@
 
 .adhoc-view .sidebar-view .subtitle {
     line-height: 20px;
+    font-weight: bold;
     color: white;
     padding-left: 20px;
-    background-color: #049bdf;
+    background-color: #007094;
 }

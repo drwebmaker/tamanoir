@@ -17,10 +17,15 @@ define(function (require) {
         className: 'column-view',
 
         events: {
+            'dragstart': 'onDragstart'
         },
 
         initialize: function () {
             this.render();
+        },
+
+        onDragstart: function () {
+            Tamanoir.trigger('sidebar:column:dragstart', this.model);
         },
 
         render: function () {

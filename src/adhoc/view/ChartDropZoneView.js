@@ -26,10 +26,10 @@ define(function (require) {
             event.preventDefault();
         },
         onDropX: function () {
-            this.trigger('dropX');
+            Tamanoir.trigger('dropzone:x:drop');
         },
         onDropY: function () {
-            this.trigger('dropY');
+            Tamanoir.trigger('dropzone:y:drop');
         }
     });
 });
