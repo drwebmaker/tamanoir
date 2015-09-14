@@ -8,7 +8,8 @@ define(function (require) {
     return Backbone.Model.extend({
         defaults: {
             name: undefined,
-            domain: undefined
+            domain: undefined,
+            chart: undefined
         },
 
         initialize: function () {

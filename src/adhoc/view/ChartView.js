@@ -2,10 +2,12 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         highcharts = require('highcharts'),
+        ChartViewTemplate = require('text!adhoc/template/ChartViewTemplate.html'),
         ChartDropZoneView = require('adhoc/view/ChartDropZoneView');
 
     return Backbone.View.extend({
         className: 'chart-view',
+        template: ChartViewTemplate,
         events: {
             'dragover': 'onDragover'
         },
@@ -15,67 +17,42 @@ define(function (require) {
 
             this.showDropZone = _.debounce(this.showDropZone, 1000, true);
 
-            this.listenTo(this.chartDropZoneView, 'dropX', this.onDropX);
-            this.listenTo(this.chartDropZoneView, 'dropY', this.onDropY);
-
             this.render();
         },
         render: function () {
-            this.$el.append(this.chartDropZoneView.$el);
+            this.$el.html(this.template);
+            this.$('.dropzone-container').html(this.chartDropZoneView.$el);
             this.hideDropZone();
+            this.calculateHeight();
         },
-        renderChart: function () {
-            this.$el.highcharts({
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'Fruit Consumption'
-                },
-                xAxis: {
-                    categories: ['Apples', 'Bananas', 'Oranges']
-                },
-                yAxis: {
-                    title: {
-                        text: 'Fruit eaten'
-                    }
-                },
-                series: [{
-                    name: 'Jane',
-                    data: [1, 0, 4]
-                }, {
-                    name: 'John',
-                    data: [5, 7, 3]
-                }]
-            });
+
+        calculateHeight: function () {
+            var self = this;
+
+            setTimeout(function () {
+                self.$('.highcharts-container').height(self.$el.height());
+            }, 100);
+        },
+
+        renderChart: function (options) {
+            this.$('.highcharts-container').highcharts(options);
         },
 
         showDropZone: function () {
-            console.log('showDropZone');
-
             this.chartDropZoneView.$el.show();
-            this.chartDropZoneView.$('.y-zone, .center-zone').css({
-                height: this.$el.height() - 70
-            });
-            this.chartDropZoneView.$('.x-zone, .center-zone').css({
-                width: this.$el.width() - 70
+            this.chartDropZoneView.$el.css({
+                top: (this.$el.height() / 2) - (this.chartDropZoneView.$el.height() / 2),
+                left: (this.$el.width() / 2) - (this.chartDropZoneView.$el.width() / 2)
             });
         },
 
         hideDropZone: function () {
-            console.log('hideDropZone');
             this.chartDropZoneView.$el.hide();
         },
         onDragover: function () {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(_.bind(this.hideDropZone, this), 200);
             this.showDropZone();
-        },
-        onDropX: function () {
-            console.log('dropX');
-        },
-        onDropY: function () {
-            console.log('dropY');
         }
     });
 });
