@@ -1,7 +1,7 @@
 define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
-        highcharts = require('highcharts'),
+        Highcharts = require('highcharts'),
         ChartViewTemplate = require('text!adhoc/template/ChartViewTemplate.html'),
         ChartDropZoneView = require('adhoc/view/ChartDropZoneView');
 
@@ -22,8 +22,20 @@ define(function (require) {
         render: function () {
             this.$el.html(this.template);
             this.$('.dropzone-container').html(this.chartDropZoneView.$el);
+
             this.hideDropZone();
             this.calculateHeight();
+        },
+
+        initChart: function () {
+            this.chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'chart-container'
+                },
+                title: {
+                    text: this.model.get('name') || this.model.get('domain').name
+                }
+            });
         },
 
         calculateHeight: function () {
@@ -31,11 +43,8 @@ define(function (require) {
 
             setTimeout(function () {
                 self.$('#chart-container').height(self.$el.height());
+                self.initChart();
             }, 100);
-        },
-
-        renderChart: function (options) {
-            this.$('#chart-container').highcharts(options);
         },
 
         showDropZone: function () {

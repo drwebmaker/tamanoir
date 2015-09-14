@@ -11,7 +11,7 @@ define(function (require) {
 
     return Backbone.View.extend({
 
-        template: _.template(SidebarViewTemplate),
+        template: SidebarViewTemplate,
         className: 'sidebar-view',
 
         events: {
@@ -24,7 +24,7 @@ define(function (require) {
         },
 
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template);
 
             _.each(this.collection.getCategories(), this.addCategory, this);
             _.each(this.collection.getNumbers(), this.addNumber, this);

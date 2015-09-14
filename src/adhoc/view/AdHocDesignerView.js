@@ -29,9 +29,8 @@ define(function (require) {
             this.series = [];
 
             this.domain = new DomainModel(this.model.get('domain'));
-            //TODO: should be placed inside domain model
-            this.tablesCollection = new TablesCollection();
 
+            this.tablesCollection = new TablesCollection();
             this.dataCollection = new DataCollection();
 
             this.listenTo(this.tablesCollection, 'change update reset', this.buildQuery);
@@ -50,7 +49,7 @@ define(function (require) {
 
             this.tableView = new TableView({collection: this.dataCollection});
             this.sidebarView = new SidebarView({model: this.model, collection: this.tablesCollection});
-            this.chartView = new ChartView();
+            this.chartView = new ChartView({model: this.model});
 
             this.$('.sidebar-container').html(this.sidebarView.$el);
             this.$('.chart-container').html(this.chartView.$el);
@@ -98,13 +97,10 @@ define(function (require) {
 
         onDropY: function () {
             console.log('dropzone:y:drop');
-            this.series.push({
+
+            this.chartView.chart.addSeries({
                 name: this.draggedColumnName,
                 data: this.dataCollection.getNumberDataByName(this.draggedColumnName)
-            });
-
-            this.chartView.renderChart({
-                series: this.series
             });
         },
 
