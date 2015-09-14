@@ -1,2 +1,2 @@
-<input type="checkbox" id="{{- name }}" name="{{- name }}"/>
+<input type="checkbox" id="{{- name }}" name="{{- name }}" {{= (checked == true) ? 'checked' : '' }}/>
 <label for="{{- name }}"><span><i class="foundicon-checkmark"></i></span>{{- name }}</label>
