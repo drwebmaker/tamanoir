@@ -25,6 +25,9 @@ define(function (require) {
         initialize: function () {
             this._subviews = [];
 
+            //TODO: should be placed in model.
+            this.series = [];
+
             this.domain = new DomainModel(this.model.get('domain'));
             //TODO: should be placed inside domain model
             this.tablesCollection = new TablesCollection();
@@ -95,6 +98,14 @@ define(function (require) {
 
         onDropY: function () {
             console.log('dropzone:y:drop');
+            this.series.push({
+                name: this.draggedColumnName,
+                data: this.dataCollection.getNumberDataByName(this.draggedColumnName)
+            });
+
+            this.chartView.renderChart({
+                series: this.series
+            });
         },
 
         onDragstart: function (columnModel) {

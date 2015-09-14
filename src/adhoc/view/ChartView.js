@@ -34,29 +34,8 @@ define(function (require) {
             }, 100);
         },
 
-        renderChart: function () {
-            this.$('.highcharts-container').highcharts({
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'Fruit Consumption'
-                },
-                xAxis: {
-                    categories: ['Apples', 'Bananas', 'Oranges']
-                },
-                yAxis: {
-                    title: {
-                        text: 'Fruit eaten'
-                    }
-                },
-                series: [{
-                    data: [1, 0, 4]
-                }, {
-                    name: 'John',
-                    data: [5, 7, 3]
-                }]
-            });
+        renderChart: function (options) {
+            this.$('.highcharts-container').highcharts(options);
         },
 
         showDropZone: function () {
