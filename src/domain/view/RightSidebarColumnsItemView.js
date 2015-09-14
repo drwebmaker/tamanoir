@@ -5,7 +5,6 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        ColumnModel = require('domain/model/ColumnModel'),
         RightSidebarColumnsItemViewTemplate = require('text!domain/template/RightSidebarColumnsItemViewTemplate.html');
 
     return Backbone.View.extend({

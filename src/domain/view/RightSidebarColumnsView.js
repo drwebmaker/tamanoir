@@ -43,6 +43,11 @@ define(function (require) {
                 selected = _.without(selected, model.get('name'));
             }
             this.model.set('selected', selected);
+        },
+
+        remove: function () {
+            _.invoke(this._subviews, 'remove');
+            Backbone.View.prototype.remove.call(this);
         }
     });
 });
