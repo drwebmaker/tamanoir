@@ -14,6 +14,10 @@ define(function (require) {
         AdHocDesignerView = require('adhoc/view/AdHocDesignerView'),
         DomainDesignerView = require('domain/view/DomainDesignerView');
 
+    /**
+     * @class common.router.MainRouter
+     * Application main router
+     */
     return Backbone.Router.extend({
 
         routes: {

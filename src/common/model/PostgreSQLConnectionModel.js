@@ -1,23 +1,52 @@
 /**
  * Created by Artem.Malieiev on 7/9/2015.
  */
+
+
 define(function (require) {
     var ConnectionModel = require('common/model/ConnectionModel'),
         _ = require('underscore'),
         $ = require('jquery'),
         tamanoirConfig = require('tamanoir.config');
 
+    /**
+     * @class common.model.PostgreSQLConnectionModel
+     * @extends common.model.ConnectionModel
+     * Postgres connection model
+     */
     return ConnectionModel.extend({
 
         defaults: _.extend({}, ConnectionModel.prototype.defaults, {
+            /**
+             * database url
+             */
             url: undefined,
+            /**
+             * database name
+             */
             database: undefined,
+            /**
+             * server url
+             */
             server: undefined,
+            /**
+             * database port
+             */
             port: undefined,
+            /**
+             * database user name
+             */
             user: undefined,
+            /**
+             * database user password
+             */
             password: undefined
         }),
 
+        /**
+         * Fetches metadata for postgres connection
+         * @returns {Object} metadata
+         */
         fetchMetadata: function () {
             var deferred = $.Deferred(),
                 self = this;
@@ -45,6 +74,11 @@ define(function (require) {
             return deferred;
         },
 
+        /**
+         * Executes sql query for postgres connection
+         * @param {String} query
+         * @returns {Array}
+         */
         query: function (query) {
             return Backbone.ajax({
                 url: tamanoirConfig.serverUrl + '/rest/connections',

@@ -14,8 +14,15 @@ define(function (require) {
         ChartView = require('adhoc/view/ChartView'),
         AdHocDesignerViewTemplate = require('text!adhoc/template/AdHocDesignerViewTemplate.html');
 
+    /**
+     * @class adhoc.view.AdHocDesignerView
+     * Top level view for adhoc designer
+     */
     return Backbone.View.extend({
 
+        /**
+         * @property {String} className
+         */
         className: 'adhoc-view',
         template: AdHocDesignerViewTemplate,
         events: {
