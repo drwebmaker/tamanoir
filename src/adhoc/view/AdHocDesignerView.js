@@ -26,7 +26,8 @@ define(function (require) {
         className: 'adhoc-view',
         template: AdHocDesignerViewTemplate,
         events: {
-            'click .productTitle': 'onProductTitleClick'
+            'click .productTitle': 'onProductTitleClick',
+            'click .eiditDomain': 'onEditDomainClick'
         },
 
         initialize: function () {
@@ -123,6 +124,10 @@ define(function (require) {
 
         onProductTitleClick: function () {
             Tamanoir.navigate('/', {trigger: true});
+        },
+
+        onEditDomainClick: function () {
+            Tamanoir.navigate('/domain/' + this.model.get('domain').id, {trigger: true});
         },
 
         remove: function () {
