@@ -29,6 +29,11 @@ define(function (require) {
             this._subviews = [];
 
             this.domainsCollection = attrs.domains;
+            this.connection = attrs.connection;
+
+            this.connection.fetchMetadata().then(function(metadata) {
+                this.tablesCollection.reset(metadata);
+            }.bind(this));
 
             //TODO: should be placed inside domain model
             this.tablesCollection = new TablesCollection();

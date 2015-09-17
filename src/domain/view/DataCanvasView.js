@@ -56,6 +56,7 @@ define(function (require) {
         onDrop: function (event) {
             console.log('drop:sidebarTable');
             if (this.draggedTableModel) {
+                this.draggedTableModel.set('dragged', true);
                 this.collection.add(this.draggedTableModel);
             } else {
                 this.collection.add(this.draggedTablesCollection.models);
