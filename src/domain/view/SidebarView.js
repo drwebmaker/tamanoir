@@ -22,7 +22,7 @@ define(function (require) {
 
         render: function () {
             this.$el.empty();
-            this.collection.each(this.addConnection, this);
+            //this.collection.each(this.addConnection, this);
 
             return this;
         },

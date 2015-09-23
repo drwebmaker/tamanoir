@@ -6,6 +6,7 @@ define(function (require) {
         _ = require('underscore'),
         $ = require('jquery'),
         DataCanvasView = require('domain/view/DataCanvasView'),
+        ElementsCollection = require('domain/collection/ElementsCollection'),
         DataCollection = require('domain/collection/DataCollection'),
         TablesCollection = require('domain/collection/TablesCollection'),
         DialogView = require('common/view/DialogView'),
@@ -28,37 +29,24 @@ define(function (require) {
         initialize: function (attrs, options) {
             this._subviews = [];
 
-            this.domainsCollection = attrs.domains;
-            this.connection = attrs.connection;
 
-            this.connection.fetchMetadata().then(function(metadata) {
-                this.tablesCollection.reset(metadata);
-            }.bind(this));
+            this.model.get('connections').each(function (connection) {
+                connection.fetchMetadata().then(function (metadata) {
 
-            //TODO: should be placed inside domain model
-            this.tablesCollection = new TablesCollection();
+                    console.log('djfhsjdf');
+                }.bind(this));
+            });
 
-            this.dataCollection = new DataCollection();
-
-            this.listenTo(this.tablesCollection, 'change update reset', this.buildQuery);
-            //$(window).on('resize', _.debounce(_.bind(this.render, this), 500));
-
-            this.tablesCollection.reset(this.model.get('tables'));
 
             this.render();
         },
 
         render: function () {
             this.$el.html(this.template);
-
-            this.sidebarView = new SidebarView({collection: this.model.connections});
-
-            this.dataCanvasView = new DataCanvasView({collection: this.tablesCollection});
-            this.tableView = new TableView({collection: this.dataCollection});
-
-            this.$('.sidebar-container').html(this.sidebarView.$el);
-            this.$('.data-canvas-container').html(this.dataCanvasView.$el);
-            this.$('.table-container').html(this.tableView.$el);
+            this.elementsCollection = new ElementsCollection( metadata.elements );
+            this.sidebarView = new SidebarView({collection: this.elementsCollection});
+            console.log('hello');
+            this.$('.sidebar-container').html(this.sidebarView.render().$el);
 
             this.calculateHeight();
 
@@ -74,25 +62,7 @@ define(function (require) {
                     contentHeight = bodyHeight - header.height();
 
                 self.sidebarView.$el.height(contentHeight);
-                self.dataCanvasView.$el.height(contentHeight / 2);
-                //12px workaround should be removed
-                self.tableView.$el.height(contentHeight / 2 - 12);
             }, 0);
-        },
-
-        buildQuery: function () {
-            var self = this,
-                query = this.tablesCollection.getQuery();
-
-            console.log('query:', query);
-            if(!query) return;
-
-            //TODO: provide way to work with multiple connections
-            //right now only one connection is supported
-            //limit for 100 record
-            this.model.connections.first().query(query + ' LIMIT 100').then(function (data) {
-                self.dataCollection.reset(data);
-            });
         },
 
         onProductTitleClick: function () {
@@ -126,14 +96,6 @@ define(function (require) {
                 }).done(function () {
                     DialogView.showMessage('Saved');
                 });
-            }
-        },
-
-        onAdHocClick: function () {
-            if (this.model.isNew()) {
-                DialogView.showMessage('Save your domain before create Ad Hoc')
-            } else {
-                Tamanoir.navigate('adhoc/' + this.model.get('id'), {trigger: true});
             }
         },
 

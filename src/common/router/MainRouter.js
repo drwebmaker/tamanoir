@@ -41,8 +41,7 @@ define(function (require) {
 
                 if (domain) {
                     self.loadView(new DomainDesignerView({
-                        model: domain,
-                        domains: domainsCollection
+                        model: domain
                     }));
                 } else {
                     //try to find connection by entityId
