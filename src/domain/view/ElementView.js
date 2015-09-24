@@ -12,7 +12,7 @@ define(function (require) {
         tagName: 'li',
         className: 'list-item',
 
-        template: _.template('<div><%= name %></div>'),
+        template: _.template('<div>{{- name }}</div>'),
 
         initialize: function() {
             this.render();

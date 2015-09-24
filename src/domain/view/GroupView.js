@@ -10,7 +10,7 @@ define(function (require) {
     var GroupView = Backbone.View.extend({
         tagName: 'li',
 
-        template: _.template('<div><%- name %></div>\n<ul></ul>'),
+        template: _.template('<div>{{- name }}</div>\n<ul></ul>'),
 
         initialize: function() {
         },

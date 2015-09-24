@@ -6,9 +6,10 @@ define(function (require) {
         _ = require('underscore'),
         $ = require('jquery'),
         DataCanvasView = require('domain/view/DataCanvasView'),
-        ElementsCollection = require('domain/collection/ElementsCollection'),
         DataCollection = require('domain/collection/DataCollection'),
         TablesCollection = require('domain/collection/TablesCollection'),
+        ResourcesCollection = require('domain/collection/ResourcesCollection'),
+        ResourceModel = require('domain/model/ResourceModel'),
         DialogView = require('common/view/DialogView'),
         SidebarView = require('domain/view/SidebarView'),
         RightSidebarView = require('domain/view/RightSidebarView'),
@@ -28,24 +29,22 @@ define(function (require) {
 
         initialize: function (attrs, options) {
             this._subviews = [];
+            var self = this;
 
+            this.resourcesCollection = new ResourcesCollection();
 
             this.model.get('connections').each(function (connection) {
                 connection.fetchMetadata().then(function (metadata) {
-
-                    console.log('djfhsjdf');
-                }.bind(this));
+                    self.resourcesCollection.add( new ResourceModel ({metadata: metadata}))
+                });
             });
-
 
             this.render();
         },
 
         render: function () {
             this.$el.html(this.template);
-            this.elementsCollection = new ElementsCollection( metadata.elements );
-            this.sidebarView = new SidebarView({collection: this.elementsCollection});
-            console.log('hello');
+            this.sidebarView = new SidebarView({collection: this.resourcesCollection});
             this.$('.sidebar-container').html(this.sidebarView.render().$el);
 
             this.calculateHeight();

@@ -51,10 +51,8 @@ define(function (require) {
                         if (connection) {
                             self.loadView(new DomainDesignerView({
                                 model: new DomainModel({
-                                    connections: [connection.toJSON()]
-                                }),
-                                domains: domainsCollection,
-                                connection: connection
+                                    connections: new ConnectionsCollection(connection)
+                                })
                             }));
                         } else {
                             throw "no domain or connection find";

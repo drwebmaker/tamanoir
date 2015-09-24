@@ -8,12 +8,17 @@ define(function (require) {
     return Backbone.Model.extend({
         defaults: {
             name: undefined,
-            connections: [],
-            tables: []
+            connections: undefined,
+            resources: undefined
         },
 
         initialize: function () {
-            this.connections = new ConnectionsCollection(this.get('connections'));
+            //this.connections = new ConnectionsCollection(this.get('connections'));
+        },
+
+        parse: function(response){
+            response.connections = new ConnectionsCollection(response.connections);
+            return response;
         }
     });
 });
