@@ -58,7 +58,8 @@ define(function (require) {
                                 model: new DomainModel({
                                     connections: [connection.toJSON()]
                                 }),
-                                domains: domainsCollection
+                                domains: domainsCollection,
+                                connection: connection
                             }));
                         } else {
                             throw "no domain or connection find";

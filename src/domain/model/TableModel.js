@@ -12,7 +12,8 @@ define(function (require) {
             name: undefined,
             label: undefined,
             items: undefined,
-            selected: []
+            selected: [],
+            dragged: false
         },
 
         idAttribute: 'name',

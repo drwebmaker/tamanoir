@@ -67,8 +67,8 @@ define(function (require) {
                     }
                 })
             }).then(function (data) {
-                self.set('metadata', data.items);
-                deferred.resolve(data.items);
+                self.set('metadata', data.elements);
+                deferred.resolve(data.elements);
             }).fail(this.showError);
 
             return deferred;
