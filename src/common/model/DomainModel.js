@@ -5,30 +5,20 @@ define(function (require) {
     var Backbone = require('backbone'),
         ConnectionsCollection = require('common/collection/ConnectionsCollection');
 
-    /**
-     * @class common.model.DomainModel
-     */
     return Backbone.Model.extend({
         defaults: {
-            /**
-             * domain name
-             */
             name: undefined,
-            /**
-             * connections
-             */
             connections: [],
-            /**
-             * tables
-             */
             tables: []
         },
 
-        /**
-         * initialize domain
-         */
         initialize: function () {
-            this.connections = new ConnectionsCollection(this.get('connections'));
+            //this.connections = new ConnectionsCollection(this.get('connections'));
+        },
+
+        parse: function(response){
+            response.connections = new ConnectionsCollection(response.connections);
+            return response;
         }
     });
 });

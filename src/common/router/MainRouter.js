@@ -45,8 +45,7 @@ define(function (require) {
 
                 if (domain) {
                     self.loadView(new DomainDesignerView({
-                        model: domain,
-                        domains: domainsCollection
+                        model: domain
                     }));
                 } else {
                     //try to find connection by entityId
@@ -56,10 +55,8 @@ define(function (require) {
                         if (connection) {
                             self.loadView(new DomainDesignerView({
                                 model: new DomainModel({
-                                    connections: [connection.toJSON()]
-                                }),
-                                domains: domainsCollection,
-                                connection: connection
+                                    connections: new ConnectionsCollection(connection)
+                                })
                             }));
                         } else {
                             throw "no domain or connection find";

@@ -52,7 +52,7 @@ define(function (require) {
                 self = this;
 
             $.ajax({
-                url: tamanoirConfig.serverUrl + '/rest/connections?include=public',
+                url: tamanoirConfig.serverUrl + '/rest/connections?recursive=root',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,8 +67,8 @@ define(function (require) {
                     }
                 })
             }).then(function (data) {
-                self.set('metadata', data.elements);
-                deferred.resolve(data.elements);
+                self.set('metadata', data);
+                deferred.resolve(data);
             }).fail(this.showError);
 
             return deferred;
