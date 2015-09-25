@@ -35,7 +35,7 @@ define(function (require) {
 
             this.model.get('connections').each(function (connection) {
                 connection.fetchMetadata().then(function (metadata) {
-                    self.resourcesCollection.add( new ResourceModel ({metadata: metadata}))
+                    self.resourcesCollection.add( new ResourceModel ({name: connection.get('name'), metadata: metadata}));
                 });
             });
 

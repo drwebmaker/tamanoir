@@ -29,11 +29,10 @@ define(function (require) {
             var view;
             if(model.get('elements')) {
                 view = new GroupView({model: model});
-            } else {
-                view = new ElementView({model: model});
+                var ul = this.$el.find('ul:first');
+                ul.append(view.render().el);
             }
-            var ul = this.$el.find('ul:first');
-            ul.append(view.render().el);
+
         }
 
     });

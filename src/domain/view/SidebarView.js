@@ -30,22 +30,22 @@ define(function (require) {
         render: function () {
             this.$el.empty();
             this.$el.html( this.template() );
-            this.collection.each(this.getMetadata, this);
+            this.collection.each(this.addResource, this);
 
 
             return this;
         },
 
-        getMetadata: function(model) {
+        addResource: function(model) {
 
             var elementsCollection = new ElementsCollection( model.get('metadata').elements );
-            var nameMetadata = model.get('metadata').name;
+            var nameMetadata = model.get('name');
 
             var groupModel = new GroupModel({ name: nameMetadata, elements: elementsCollection });
 
             var groupView = new GroupView({ model: groupModel });
 
-            $('ul').append(groupView.render().el);
+            this.$('ul').append(groupView.render().el);
         },
 
         addConnection: function (connectionModel) {

@@ -2,3 +2,8 @@
     border-right: 1px solid #007094;
     overflow: auto;
 }
+
+.sidebar-view > ul > li > div {
+    background-color: #007095;
+    color: #fff;
+}

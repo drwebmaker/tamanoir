@@ -12,10 +12,6 @@ define(function (require) {
             tables: []
         },
 
-        initialize: function () {
-            //this.connections = new ConnectionsCollection(this.get('connections'));
-        },
-
         parse: function(response){
             response.connections = new ConnectionsCollection(response.connections);
             return response;
