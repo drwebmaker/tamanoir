@@ -8,13 +8,14 @@ define(function (require) {
         ConnectionView = require('domain/view/ConnectionView'),
         ElementsCollection = require('domain/collection/ElementsCollection'),
         GroupModel = require('domain/model/GroupModel'),
-        GroupView = require('domain/view/GroupView');
+        GroupView = require('domain/view/GroupView'),
+        SidebarViewTemplate = require('text!domain/template/SidebarViewTemplate.html');
 
     return Backbone.View.extend({
 
         className: 'sidebar-view',
 
-        template: _.template('<ul class="table-list-view"></ul>'),
+        template: _.template(SidebarViewTemplate),
 
         events: {
         },

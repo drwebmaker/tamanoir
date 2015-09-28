@@ -5,20 +5,18 @@ define(function (require) {
     var Backbone = require('backbone'),
         _ = require('underscore'),
         $ = require('jquery'),
-        ElementView = require('domain/view/ElementView');
+        ElementView = require('domain/view/ElementView'),
+        GroupViewTemplate = require('text!domain/template/GroupViewTemplate.html');
 
     var GroupView = Backbone.View.extend({
         tagName: 'li',
 
-        template: _.template('<div class="draggable" draggable="true">{{- name }}</div>\n<ul class="inside-list"></ul>'),
+        template: _.template(GroupViewTemplate),
 
         events: {
             'mousedown .draggable:first': 'detectDrag',
             'dragstart .draggable:first': 'dragstart',
             'dragend .draggable:first': 'dragend',
-
-            'dragenter .dropable': 'dragenter',
-            'dragleave .dropable': 'dragleave',
             'drop .dropable': 'drop'
         },
 
@@ -31,18 +29,11 @@ define(function (require) {
         dragend: function (event) {
             console.log('dragend');
         },
-        dragenter: function (event) {
-            console.log('dragenter');
-        },
-        dragleave: function (event) {
-            console.log('dragleave');
-        },
         drop: function (event) {
             console.log('drop');
         },
 
         initialize: function() {
-            this.listenTo(this.model, 'change:dragged', this.onDraggedChange)
         },
 
         render: function() {
