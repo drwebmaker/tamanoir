@@ -10,9 +10,39 @@ define(function (require) {
     var GroupView = Backbone.View.extend({
         tagName: 'li',
 
-        template: _.template('<div>{{- name }}</div>\n<ul></ul>'),
+        template: _.template('<div class="draggable" draggable="true">{{- name }}</div>\n<ul class="inside-list"></ul>'),
+
+        events: {
+            'mousedown .draggable:first': 'detectDrag',
+            'dragstart .draggable:first': 'dragstart',
+            'dragend .draggable:first': 'dragend',
+
+            'dragenter .dropable': 'dragenter',
+            'dragleave .dropable': 'dragleave',
+            'drop .dropable': 'drop'
+        },
+
+        detectDrag: function (event) {
+            console.log('detectDrag');
+        },
+        dragstart: function (event) {
+            console.log('dragstart');
+        },
+        dragend: function (event) {
+            console.log('dragend');
+        },
+        dragenter: function (event) {
+            console.log('dragenter');
+        },
+        dragleave: function (event) {
+            console.log('dragleave');
+        },
+        drop: function (event) {
+            console.log('drop');
+        },
 
         initialize: function() {
+            this.listenTo(this.model, 'change:dragged', this.onDraggedChange)
         },
 
         render: function() {
@@ -31,6 +61,7 @@ define(function (require) {
                 view = new GroupView({model: model});
                 var ul = this.$el.find('ul:first');
                 ul.append(view.render().el);
+                this.$el.find('ul:empty').remove();
             }
 
         }

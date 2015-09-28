@@ -14,7 +14,7 @@ define(function (require) {
 
         className: 'sidebar-view',
 
-        template: _.template('<ul></ul>'),
+        template: _.template('<ul class="table-list-view"></ul>'),
 
         events: {
         },
