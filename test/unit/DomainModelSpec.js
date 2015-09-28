@@ -7,21 +7,11 @@ define(function (require) {
     var ResourceModel = require('domain/model/ResourceModel');
 
     describe('DomainModel', function () {
-        it('should be defined',
-            function() {
-                var DATA = {
-                    name: 'Jasper',
-                    metadata: [18, 15, 1, 1, 1]
-                };
 
-                var coffee = new ResourceModel(DATA);
-                expect(coffee).toBeDefined();
-                expect(DATA).toBeDefined();
-            });
 
         it('should created new Model with correct values',
             function() {
-                var DATA = {
+                var resourcesData = {
                     name: 'Jasper',
                     metadata: [{
                         name: 'Jasper',
@@ -62,7 +52,7 @@ define(function (require) {
                     }]
                 };
 
-                var coffee = new ResourceModel(DATA);
+                var coffee = new ResourceModel(resourcesData);
                 expect(coffee.get('metadata')).toEqual([{
                     name: 'Jasper',
                     elements: [{

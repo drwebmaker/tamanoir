@@ -9,7 +9,7 @@ define(function (require) {
         defaults: {
             name: undefined,
             connections: [],
-            tables: []
+            resources: []
         },
 
         parse: function(response){
