@@ -25,6 +25,7 @@ define(function (require) {
         },
         dragstart: function (event) {
             console.log('dragstart');
+            Tamanoir.trigger('dragstart:sidebarGroup', this.model);
         },
         dragend: function (event) {
             console.log('dragend');

@@ -47,6 +47,12 @@ define(function (require) {
             this.sidebarView = new SidebarView({collection: this.resourcesCollection});
             this.$('.sidebar-container').html(this.sidebarView.render().$el);
 
+            this.dataCanvasView = new DataCanvasView({
+                collection: this.resourcesCollection
+            });
+
+            this.$('.data-canvas-container').html(this.dataCanvasView.$el);
+
             this.calculateHeight();
 
             return this;
