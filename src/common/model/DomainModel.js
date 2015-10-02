@@ -15,6 +15,7 @@ define(function (require) {
         parse: function(response){
             response.connections = new ConnectionsCollection(response.connections);
             return response;
-        }
+        },
+        toJSON: function() {}
     });
 });

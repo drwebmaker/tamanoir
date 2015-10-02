@@ -23,6 +23,59 @@ define(function (require) {
             } else {
                 throw 'error';
             }
+        },
+
+        initialize: function() {
+            this.listenTo(this.collection, 'update reset', this.Foo);
+        },
+
+        Foo: function(item) {
+            console.log(item);
+        },
+
+        generateVisModel: function () {
+            var self = this;
+            var nameModel;
+            var model = {
+                nodes: [],
+                edges: []
+            };
+
+            function setValues(collection) {
+                collection.each(function (item) {
+
+                    if(item.get('elements')) {
+                        nameModel = item.get('name');
+                        model.nodes.push({id: item.get('name'), label: item.get('name')});
+                        setValues(item.get('elements'));
+                    } else  if(item.get('referenceTo') !== undefined){
+                        model.edges.push({from: nameModel, to: item._getRelatedTableName(item.get('referenceTo'))});
+                    }
+                });
+                return model;
+            }
+
+            setValues(self);
+
+
+            //var selected = self.getTables();
+            //if (this.size() > 1) {
+            //    self.each(function (item) {
+            //        model.nodes.push({id: item.get('name'), label: item.get('name')});
+            //        _.each(item.get('items'), function (column) {
+            //            if (column.referenceTo && _.contains(selected, item._getRelatedTableName(column))) {
+            //                model.edges.push({from: item.get('name'), to: item._getRelatedTableName(column)});
+            //            }
+            //        });
+            //    });
+            //} else {
+            //    self.each(function (item) {
+            //        model.nodes.push({id: item.get('name'), label: item.get('name')});
+            //        delete model.edges;
+            //    });
+            //}
+            //
+            return model;
         }
     });
 

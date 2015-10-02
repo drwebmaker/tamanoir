@@ -16,8 +16,6 @@ define(function (require) {
             dragged: false
         },
 
-        idAttribute: 'name',
-
         getRelatedTableNames: function () {
             return _.reduce(this.get('items'), function (memo, column) {
                 if (column.referenceTo) {

@@ -12,6 +12,10 @@ define(function (require) {
             name: undefined,
             type: undefined,
             referenceTo: undefined
+        },
+
+        _getRelatedTableName: function (item) {
+            return item.substring(item.indexOf('.') + 1, item.lastIndexOf('.'));
         }
     });
 });

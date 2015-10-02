@@ -23,7 +23,7 @@ define(function (require) {
         initialize: function () {
             this._subviews = [];
 
-            this.listenTo(this.collection, 'update', this.render);
+            this.listenTo(this.collection, 'update change', this.render);
 
             this.render();
         },

@@ -23,7 +23,7 @@ define(function (require) {
 
         initialize: function (options) {
             this._subviews = [];
-            this.elementsCollection;
+
 
             this.listenTo(Tamanoir, 'dragstart:sidebarGroup', this.onSidebarGroupDragstart);
             this.listenTo(Tamanoir, 'dragstart:sidebarConnection', this.onSidebarConnectionDragstart);
@@ -34,45 +34,31 @@ define(function (require) {
 
         render: function () {
             //this.$el.empty();
-
-            //var settings = this.collection.generateVisModel(),
+            var self = this;
+            var settings;
 
             this.collection.each(function(model) {
-                 this.elementsCollection = new ElementsCollection( model.get('metadata').elements );
-                console.log(this.elementsCollection);
+                self.elementsCollection = new ElementsCollection( model.get('metadata').elements );
+                //console.log(self.elementsCollection);
             });
-            //generateVisModel(this.collection);
-            var settings = {
-                    nodes: [
-                        {id: 'categories', label: 'categories'},
-                        {id: 'customercustomerdemo', label: 'customercustomerdemo'},
-                        {id: 'customerdemographics', label: 'customerdemographics'},
-                        {id: 'customers', label: 'customers'},
-                        {id: 'employees', label: 'employees'},
-                        {id: 'employeeterritories', label: 'employeeterritories'},
-                        {id: 'order_details', label: 'order_details'},
-                        {id: 'orders', label: 'orders'},
-                        {id: 'products', label: 'products'},
-                        {id: 'region', label: 'region'},
-                        {id: 'shippers', label: 'shippers'},
-                        {id: 'shippers_tmp', label: 'shippers_tmp'},
-                        {id: 'suppliers', label: 'suppliers'},
-                        {id: 'territories', label: 'territories'},
-                        {id: 'usstates', label: 'usstates'}
-                    ],
-                    edges: [
-                        {from: 'customercustomerdemo', to: 'customers'},
-                        {from: 'employeeterritories', to: 'territories'},
-                        {from: 'order_details', to: 'orders'},
-                        {from: 'order_details', to: 'products'},
-                        {from: 'orders', to: 'customers'},
-                        {from: 'orders', to: 'employees'},
-                        {from: 'products', to: 'suppliers'},
-                        {from: 'products', to: 'categories'},
-                        {from: 'territories', to: 'region'}
-                    ]
-                },
-                options = {};
+
+            //console.log(self.elementsCollection);
+            //console.log(self.collection);
+            if(self.elementsCollection !== undefined) {
+                settings = self.elementsCollection.generateVisModel();
+                var even = self.elementsCollection.find(function (model) {
+                    return model.get('id') == 'customers';
+                });
+            }
+
+            var   options = {
+                manipulation: {
+                    addNode: function(nodeData,callback) {
+                        nodeData.label = 'hello Igor';
+                        callback(nodeData);
+                    }
+                }
+            };
 
             this.network = new vis.Network(this.el, settings, options);
             this.network.on('click', this.clickNode.bind(this));
@@ -96,27 +82,21 @@ define(function (require) {
         },
 
         onDrop: function (event) {
-            console.log('drop:sidebarGroup');
-            console.log(this.draggedGroupModel);
-            console.log(this.collection);
-            //console.log(event);
-            //console.log(window.temp);
-            //if(!window.temp.model.get('isOnCanvas')) {
-            //    window.temp.model.set('isOnCanvas', true);
-            //    console.log('onCanvas');
-            //}
-            //console.log(this.elementsCollection);
-            //console.log(window.temp);
+            //console.log('drop:sidebarGroup');
+            //console.log(this.draggedGroupModel);
+            //console.log(this.draggedGroupModel.get('id'));
             if (this.draggedGroupModel) {
                 this.draggedGroupModel.set('isOnCanvas', true);
             }
+            console.log(this.collection);
+            //var book = this.elementsCollection.get('public');
+            console.log(this.elementsCollection);
+            //console.log(book);
         },
 
         onSidebarGroupDragstart: function (group) {
-            console.log(group);
             console.log('dragstart', group);
             this.draggedGroupModel = group;
-
         },
 
         onSidebarConnectionDragstart: function (tablesCollection) {
