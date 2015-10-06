@@ -20,10 +20,12 @@ define(function (require) {
         events: {
         },
 
-        initialize: function () {
+        initialize: function (attrs, oprions) {
             this._subviews = [];
+            this.resourseName = attrs.name;
 
             this.listenTo(this.collection, 'update change', this.render);
+            //this.listenTo(Tamanoir, 'getElementsCollection', this.addResource);
 
             this.render();
         },
@@ -31,18 +33,16 @@ define(function (require) {
         render: function () {
             this.$el.empty();
             this.$el.html( this.template() );
-            this.collection.each(this.addResource, this);
-
+            this.addResource(this.collection);
 
             return this;
         },
 
         addResource: function(model) {
-
-            var elementsCollection = new ElementsCollection( model.get('metadata').elements );
+            console.log(model);
             var nameMetadata = model.get('name');
 
-            var groupModel = new GroupModel({ name: nameMetadata, elements: elementsCollection });
+            var groupModel = new GroupModel({ name: this.resourseName, elements: model });
 
             var groupView = new GroupView({ model: groupModel });
 

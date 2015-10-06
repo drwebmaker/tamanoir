@@ -9,6 +9,7 @@ define(function (require) {
         DataCollection = require('domain/collection/DataCollection'),
         TablesCollection = require('domain/collection/TablesCollection'),
         ResourcesCollection = require('domain/collection/ResourcesCollection'),
+        ElementsCollection = require('domain/collection/ElementsCollection'),
         ResourceModel = require('domain/model/ResourceModel'),
         DialogView = require('common/view/DialogView'),
         SidebarView = require('domain/view/SidebarView'),
@@ -32,23 +33,34 @@ define(function (require) {
             var self = this;
 
             this.resourcesCollection = new ResourcesCollection();
+            this.elementsCollection = new ElementsCollection();
 
             this.model.get('connections').each(function (connection) {
                 connection.fetchMetadata().then(function (metadata) {
                     self.resourcesCollection.add( new ResourceModel ({name: connection.get('name'), metadata: metadata}));
-                });
+                })
             });
 
+            this.listenTo(this.resourcesCollection, 'update reset', this.getElementsCollection);
+        },
+
+        getElementsCollection: function(item) {
+            var name;
+            var self = this;
+            item.each(function(model) {
+                self.elementsCollection = new ElementsCollection( model.get('metadata').elements );
+            });
             this.render();
         },
 
         render: function () {
             this.$el.html(this.template);
-            this.sidebarView = new SidebarView({collection: this.resourcesCollection});
+            var nameConnection = this.model.get('connections').first().get('name');
+            this.sidebarView = new SidebarView({name: nameConnection ,collection: this.elementsCollection});
             this.$('.sidebar-container').html(this.sidebarView.render().$el);
 
             this.dataCanvasView = new DataCanvasView({
-                collection: this.resourcesCollection
+                collection: this.elementsCollection
             });
 
             this.$('.data-canvas-container').html(this.dataCanvasView.$el);

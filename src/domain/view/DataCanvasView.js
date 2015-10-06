@@ -23,6 +23,7 @@ define(function (require) {
 
         initialize: function (options) {
             this._subviews = [];
+            var nodes, edges;
 
 
             this.listenTo(Tamanoir, 'dragstart:sidebarGroup', this.onSidebarGroupDragstart);
@@ -33,37 +34,64 @@ define(function (require) {
         },
 
         render: function () {
-            //this.$el.empty();
+            var settings = {
+                nodes: [],
+                edges: []
+            };
             var self = this;
-            var settings;
 
-            this.collection.each(function(model) {
-                self.elementsCollection = new ElementsCollection( model.get('metadata').elements );
-                //console.log(self.elementsCollection);
-            });
 
-            //console.log(self.elementsCollection);
-            //console.log(self.collection);
-            if(self.elementsCollection !== undefined) {
-                settings = self.elementsCollection.generateVisModel();
-                var even = self.elementsCollection.find(function (model) {
-                    return model.get('id') == 'customers';
-                });
+            //if(this.collection !== undefined) {
+            //    settings = this.collection.generateVisModel();
+            //    var even = this.collection.find(function (model) {
+            //        return model.get('id') == 'customers';
+            //    });
+            //}
+
+            if(settings !== undefined) {
+                nodes = new vis.DataSet(settings.nodes);
+                edges = new vis.DataSet(settings.edges);
+
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
             }
 
             var   options = {
                 manipulation: {
-                    addNode: function(nodeData,callback) {
-                        nodeData.label = 'hello Igor';
-                        callback(nodeData);
-                    }
+                    enabled: false,
+
+                    addNode: function(nodeData,callback) {}
+                },
+                nodes: {
+                    scaling: {
+                        max: 2
+
+                    },
+                    mass: 1,
+                    shape: 'box'
                 }
+                //physics: {
+                //    //barnesHut: {
+                //    //    gravitationalConstant: -100
+                //    //},
+                //    repulsion: {
+                //        centralGravity: 0.2
+                //    }
+                //}
             };
 
-            this.network = new vis.Network(this.el, settings, options);
-            this.network.on('click', this.clickNode.bind(this));
-
             this.calculateHeight();
+
+            setTimeout(function() {
+                self.network = new vis.Network(self.el, data, options);
+                self.network.setOptions(options);
+                self.network.on('click', self.clickNode.bind(self));
+            },0);
+
+
+
             return this;
         },
 
@@ -82,16 +110,8 @@ define(function (require) {
         },
 
         onDrop: function (event) {
-            //console.log('drop:sidebarGroup');
-            //console.log(this.draggedGroupModel);
-            //console.log(this.draggedGroupModel.get('id'));
-            if (this.draggedGroupModel) {
-                this.draggedGroupModel.set('isOnCanvas', true);
-            }
-            console.log(this.collection);
-            //var book = this.elementsCollection.get('public');
-            console.log(this.elementsCollection);
-            //console.log(book);
+            console.log(this.draggedGroupModel.get('name'));
+            nodes.add({id: this.draggedGroupModel.get('name'), label: this.draggedGroupModel.get('name')});
         },
 
         onSidebarGroupDragstart: function (group) {
