@@ -24,6 +24,7 @@ define(function (require) {
         initialize: function (options) {
             this._subviews = [];
             var nodes, edges;
+            this.selectedModels = [];
 
 
             this.listenTo(Tamanoir, 'dragstart:sidebarGroup', this.onSidebarGroupDragstart);
@@ -41,12 +42,13 @@ define(function (require) {
             var self = this;
 
 
-            //if(this.collection !== undefined) {
-            //    settings = this.collection.generateVisModel();
-            //    var even = this.collection.find(function (model) {
-            //        return model.get('id') == 'customers';
-            //    });
-            //}
+
+            if(this.selected !== undefined) {
+                settings = this.selectedModels.generateVisModel();
+                //var even = this.collection.find(function (model) {
+                //    return model.get('id') == 'customers';
+                //});
+            }
 
             if(settings !== undefined) {
                 nodes = new vis.DataSet(settings.nodes);
@@ -59,37 +61,25 @@ define(function (require) {
             }
 
             var   options = {
-                manipulation: {
-                    enabled: false,
-
-                    addNode: function(nodeData,callback) {}
-                },
                 nodes: {
-                    scaling: {
-                        max: 2
-
-                    },
-                    mass: 1,
-                    shape: 'box'
+                    font:{
+                        size: 5
+                    }
                 }
-                //physics: {
-                //    //barnesHut: {
-                //    //    gravitationalConstant: -100
-                //    //},
-                //    repulsion: {
-                //        centralGravity: 0.2
-                //    }
-                //}
+
             };
 
             this.calculateHeight();
 
             setTimeout(function() {
-                self.network = new vis.Network(self.el, data, options);
+                self.network = new vis.Network(self.el, data);
                 self.network.setOptions(options);
                 self.network.on('click', self.clickNode.bind(self));
             },0);
 
+            window.el = this.el;
+            window.vis = vis;
+            window.data = data;
 
 
             return this;
@@ -110,13 +100,25 @@ define(function (require) {
         },
 
         onDrop: function (event) {
+            var self = this;
             console.log(this.draggedGroupModel.get('name'));
+            console.log(this.draggedGroupModel);
             nodes.add({id: this.draggedGroupModel.get('name'), label: this.draggedGroupModel.get('name')});
+            var elements = this.draggedGroupModel.get('elements');
+            elements.each(function(item) {
+                if(item.get('referenceTo') !== undefined) {
+                    edges.add({from: self.draggedGroupModel.get('name'), to: item._getRelatedTableName(item.get('referenceTo'))});
+                }
+            });
+            console.log(elements);
+
         },
 
         onSidebarGroupDragstart: function (group) {
             console.log('dragstart', group);
             this.draggedGroupModel = group;
+            this.draggedGroupModel.set('isOnCanvas', true);
+            this.selectedModels.push(group);
         },
 
         onSidebarConnectionDragstart: function (tablesCollection) {

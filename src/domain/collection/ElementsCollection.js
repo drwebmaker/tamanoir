@@ -48,7 +48,7 @@ define(function (require) {
                         nameModel = item.get('name');
                         model.nodes.push({id: item.get('name'), label: item.get('name')});
                         setValues(item.get('elements'));
-                    } else  if(item.get('referenceTo') !== undefined){
+                    } else  if(item.get('referenceTo') !== undefined && _.contains(collection, item._getRelatedTableName(item.get('referenceTo')))) {
                         model.edges.push({from: nameModel, to: item._getRelatedTableName(item.get('referenceTo'))});
                     }
                 });
@@ -57,24 +57,6 @@ define(function (require) {
 
             setValues(self);
 
-
-            //var selected = self.getTables();
-            //if (this.size() > 1) {
-            //    self.each(function (item) {
-            //        model.nodes.push({id: item.get('name'), label: item.get('name')});
-            //        _.each(item.get('items'), function (column) {
-            //            if (column.referenceTo && _.contains(selected, item._getRelatedTableName(column))) {
-            //                model.edges.push({from: item.get('name'), to: item._getRelatedTableName(column)});
-            //            }
-            //        });
-            //    });
-            //} else {
-            //    self.each(function (item) {
-            //        model.nodes.push({id: item.get('name'), label: item.get('name')});
-            //        delete model.edges;
-            //    });
-            //}
-            //
             return model;
         }
     });
