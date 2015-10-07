@@ -49,7 +49,7 @@ define(function (require) {
                         model.nodes.push({id: item.get('name'), label: item.get('name')});
                         setValues(item.get('elements'));
                     } else  if(item.get('referenceTo') !== undefined && _.contains(collection, item._getRelatedTableName(item.get('referenceTo')))) {
-                        model.edges.push({from: nameModel, to: item._getRelatedTableName(item.get('referenceTo'))});
+                        model.edges.push({from: nameModel, to: item._getRelatedTableName(item.get('referenceTo')), arrows:'to'});
                     }
                 });
                 return model;

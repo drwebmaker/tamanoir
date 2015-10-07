@@ -62,10 +62,33 @@ define(function (require) {
 
             var   options = {
                 nodes: {
-                    font:{
-                        size: 5
+                    scaling: {
+                        min: 10,
+                        max: 30,
+                        label: {
+                            min: 8,
+                            max: 30
+                        }
+                    },
+                    size: 2
+                },
+                edges: {
+                    width: 0.15,
+                    color: {inherit: 'from'},
+                    smooth: {
+                        enabled: false,
+                        type: 'continuous'
+                    },
+                    physics: false
+                },
+                physics: {
+                    enabled: true,
+                    stabilization: {
+                        enabled: true,
+                        iterations: 1
                     }
                 }
+
 
             };
 
@@ -107,7 +130,7 @@ define(function (require) {
             var elements = this.draggedGroupModel.get('elements');
             elements.each(function(item) {
                 if(item.get('referenceTo') !== undefined) {
-                    edges.add({from: self.draggedGroupModel.get('name'), to: item._getRelatedTableName(item.get('referenceTo'))});
+                    edges.add({from: self.draggedGroupModel.get('name'), to: item._getRelatedTableName(item.get('referenceTo')), arrows:'to'});
                 }
             });
             console.log(elements);
