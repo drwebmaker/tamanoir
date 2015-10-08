@@ -82,13 +82,15 @@ define(function (require) {
                     physics: false
                 },
                 physics: {
-                    enabled: true,
+                    enabled: false,
                     stabilization: {
                         enabled: true,
                         iterations: 1
                     }
+                },
+                interaction: {
+                    tooltipDelay: 200
                 }
-
 
             };
 
@@ -97,13 +99,15 @@ define(function (require) {
             setTimeout(function() {
                 self.network = new vis.Network(self.el, data);
                 self.network.setOptions(options);
-                self.network.on('click', self.clickNode.bind(self));
+                self.network.on('click', function (params) {
+                    params.event = "[original event]";
+                    console.log( params);
+                });
+                self.network.on("dragEnd", function (params) {
+                    params.event = "[original event]";
+                    console.log( JSON.stringify(params, null, 4));
+                });
             },0);
-
-            window.el = this.el;
-            window.vis = vis;
-            window.data = data;
-
 
             return this;
         },
@@ -122,19 +126,16 @@ define(function (require) {
             event.preventDefault();
         },
 
-        onDrop: function (event) {
+        onDrop: function (event, ui) {
+            this.position = this.network.DOMtoCanvas({x: event.originalEvent.layerX, y: event.originalEvent.layerY});
             var self = this;
-            console.log(this.draggedGroupModel.get('name'));
-            console.log(this.draggedGroupModel);
-            nodes.add({id: this.draggedGroupModel.get('name'), label: this.draggedGroupModel.get('name')});
+            nodes.add({id: this.draggedGroupModel.get('name'), label: this.draggedGroupModel.get('name'), x: this.position.x, y: this.position.y});
             var elements = this.draggedGroupModel.get('elements');
             elements.each(function(item) {
                 if(item.get('referenceTo') !== undefined) {
                     edges.add({from: self.draggedGroupModel.get('name'), to: item._getRelatedTableName(item.get('referenceTo')), arrows:'to'});
                 }
             });
-            console.log(elements);
-
         },
 
         onSidebarGroupDragstart: function (group) {

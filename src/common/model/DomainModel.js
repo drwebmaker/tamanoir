@@ -9,7 +9,8 @@ define(function (require) {
         defaults: {
             name: undefined,
             connections: [],
-            resources: []
+            resources: [],
+            presentation: {}
         },
 
         parse: function(response){
